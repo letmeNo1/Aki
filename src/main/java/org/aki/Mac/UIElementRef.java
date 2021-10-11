@@ -183,9 +183,4 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
     public void release() {
         CoreFoundation.INSTANCE.CFRelease(this);
     }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        UIElementRef ss = new UIElementRef();
-        ss.get_AXIdentifier();
-    }
 }

@@ -5,7 +5,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeMapped;
 
 /**
- * CGFloat
+ * The basic type for floating-point scalar values in Core Graphics and related frameworks.
  */
 public class CGFloat extends Number implements NativeMapped {
     // Inspired by JNA NativeLong and IntegerType

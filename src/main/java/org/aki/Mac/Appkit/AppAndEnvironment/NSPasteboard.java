@@ -19,7 +19,9 @@ public class NSPasteboard extends NSObject {
 
     /**
      * Write data in the pasteboard
+     * @param text The text you want to write into the board
      */
+
     public void writeObjects(String text){
         Proxy array = getClient().sendProxy("NSArray", "array");
         array = array.sendProxy("arrayByAddingObject:",text);

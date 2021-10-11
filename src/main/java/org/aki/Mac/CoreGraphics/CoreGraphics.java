@@ -31,9 +31,14 @@ public interface CoreGraphics extends Library {
     void CGEventPostToPid(int pid, CGEventRef event);
 
     /**
-     * Create an mouse event
+     * Create a mouse event
      */
     CGEventRef CGEventCreateMouseEvent(String source, int mouseType, CGPoint mouseCursorPosition, int mouseButton);
+
+    /**
+     * Create a scrolling event
+     */
+    CGEventRef CGEventCreateScrollWheelEvent(String source, int mouseType, int wheelCount, int x, int y);
 
     void CGEventSetIntegerValueField(CGEventRef theEvent,int field, int clickCount);
 

@@ -9,8 +9,8 @@ public class mac_test {
     UIElementRef app;
 
     @Before
-    public void newUIElement(){
-        app = Operation.initializeAppRefForMac("com.ringcentral.ringcentralformac");
+    public void initializeUIElement(){
+        app = Operation.initializeAppRefForMac("com.apple.calculator");
     }
 
     @Test

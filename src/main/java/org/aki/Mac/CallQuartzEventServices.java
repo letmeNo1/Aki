@@ -13,6 +13,8 @@ import org.aki.Mac.CoreGraphics.QuartzEventServices.Keycodes;
 import org.aki.Windows.CallUser32;
 import org.aki.Windows.Location;
 
+import java.io.IOException;
+
 import static org.aki.Mac.CoreGraphics.CoreGraphics.*;
 
 public class CallQuartzEventServices {
@@ -24,9 +26,17 @@ public class CallQuartzEventServices {
         position.x = new CGFloat(x);
         return position;
     }
+
     public static void mouseMoveEvent(int x,int y ){
         CGPoint position = conversionCoordinate(x,y);
-        CGEventRef theEvent = cg.CGEventCreateMouseEvent(null, CGEventType.kCGEventMouseMoved,position, 0);
+        CGEventRef theEvent = cg.CGEventCreateMouseEvent(null, CGEventType.kCGEventMouseMoved,position, kCGMouseButtonLeft);
+        cg.CGEventPost(kCGHIDEventTap, theEvent);
+        cg.CFRelease(theEvent);
+    }
+
+    public static void scrollWheelEvent(){
+        int kCGScrollEventUnitLine = 1;
+        CGEventRef theEvent = cg.CGEventCreateScrollWheelEvent(null,kCGScrollEventUnitLine,2, 10,10);
         cg.CGEventPost(kCGHIDEventTap, theEvent);
         cg.CFRelease(theEvent);
     }
@@ -117,4 +127,9 @@ public class CallQuartzEventServices {
         cg.CFRelease(event);
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        CallQuartzEventServices.mouseMoveEvent(600,200);
+        Thread.sleep(3000);
+        CallQuartzEventServices.scrollWheelEvent();
+    }
 }

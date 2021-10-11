@@ -211,7 +211,4 @@ public class CallUser32 implements WaitFun {
             keyboardRelease(keycode);
         }
     }
-    public static void main(String[] args) {
-        type(800,400,"fdsf");
-    }
 }

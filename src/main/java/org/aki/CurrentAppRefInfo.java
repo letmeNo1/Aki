@@ -1,7 +1,9 @@
 package org.aki;
 
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,7 +11,8 @@ public class CurrentAppRefInfo {
     private static final ThreadLocal<Map<String, CurrentAppRefInfo>> instance = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
     public String bundleIdentifier;
-    public HANDLE currentHandle;
+    public List<WinDef.HWND> currentHandleList;
+
     public int pid;
     public int defaultTimeout = 20000;
 
@@ -51,11 +54,11 @@ public class CurrentAppRefInfo {
         this.pid = pid;
     }
 
-    public HANDLE getCurrentHandle() {
-        return this.currentHandle;
+    public WinDef.HWND getCurrentHandle(int index) {
+        return this.currentHandleList.get(index);
     }
 
-    public void setCurrentHandle(HANDLE currentHandle) {
-        this.currentHandle = currentHandle;
+    public void addHandleToList(WinDef.HWND currentHandle) {
+        this.currentHandleList.add(currentHandle);
     }
 }

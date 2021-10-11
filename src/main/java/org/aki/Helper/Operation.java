@@ -1,25 +1,20 @@
 package org.aki.Helper;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.Ole32;
+
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.sun.jna.platform.win32.WinUser;
 import org.aki.CurrentAppRefInfo;
 import org.aki.Mac.*;
-import org.aki.Mac.CoreGraphics.CGGeometry.CGEventRef;
-import org.aki.Mac.CoreGraphics.CGGeometry.CGFloat;
-import org.aki.Mac.CoreGraphics.CGGeometry.CGPoint;
-import org.aki.Mac.CoreGraphics.CoreGraphics;
+
+import org.aki.Windows.CallGdi32Util;
 import org.aki.Windows.CallKernel32;
 import org.aki.Windows.CallOleacc;
 import org.aki.Windows.CallUser32;
 
 import java.io.IOException;
-import java.lang.management.GarbageCollectorMXBean;
 import java.util.List;
 
-import static org.aki.Mac.CoreGraphics.CoreGraphics.kCGSessionEventTap;
 
 public class Operation {
     public static UIElementRef initializeAppRefForMac(String bundleIdentifierOrAppLaunchPath){
@@ -35,27 +30,36 @@ public class Operation {
         CurrentAppRefInfo.getInstance().setPid(pid.intValue());
         WinUser.GUITHREADINFO xx = new WinUser.GUITHREADINFO();
         User32.INSTANCE.GetGUIThreadInfo(pid.intValue(),xx);
-        System.out.println(xx.hwndActive);
         HWND curHWND = CallUser32.waitAppLaunched(pid.intValue(), CurrentAppRefInfo.getInstance().getDefaultTimeout());
+        CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         return CallOleacc.getAccessibleObject(curHWND);
     }
 
     public static org.aki.Windows.UIElementRef initializeAppRefByWindowName(String windowName){
         HWND curHWND = CallUser32.findWindowByNameByWait(windowName);
+        CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         return CallOleacc.getAccessibleObject(curHWND);
     }
 
-
     public static void takeScreenshot(String path){
-        List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
-        CallQuartzWindowServices.takeScreenshot(windowId.get(0),path);
+        if(System.getProperty("os.name").contains("Windows")){
+            HWND currentHandle = CurrentAppRefInfo.getInstance().getCurrentHandle(0);
+            CallGdi32Util.takeScreenshot(currentHandle,path);
+        }else {
+            List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
+            CallQuartzWindowServices.takeScreenshot(windowId.get(0),path);
+        }
     }
 
-    public static void takeScreenshot(String path,int windowIndex){
-        List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
-        CallQuartzWindowServices.takeScreenshot(windowId.get(windowIndex),path);
+    public static void takeScreenshot(String path,int index){
+        if(System.getProperty("os.name").contains("Windows")){
+            HWND currentHandle = CurrentAppRefInfo.getInstance().getCurrentHandle(index);
+            CallGdi32Util.takeScreenshot(currentHandle,path);
+        }else {
+            List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
+            CallQuartzWindowServices.takeScreenshot(windowId.get(index),path);
+        }
     }
-
 
     public static void killApp() throws IOException {
         if(System.getProperty("os.name").contains("Windows")){
@@ -88,5 +92,6 @@ public class Operation {
             CallQuartzEventServices.combinationKeyOperation(keycodes);
         }
     }
+
 
 }
