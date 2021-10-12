@@ -1,7 +1,6 @@
-import org.aki.Mac.UIElementRef;
-import org.aki.Helper.Operation;
+import aki.Helper.Operation;
+import aki.Mac.UIElementRef;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

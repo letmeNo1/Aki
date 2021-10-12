@@ -1,11 +1,8 @@
 
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.platform.win32.WinUser;
-import org.aki.Windows.CallOleacc;
-import org.aki.Windows.UIElementRef;
-
-import static java.awt.event.KeyEvent.*;
+import aki.Windows.CallOleacc;
+import aki.Windows.UIElementRef;
 
 public class test {
     public static WinDef.LPARAM makeLParam(int l, int h) {

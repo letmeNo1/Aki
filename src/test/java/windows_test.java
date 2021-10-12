@@ -1,12 +1,8 @@
 
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.Ole32;
-import com.sun.jna.platform.win32.User32;
-import com.sun.jna.platform.win32.WinDef;
-import org.aki.Helper.Operation;
-import org.aki.Windows.CallOleacc;
-import org.aki.Windows.CallUser32;
-import org.aki.Windows.UIElementRef;
+import aki.Helper.Operation;
+import aki.Windows.CallOleacc;
+import aki.Windows.CallUser32;
+import aki.Windows.UIElementRef;
 
 import java.io.IOException;
 
