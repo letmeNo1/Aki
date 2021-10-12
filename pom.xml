@@ -1,144 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <name>aki</name>
+
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
     <url>https://github.com/letmeNo1/Aki</url>
     <description>Desktop automated testing framework based on accessibility API. </description>
-    <licenses>
-        <license>
-            <name>Server Side Public License</name>
-            <url>https://www.mongodb.com/licensing/server-side-public-license</url>
-            <distribution>repo</distribution>
-            <comments>A not business-friendly OSS license</comments>
-        </license>
-    </licenses>
-    <scm>
-        <tag>master</tag>
-        <connection>https://github.com/letmeNo1/Aki</connection>
-        <developerConnection>https://github.com/letmeNo1</developerConnection>
-        <url>https://github.com/dzzhyk/mine-spring/tree/${project.scm.tag}</url>
-    </scm>
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-    <developers>
-        <developer>
-            <name>hank.huang</name>
-            <id>hank.huang</id>
-            <email>hank550@gmail.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <finalName>${project.artifactId}-${project.version}</finalName>
-                <plugins>
-                    <!-- jar -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.0.2</version>
-                        <configuration>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                                <manifestEntries>
-                                    <Built-By>hank.huang</Built-By>
-                                    <Automatic-Module-Name>aki</Automatic-Module-Name>
-                                </manifestEntries>
 
-                            </archive>
-                        </configuration>
-                    </plugin>
-                    <!-- source code -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <configuration>
-                            <attach>true</attach>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- javadoc -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.2</version>
-                        <configuration>
-                            <aggregate>true</aggregate>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- gpg -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- nexus-staging -->
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
     <dependencies>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
@@ -169,4 +49,129 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <!-- compile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <compilerArgument>-parameters</compilerArgument>
+                    <testCompilerArgument>-parameters</testCompilerArgument>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <!-- jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestEntries>
+                            <Built-By>hank.huang</Built-By>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- source code -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.2</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <additionalJOption>-Xdoclint:none</additionalJOption>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- gpg -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- nexus-staging -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/dzzhyk/mine-spring/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>hank.huang</name>
+            <email>hank550@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <tag>master</tag>
+        <connection>https://github.com/letmeNo1/Aki</connection>
+        <developerConnection>https://github.com/letmeNo1</developerConnection>
+        <url>https://github.com/letmeNo1/tree/${project.scm.tag}</url>
+    </scm>
+
+    <!-- Central Repo -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
 </project>

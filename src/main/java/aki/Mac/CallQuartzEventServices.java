@@ -123,10 +123,4 @@ public class CallQuartzEventServices {
         cg.CGEventPost(kCGSessionEventTap, event);
         cg.CFRelease(event);
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        CallQuartzEventServices.mouseMoveEvent(600,200);
-        Thread.sleep(3000);
-        CallQuartzEventServices.scrollWheelEvent();
-    }
 }
