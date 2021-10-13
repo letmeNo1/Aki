@@ -50,6 +50,26 @@ public interface FindUIElement {
 
     BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
 
+    static List<UIElementRef> findElementsBySubRole(UIElementRef rootElement, String role){
+        List<UIElementRef> resElementRefList = new ArrayList<>();
+        Stack<UIElementRef> allNode= new Stack<>() ;
+        allNode.push(rootElement);
+        while (!allNode.isEmpty()){
+            UIElementRef ele = allNode.pop();
+            if(ele.get_SubRole().equals(role)){
+                resElementRefList.add(ele);
+            }
+            if (!ele.get_ChildrenElements().isEmpty()) {
+                for (UIElementRef childEle : ele.get_ChildrenElements())
+                    allNode.push(childEle);
+            }
+        }
+        Collections.reverse(resElementRefList);
+        return resElementRefList;
+    }
+
+    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsBySubRole = FindUIElement::findElementsBySubRole;
+
     static List<UIElementRef> findElementsByText(UIElementRef rootElement, String text){
        List<UIElementRef> resElementRefList = new ArrayList<>();
        Stack<UIElementRef> allNode= new Stack<>() ;

@@ -51,6 +51,11 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
         return CallAppServices.getCopyAttributeValueOfStringType(this, callAppServicesApi.createCFString("AXRole"),value);
     }
 
+    public String get_SubRole(){
+        PointerByReference value = new PointerByReference();
+        return CallAppServices.getCopyAttributeValueOfStringType(this, callAppServicesApi.createCFString("AXSubrole"),value);
+    }
+
     public String get_Help(){
         PointerByReference value = new PointerByReference();
         return CallAppServices.getCopyAttributeValueOfStringType(this, callAppServicesApi.createCFString("AXHelp"),value);
@@ -164,6 +169,10 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
 
     public UIElementRef findElementsByRole(String role, int index){
         return findElementsByWait(findElementsByRole,this,role,DEFAULT_TIMEOUT).get(index);
+    }
+
+    public UIElementRef findElementsBySubRole(String SubRole, int index){
+        return findElementsByWait(findElementsBySubRole,this,SubRole,DEFAULT_TIMEOUT).get(index);
     }
 
     public UIElementRef findElementByXpath(String xpath){
