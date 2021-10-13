@@ -6,6 +6,14 @@ Background
 
 This is a desktop automated testing framework based on accessibility api. At the same time, with the help of the open source framework of JNA, the purpose of calling the Mac and Windows system-level API is achieved.
 
+Maven dependency
+===============
+<dependency>
+   <groupId>io.github.letmeno1</groupId>
+   <artifactId>aki</artifactId>
+   <version>1.0.0</version>
+</dependency>
+
 Generate jar package
 ===============
 mvn install
