@@ -9,11 +9,11 @@ This is a desktop automated testing framework based on accessibility api. At the
 Maven dependency
 ===============
 ```
-    <key>Java</key>
-    <dict>
-        <key>StartOnMainThread</key>
-        <true/>
-    </dict>
+<dependency>
+    <groupId>io.github.letmeno1</groupId>
+    <artifactId>aki</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
 Generate jar package
