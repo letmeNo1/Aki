@@ -2,8 +2,12 @@ package aki.Mac;
 
 import aki.CurrentAppRefInfo;
 import aki.Mac.Appkit.AppAndEnvironment.NSWorkspace;
+import com.sun.jna.platform.win32.User32;
 
 import java.io.IOException;
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -33,11 +37,30 @@ public class CallNSWorkspace {
         return Integer.parseInt(new NSWorkspace().frontmostApplication().toString().split("- ")[1].split("\\)")[0]);
     }
 
+    private static Duration SetTimeout(long timeout) {
+        return Duration.ofMillis(timeout);
+    }
+
+    public static void waitAppLaunched(String bundleIdentifier) {
+        Clock clock = Clock.systemDefaultZone();
+        Instant end = clock.instant().plus(SetTimeout(20000));
+        while (true) {
+            if (getRunningApplications().contains(bundleIdentifier)) {
+                System.out.println("launch app successful");
+                break;
+            }
+            if (end.isBefore(clock.instant())) {
+                throw new RuntimeException("launch app failed");
+            }
+        }
+    }
+
     public static String getRunningApplications(){
         return new NSWorkspace().runningApplications().toString();
     }
 
     public static int getPidByBundleIdentifier(String bundleIdentifier){
+        waitAppLaunched(bundleIdentifier);
         return Integer.parseInt(Objects.requireNonNull(Arrays.stream(new NSWorkspace().runningApplications().toString().split(",")).filter(
                 line -> line.contains(bundleIdentifier)).findFirst().orElse(null)).split("- ")[1].split("\\)")[0]);
     }
