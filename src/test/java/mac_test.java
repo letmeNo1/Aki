@@ -11,13 +11,13 @@ public class mac_test {
 
     @Before
     public void initializeUIElement(){
-        app = Operation.initializeAppRefForMac("com.ringcentral.rooms");
+        app = Operation.initializeAppRefForMac("com.ringcentral.ringcentralformac");
     }
 
     @Test
     public void testCase() throws InterruptedException {
-//        app.findElementsByText("RingCentral Phone, Use your business phone anytime anywhere., Sign In",0).click();
-//        app.findElementsByText("Input phone number",0).clearInput();
+        Thread.sleep(3000);
+       Operation.takeScreenshot("/Users/rcadmin/Desktop/macen-US_roomsios_mac_macPP.png");
 //        app.findElementsByText("Input phone number",0).type("18882355822");
 //        app.findElementsByRole("AXTextField",2).type("Test!123");
 //        app.findElementsByText("Sign In",0).click();

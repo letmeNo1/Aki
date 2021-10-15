@@ -127,6 +127,13 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
         CallQuartzEventServices.leftMouseSingleClickEvent(x,y);
     }
 
+    public void hover(){
+        isForefront();
+        int x = this.get_CGPoint().x.intValue() + this.get_CGSize().width.intValue()/2;
+        int y = this.get_CGPoint().y.intValue() + this.get_CGSize().height.intValue()/2;
+        CallQuartzEventServices.mouseMoveEvent(x,y);
+    }
+
     public void doubleClick(){
         isForefront();
         int x = this.get_CGPoint().x.intValue() + this.get_CGSize().width.intValue()/2;

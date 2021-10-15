@@ -6,12 +6,16 @@ import aki.Mac.CoreGraphics.CGGeometry.CGImageRef;
 import aki.Mac.CoreGraphics.CGGeometry.CGRect;
 import aki.Mac.CoreGraphics.CGImage.CGDataProviderRef;
 import aki.Mac.CoreGraphics.CoreGraphics;
+import com.sun.jna.platform.win32.GDI32Util;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
 
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.text.MessageFormat;
@@ -138,5 +142,13 @@ public class CallQuartzWindowServices {
             System.out.println(MessageFormat.format("Save failed, {0}", E.getMessage()));
         }
         cg.CGImageRelease(imageRef);
+    }
+
+    public static void takeScreenshotForDesktop(String savaPath)  {
+        try{
+            Runtime.getRuntime().exec("screencapture " + savaPath);
+        }catch (Exception ignored){
+        }
+
     }
 }

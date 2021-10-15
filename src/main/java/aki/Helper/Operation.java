@@ -61,6 +61,14 @@ public class Operation {
         }
     }
 
+    public static void takeScreenshotForDesktop(String path){
+        if(System.getProperty("os.name").contains("Windows")){
+            CallGdi32Util.takeScreenshotForDesktop(path);
+        }else {
+            CallQuartzWindowServices.takeScreenshotForDesktop(path);
+        }
+    }
+
     public static void killApp() throws IOException {
         if(System.getProperty("os.name").contains("Windows")){
             Runtime.getRuntime().exec(String.format("taskkill /pid %s -f", CurrentAppRefInfo.getInstance().getPid()));
