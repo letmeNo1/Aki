@@ -57,7 +57,12 @@ public class Operation {
             CallGdi32Util.takeScreenshot(currentHandle,path);
         }else {
             List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
-            CallQuartzWindowServices.takeScreenshot(windowId.get(index),path);
+            try {
+                System.out.println(windowId.get(index));
+
+                Runtime.getRuntime().exec("screencapture -l " + windowId.get(index) + " " + path);
+            }catch (Exception ignored){
+            }
         }
     }
 

@@ -6,18 +6,28 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 public class mac_test {
     UIElementRef app;
 
     @Before
     public void initializeUIElement(){
-        app = Operation.initializeAppRefForMac("com.ringcentral.ringcentralformac");
+        app = Operation.initializeAppRefForMac("com.apple.calculator");
     }
 
     @Test
     public void testCase() throws InterruptedException {
-        Thread.sleep(3000);
-       Operation.takeScreenshot("/Users/rcadmin/Desktop/macen-US_roomsios_mac_macPP.png");
+        app.findElementByIdentifier("_NS:510").click();
+        app.findElementsByText("3",0).click();
+        app.findElementsByText("2",0).click();
+        app.findElementsByText("×",0).click();
+        app.findElementsByText("3",0).click();
+        app.findElementsByText("2",0).click();
+        app.findElementsByText("=",0).click();
+        String res = app.findElementByIdentifier("_NS:16").get_Value();
+        assertEquals(res, "1024");
+        Operation.takeScreenshot("/Users/rcadmin/Desktop/Screenshot_1634617817.png",0);
 //        app.findElementsByText("Input phone number",0).type("18882355822");
 //        app.findElementsByRole("AXTextField",2).type("Test!123");
 //        app.findElementsByText("Sign In",0).click();
@@ -39,6 +49,6 @@ public class mac_test {
 
     @After
     public void end() throws IOException {
-        Operation.killApp();
+//        Operation.killApp();
     }
 }
