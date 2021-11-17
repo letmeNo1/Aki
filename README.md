@@ -23,6 +23,7 @@ mvn install
 Getting started
 ===============
 Requires jdk version >= 1.8.0_295
+
 **For Mac**
 
 Requires a system running OS X and Xcode installed. 
