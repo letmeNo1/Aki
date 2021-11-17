@@ -22,11 +22,11 @@ mvn install
 
 Getting started
 ===============
+Requires jdk version >= 1.8.0_295
 **For Mac**
 
 Requires a system running OS X and Xcode installed. 
 Requires system version 10.6 and above
-Requires jdk version >= 1.8.0_295
 
 Systemwide accessibility must be enabled. Check the checkbox: System Preferences > Universal Access > Enable access for assistive devices. 
 
