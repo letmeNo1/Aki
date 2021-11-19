@@ -157,6 +157,10 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         return findElementsByWait(findElementsByPartialText,this,text,DEFAULT_TIMEOUT).get(index);
     }
 
+    public UIElementRef findElementsByRole(String role, int index){
+        return findElementsByWait(findElementsByRole,this,role,DEFAULT_TIMEOUT).get(index);
+    }
+
     public UIElementRef findElementByAutomationId(String text){
         return findElementByWait(findElementByAutomationId,this,text,DEFAULT_TIMEOUT);
     }
