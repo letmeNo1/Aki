@@ -12,7 +12,7 @@ Maven dependency
 <dependency>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -58,7 +58,7 @@ Usage
  ***For Mac：*** `UIElementRef app = Operation.initializeAppRefForMac("com.apple.calculator");`
 
 
- ***For Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("Your app launch path");`
+ ***For Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe");`
 
 
 ### find elements
@@ -85,13 +85,14 @@ Usage
  
      e.g. `app.findElementByXpath("AXStandardWindow/AXButton[1]")`
     
-     4.By identifier
+     4.By identifier 
 
       The identifier corresponds to the "identifier"
 
      e.g. `app.findElementByIdentifier("JoinButton")`
-
-    dd
+     
+ ***For Windows：***
+    
 
 
 
