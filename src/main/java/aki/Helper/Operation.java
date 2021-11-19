@@ -28,12 +28,12 @@ public class Operation {
         return CallAppServices.getElementRefByPid(pid);
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath) throws InterruptedException {
+    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath) {
         LaunchOption launchOption = new LaunchOption();
         return initializeAppRefForWin(bundleIdentifierOrAppLaunchPath,launchOption);
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) throws InterruptedException {
+    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
         int pid;
         pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
         CurrentAppRefInfo.getInstance().setPid(pid);

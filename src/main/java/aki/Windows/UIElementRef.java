@@ -1,5 +1,6 @@
 package aki.Windows;
 
+import aki.Mac.CallQuartzEventServices;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.*;
@@ -184,6 +185,27 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         CallUser32.leftMouseClick(x, y);
     }
 
+    public void hover(){
+        CallUser32.setForegroundWindow(this);
+        int x = this.get_Location().x + this.get_Location().w/2;
+        int y = this.get_Location().y + this.get_Location().h/2;
+        CallQuartzEventServices.mouseMoveEvent(x,y);
+    }
+
+    public void doubleClick(){
+        CallUser32.setForegroundWindow(this);
+        int x = this.get_Location().x + this.get_Location().w/2;
+        int y = this.get_Location().y + this.get_Location().h/2;
+        CallUser32.leftMouseDoubleClick(x,y);
+    }
+
+    public void longClick(int duration) throws InterruptedException {
+        CallUser32.setForegroundWindow(this);
+        int x = this.get_Location().x + this.get_Location().w/2;
+        int y = this.get_Location().y + this.get_Location().h/2;
+        CallUser32.leftMouseLongClick(x,y,duration);
+    }
+
     public void clear(){
         CallUser32.setForegroundWindow(this);
         int x = this.get_Location().x + this.get_Location().w/2;
@@ -197,13 +219,4 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         int y = this.get_Location().y + this.get_Location().h/2;
         CallUser32.type(x, y,text);
     }
-
-    public void drag(WinDef.RECT startPosition,WinDef.RECT endPosition){
-        CallUser32.setForegroundWindow(this);
-        WinDef.RECT rect = CallUser32.getDesktopRect();
-        int x = (this.get_Location().x + this.get_Location().w/2) * 65535/rect.right;
-        int y = (this.get_Location().y + this.get_Location().h/2) * 65535/rect.bottom;
-        CallUser32.leftMouseClick(x, y);
-    }
-
 }

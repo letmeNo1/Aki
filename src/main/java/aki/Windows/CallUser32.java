@@ -160,6 +160,23 @@ public class CallUser32 implements WaitFun {
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, location.x, location.y);
     }
 
+    public static void leftMouseDoubleClick(int dx, int dy) {
+        Location location = conversionCoordinate(dx, dy);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, location.x, location.y);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN, location.x, location.y);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, location.x, location.y);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN, location.x, location.y);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, location.x, location.y);
+    }
+
+    public static void leftMouseLongClick(int dx, int dy,int duringTime) throws InterruptedException {
+        Location location = conversionCoordinate(dx, dy);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, location.x, location.y);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN, location.x, location.y);
+        Thread.sleep(duringTime);
+        mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, location.x, location.y);
+    }
+
     public static void leftMouseDrag(int dx, int dy, int dx2, int dy2) {
         Location location = conversionCoordinate(dx, dy);
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN, dx, dy);
