@@ -131,6 +131,11 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
     
 ### Operation
 
+ Support Mouse events, Combination keyboard events, take screenshot and kill app
+
+
+
+
 
     
 
