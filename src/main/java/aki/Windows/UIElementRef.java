@@ -196,7 +196,7 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
 
     public void drag(WinDef.RECT startPosition,WinDef.RECT endPosition){
         CallUser32.setForegroundWindow(this);
-        WinDef.RECT rect = CallUser32.GetDesktopRect();
+        WinDef.RECT rect = CallUser32.getDesktopRect();
         int x = (this.get_Location().x + this.get_Location().w/2) * 65535/rect.right;
         int y = (this.get_Location().y + this.get_Location().h/2) * 65535/rect.bottom;
         CallUser32.leftMouseClick(x, y);

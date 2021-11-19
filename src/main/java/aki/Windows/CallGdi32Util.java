@@ -23,7 +23,6 @@ public class CallGdi32Util {
     }
 
     public static void takeScreenshotForDesktop(String savaPath){
-        // set a compatible pixel format
         WinDef.HWND hWnd = User32.INSTANCE.GetDesktopWindow();
         File outPutFile = new File(savaPath);
         BufferedImage buffered = GDI32Util.getScreenshot(hWnd);

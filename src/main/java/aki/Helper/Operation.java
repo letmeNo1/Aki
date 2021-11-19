@@ -1,6 +1,7 @@
 package aki.Helper;
 
 
+import aki.LaunchOption;
 import aki.Mac.*;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
@@ -11,6 +12,8 @@ import aki.Windows.CallGdi32Util;
 import aki.Windows.CallKernel32;
 import aki.Windows.CallOleacc;
 import aki.Windows.CallUser32;
+import com.sun.jna.ptr.IntByReference;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,12 +28,21 @@ public class Operation {
         return CallAppServices.getElementRefByPid(pid);
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath){
-        DWORD pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
-        CurrentAppRefInfo.getInstance().setPid(pid.intValue());
-        WinUser.GUITHREADINFO xx = new WinUser.GUITHREADINFO();
-        User32.INSTANCE.GetGUIThreadInfo(pid.intValue(),xx);
-        HWND curHWND = CallUser32.waitAppLaunched(pid.intValue(), CurrentAppRefInfo.getInstance().getDefaultTimeout());
+    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath) throws InterruptedException {
+        LaunchOption launchOption = new LaunchOption();
+        return initializeAppRefForWin(bundleIdentifierOrAppLaunchPath,launchOption);
+    }
+
+    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) throws InterruptedException {
+        int pid;
+        pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
+        CurrentAppRefInfo.getInstance().setPid(pid);
+        HWND curHWND;
+        if(launchOption.getIsUWPApp()){
+            curHWND = CallUser32.waitAppLaunchedForUWPApp(launchOption.getDefaultTimeout());
+        }else {
+            curHWND = CallUser32.waitAppLaunched(pid, launchOption.getDefaultTimeout());
+        }
         CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         return CallOleacc.getAccessibleObject(curHWND);
     }
@@ -44,12 +56,15 @@ public class Operation {
     public static void takeScreenshot(String path){
         if(System.getProperty("os.name").contains("Windows")){
             HWND currentHandle = CurrentAppRefInfo.getInstance().getCurrentHandle(0);
+            IntByReference currentDwProcessId = new IntByReference();
+            User32.INSTANCE.GetWindowThreadProcessId(currentHandle, currentDwProcessId);
             CallGdi32Util.takeScreenshot(currentHandle,path);
         }else {
             List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
             CallQuartzWindowServices.takeScreenshot(windowId.get(0),path);
         }
     }
+
 
     public static void takeScreenshot(String path,int index){
         if(System.getProperty("os.name").contains("Windows")){

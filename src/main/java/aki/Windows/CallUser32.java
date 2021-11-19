@@ -1,5 +1,6 @@
 package aki.Windows;
 
+import aki.CurrentAppRefInfo;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.BaseTSD;
 import com.sun.jna.platform.win32.User32;
@@ -31,7 +32,7 @@ public class CallUser32 implements WaitFun {
         return Duration.ofMillis(timeout);
     }
 
-    public static HWND waitAppLaunched(int dwProcessId, int timeout) {
+    public static HWND waitAppLaunched(int pid, int timeout) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plus(SetTimeout(timeout));
         IntByReference currentDwProcessId = new IntByReference();
@@ -39,7 +40,7 @@ public class CallUser32 implements WaitFun {
         while (true) {
             currentWinHWND = User32.INSTANCE.GetForegroundWindow();
             User32.INSTANCE.GetWindowThreadProcessId(currentWinHWND, currentDwProcessId);
-            if (dwProcessId == currentDwProcessId.getValue()) {
+            if (pid == currentDwProcessId.getValue()) {
                 System.out.println("launch app successful");
                 break;
             }
@@ -50,15 +51,35 @@ public class CallUser32 implements WaitFun {
         return currentWinHWND;
     }
 
+    public static HWND waitAppLaunchedForUWPApp(int timeout) {
+        Clock clock = Clock.systemDefaultZone();
+        Instant end = clock.instant().plus(SetTimeout(timeout));
+        HWND currentWinHWND;
+        int pid;
+        while (true) {
+            pid = CallKernel32.getProcessesIdByName("ApplicationFrameHost.exe");
+            if (pid !=0) {
+                CurrentAppRefInfo.getInstance().setPid(pid);
+                currentWinHWND = waitAppLaunched(pid,timeout);
+                break;
+            }
+            if (end.isBefore(clock.instant())) {
+                throw new RuntimeException("launch app failed");
+            }
+        }
+        return currentWinHWND;
 
-    public static RECT GetDesktopRect() {
+    }
+
+
+    public static RECT getDesktopRect() {
         WinDef.RECT rect = new WinDef.RECT();
         User32.INSTANCE.GetWindowRect(User32.INSTANCE.GetDesktopWindow(), rect);
         return rect;
     }
 
     public static Location conversionCoordinate(int x, int y) {
-        WinDef.RECT rect = CallUser32.GetDesktopRect();
+        WinDef.RECT rect = CallUser32.getDesktopRect();
         Location location = new Location();
         location.x = x * 65535 / rect.right;
         location.y = y * 65535 / rect.bottom;

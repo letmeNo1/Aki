@@ -1,40 +1,42 @@
-
 import aki.Helper.Operation;
-import aki.Windows.CallOleacc;
-import aki.Windows.CallUser32;
-import aki.Windows.UIElementRef;
 
+import aki.LaunchOption;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.swing.filechooser.FileSystemView;
 import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class windows_test {
+    aki.Windows.UIElementRef app;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        String appLaunchPath = "C:\\Users\\86158\\AppData\\Local\\RingCentral\\SoftPhoneApp\\Softphone.exe";
-        UIElementRef app = Operation.initializeAppRefForWin(appLaunchPath);
-        app.findElementsByText("RingCentral Phone, Use your business phone anytime anywhere., Sign In",0).click();
-        app.findElementsByText("Input phone number",0).clear();
-        app.findElementsByText("Input phone number",0).type("18882355822");
-        app.findElementByFullDescription("Input password").type("Test!123");
-        app.findElementsByText("Sign In",0).click();
-        app.findElementsByText("Cancel",0).click();
-        Thread.sleep(2000);
-        app.findElementByAutomationId("settingsButton").click();
-        Thread.sleep(2000);
-        UIElementRef window1 = Operation.initializeAppRefByWindowName("Settings");
-        System.out.println(window1.get_Name());
-        window1.findElementByAutomationId("elementGeneral").click();
-        window1.findElementByAutomationId("elementCalls").click();
-        window1.findElementByAutomationId("elementMessaging").click();
-        window1.findElementByAutomationId("elementContacts").click();
-        window1.findElementByAutomationId("elementJoinNow").click();
-        window1.findElementByAutomationId("elementHotkeys").click();
-        window1.findElementByAutomationId("elementSupport").click();
-        window1.findElementsByText("Logout",0).click();
-        window1.findElementsByText("Log out",0).click();
-//        System.out.println(app.findElementsByText("Cancel",0).get_Name());
-//        System.out.println(app.findElementsByText("Top Bar Menu",0).get_Location().w);
-//        System.out.println(app.findElementsByText("Top Bar Menu",0).get_Location().h);
+    @Before
+    public void initializeUIElement() throws InterruptedException {
+        LaunchOption launchOption = new LaunchOption();
+        launchOption.setIsUWPApp(true);
+        app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
+    }
+
+    @Test
+    public void testCase() {
+        app.findElementByAutomationId("num3Button").click();
+        app.findElementByAutomationId("num2Button").click();
+        app.findElementByAutomationId("multiplyButton").click();
+        app.findElementByAutomationId("num3Button").click();
+        app.findElementByAutomationId("num2Button").click();
+        app.findElementByAutomationId("equalButton").click();
+        String res = app.findElementByAutomationId("CalculatorResults").get_Name();
+        assertEquals(res, "Display is 1,024");
+        String Desktop =FileSystemView.getFileSystemView().getHomeDirectory().getPath();
+        Operation.takeScreenshotForDesktop(Desktop+"/Screenshot_1634617817.png");
+    }
+
+    @After
+    public void end() throws IOException {
         Operation.killApp();
     }
 
