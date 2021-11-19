@@ -60,6 +60,20 @@ Usage
 
  ***For Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe");`
 
+App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
+
+Mouse event
+
+UIElementRef object support click, double click, long click, hover
+
+e.g.  `app.findElementsByText("Input phone number",0).click()` or `app.findElementsByText("Input phone number",0).doubleClick()`
+
+Input event 
+
+UIElementRef object support type and clear
+
+e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.findElementsByText("Input phone number",0).clear()`
+
 
 ### find elements
 
@@ -92,6 +106,32 @@ Usage
      e.g. `app.findElementByIdentifier("JoinButton")`
      
  ***For Windows：***
+ 
+     support text(name), role, automationId, fullDescription.
+     
+     For text, role and fullDescription, the searched elements will be returned in the form of a list, and the index needs to be notified when calling.
+
+     e.g. `app.findElementsByText("Input phone number",0)` & `app.findElementsByRole("AXTextField",2)`
+     
+      1.By text
+
+      The text corresponds to the "Name" in the element attribute
+
+     2.By Role
+
+     The role corresponds to the "Role"
+     
+     e.g. `app.findElementsByRole(app.findElementsByText("client",0))
+    
+     4.By automationId 
+
+      The identifier corresponds to the "identifier"
+
+     e.g. `app.findElementByIdentifier("num3button")`
+    
+### Operation
+
+
     
 
 
