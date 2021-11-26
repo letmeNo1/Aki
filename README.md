@@ -31,13 +31,14 @@ Requires jdk version >= 1.8.0_295
 Requires a system running OS X and Xcode installed. 
 Requires system version 10.6 and above
 
-Systemwide accessibility must be enabled. Check the checkbox: System Preferences > Universal Access > Enable access for assistive devices. 
+Systemwide accessibility must be enabled. Check the checkbox: System Preferences > Security and privacy
+> Universal Access > Enable access for assistive devices. 
 
 **For Windows**
 
 Requires system version >= Windows 7
 
-Application element locate tool
+Applicaion element locate tool
 ===============
 **For Mac**
 
@@ -63,6 +64,7 @@ Usage
  ***For Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe");`
 
 App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
+You can call the find or click method through UIElementRef
 
 Mouse event
 
@@ -81,7 +83,7 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
 
  ***For Mac：*** 
   
-     support text, role(witch is element type), identifier, xpath.
+     support text, role(which is element type), identifier, xpath.
 
      For text and roles, the searched elements will be returned in the form of a list, and the index needs to be notified when calling.
 
@@ -127,9 +129,9 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
     
      4.By automationId 
 
-      The identifier corresponds to the "identifier"
+      The automationId corresponds to the "automationId"
 
-     e.g. `app.findElementByIdentifier("num3button")`
+     e.g. `app.findElementByAutomationId("num3button")`
     
 ### Operation
 
@@ -165,109 +167,109 @@ mvn install
 需要安装Xcode
 需要系统版本高于10.6
 
-需要在在隐私权限中开启Xcode对辅助设备访问的权限。系统偏好设置 > 通用访问 > 启用辅助设备访问。
+需要在在隐私权限中开启Xcode对辅助设备访问的权限。系统偏好设置 > 安全性与隐私 > 通用访问 > 启用辅助设备访问。
 
 **对于 Windows**
 
-Requires system version >= Windows 7
+需要版本高于Windows 7
 
-Application element locate tool
+元素定位工具
 ===============
-**For Mac**
+**对于 Mac**
 
-Accessibility Inspector：Xcode -> Open Developer Tools
+Accessibility Inspector：Xcode -> 打开 Developer Tools
 
-Using `Accessibility Inspector` can provide a quick way to find these attributes.
+使用“Accessibility Inspector”可以查找到App对应的元素属性
 
-**For Windows**
+**对于 Windows**
 
-download the exe file `inspect.exe` from here
+在主页里下载 inspect.exe
 
-Using `inspect.exe` can provide a quick way to find these attributes.
+使用“inspect.exe”可以查找到App对应的元素属性
 
 
-Usage
+使用
 ==========
 
-### launch app and initialize an UIElementRef by identifier(Mac) or file execute path(Windows)
+### 启动应用程序并通过identifier（Mac）或文件执行路径（Windows）初始化一个 UIElementRef对象
  
- ***For Mac：*** `UIElementRef app = Operation.initializeAppRefForMac("com.apple.calculator");`
+ ***对于 Mac：*** `UIElementRef app = Operation.initializeAppRefForMac("com.apple.calculator");`
 
 
- ***For Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe");`
+ ***对于 Windows：***  `UIElementRef app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe");`
 
-App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
+App 窗口本身就是一个 UIElementRef 对象，而每个元素也都是一个 UIElementRef 对象。你可以通过UIElementRef来调用各种查找或者是点击的方法
 
-Mouse event
+鼠标事件
 
-UIElementRef object support click, double click, long click, hover
+UIElementRef 对象支持单击、双击、长按、悬停
 
-e.g.  `app.findElementsByText("Input phone number",0).click()` or `app.findElementsByText("Input phone number",0).doubleClick()`
+例如:  `app.findElementsByText("Input phone number",0).click()` 或 `app.findElementsByText("Input phone number",0).doubleClick()`
 
-Input event 
+输入事件
 
-UIElementRef object support type and clear
+UIElementRef 对象支持输入和清除
 
-e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.findElementsByText("Input phone number",0).clear()`
+例如:  `app.findElementsByText("Input phone number",0).type("188888")` 或 `app.findElementsByText("Input phone number",0).clear()`
 
 
-### find elements
+### 查找元素
 
- ***For Mac：*** 
+ ***对于 Mac：*** 
   
-     support text, role(witch is element type), identifier, xpath.
-
-     For text and roles, the searched elements will be returned in the form of a list, and the index needs to be notified when calling.
-
-     e.g. `app.findElementsByText("Input phone number",0)` & `app.findElementsByRole("AXTextField",2)`
-
-     1.By text
-
-      The text corresponds to the "Title", "Value" and "Help" in the element attribute
-
-     2.By Role
-
-     The role corresponds to the "Role"
+     支持文本、role（元素类型）、identifier、xpath。
      
-     3.By Xpath
+     对于文本和role，搜索到的元素会以列表的形式返回，调用时需要加入索引。
 
-     This is a way to find through the path of the element
+     例如 `app.findElementsByText("Input phone number",0)` 和 `app.findElementsByRole("AXTextField",2)`
+
+     1.通过文本
+
+     文本对应元素属性中的“Title”、“Value”和“Help”
+
+     2.通过Role
+
+     Role对应元素属性中的“Role”
+     
+     3.通过Xpath
+
+     这是一种通过元素的路径查找的方法(待改进)
  
-     e.g. `app.findElementByXpath("AXStandardWindow/AXButton[1]")`
+     例如 `app.findElementByXpath("AXStandardWindow/AXButton[1]")`
     
-     4.By identifier 
+     4.通过identifier
 
-      The identifier corresponds to the "identifier"
+     identifier对应元素属性中的“identifier”
 
-     e.g. `app.findElementByIdentifier("JoinButton")`
+     例如 `app.findElementByIdentifier("JoinButton")`
      
- ***For Windows：***
+ ***对于 Windows：***
  
-     support text(name), role, automationId, fullDescription.
+     支持 text(name)、role、automationId、fullDescription。
      
-     For text, role and fullDescription, the searched elements will be returned in the form of a list, and the index needs to be notified when calling.
+     对于text、role和fullDescription，搜索到的元素会以列表的形式返回，调用时需要加入索引。
 
-     e.g. `app.findElementsByText("Input phone number",0)` & `app.findElementsByRole("AXTextField",2)`
+     例如`app.findElementsByText("Input phone number",0)` 和 `app.findElementsByRole("AXTextField",2)`
      
-      1.By text
+     1.通过文本
 
-      The text corresponds to the "Name" in the element attribute
+      文本对应于元素属性中的“Name”
 
-     2.By Role
+     2.通过Role
 
-     The role corresponds to the "Role"
+      Role对应于元素属性中的“Role”
      
-     e.g. `app.findElementsByRole(app.findElementsByText("client",0))
+      例如 `app.findElementsByRole(app.findElementsByText("client",0))
     
-     4.By automationId 
+     4.通过automationId 
 
-      The identifier corresponds to the "identifier"
+      automationId对应于元素属性中的"automationId"
 
-     e.g. `app.findElementByIdentifier("num3button")`
+      例如 `app.findElementByAutomationId ("num3button")`
     
-### Operation
+### 通用操作
 
- Support Mouse events, Combination keyboard events, take screenshot and kill app
+ 支持鼠标事件、组合键盘事件、截图和结束进程
 
 
 
