@@ -1,5 +1,6 @@
 Aki - Automated Testing on desktop
 =================================
+-   [English](#Background)
 
 Background
 ==========
