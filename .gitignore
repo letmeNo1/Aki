@@ -3,3 +3,5 @@
 *.class
 .idea/encodings.xml
 *.xml
+target/
+*.lst
