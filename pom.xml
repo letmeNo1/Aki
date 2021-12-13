@@ -47,6 +47,13 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>opencv</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}\src/main/java/resources/lib/opencv/opencv-454.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
