@@ -148,7 +148,7 @@
             <name>MIT License</name>
             <url>https://github.com/dzzhyk/mine-spring/blob/master/LICENSE</url>
         </license>
-    </licenses>
+        </licenses>
     <developers>
         <developer>
             <name>hank.huang</name>
