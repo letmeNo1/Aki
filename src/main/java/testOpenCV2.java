@@ -1,15 +1,21 @@
 import org.opencv.core.*;
 import org.opencv.features2d.FlannBasedMatcher;
 import org.opencv.features2d.SIFT;
+import org.opencv.imgproc.Imgproc;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.opencv.calib3d.Calib3d.RANSAC;
 import static org.opencv.core.Core.MinMaxLocResult;
+import static org.opencv.core.Core.perspectiveTransform;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
+import static org.opencv.highgui.HighGui.*;
+
+import static org.opencv.calib3d.Calib3d.findHomography;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 import static org.opencv.imgproc.Imgproc.*;
 
@@ -77,22 +83,55 @@ class testOpenCV2 {
         for (int i = 0; i < mats.length; i++)
         {
             //distance越小,代表DMatch的匹配率越高,
-            Double dist = (double) mats[i].distance;
-            System.out.printf(i + " match distance best : %s%n", dist);
+            double dist = (double) mats[i].distance;
             if (dist <= threshold)
             {
                 bestMatches.add(mats[i]);
                 System.out.printf(i + " best match added : %s%n", dist);
             }
         }
+        //将最佳匹配转回 MatOfDMatch
         md.fromList(bestMatches);
-        System.out.println(bestMatches.size());
+
+        //新建结果mat
         Mat res = new Mat();
+        //设置线条颜色
         Scalar color = new Scalar(-1);
         MatOfByte matchesMask = new MatOfByte();
+        //绘制匹配线条，去除其他非匹配的点
         drawMatches(img,keypoints1,template,keypoints2,md,res,color,color,matchesMask,DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS);
         namedWindow("picture of matching");
         imshow("picture of matching", res);
         waitKey(0);
+
+
+        MatOfPoint2f srcPoints = new MatOfPoint2f();
+        MatOfPoint2f dstPoints = new MatOfPoint2f();
+
+        List<Point> srcPointsList = new ArrayList<>();
+        List<Point> dstPointsList = new ArrayList<>();
+
+        for (DMatch bestMatch : bestMatches) {
+            //——从最佳匹配中获取关键点
+            srcPointsList.add(keypoints1.toList().get(bestMatch.queryIdx).pt);
+            dstPointsList.add(keypoints2.toList().get(bestMatch.trainIdx).pt);
+        }
+
+        srcPoints.fromList(srcPointsList);
+        dstPoints.fromList(dstPointsList);
+
+
+        Mat H = findHomography(srcPoints,dstPoints,0);
+        Mat res2 = new Mat();
+        System.out.println(H.cols());
+        System.out.println(H.rows());
+
+        perspectiveTransform(img,res2,H);
+//        System.out.println(res.rows());
+//        System.out.println(res.cols());
+//        obj_corners[0] = cvPoint(0,0);
+//        obj_corners[1] = cvPoint( img_object.cols, 0 );
+//        obj_corners[2] = cvPoint( img_object.cols, img_object.rows );
+//        obj_corners[3] = cvPoint( 0, img_object.rows );
     }
 }
