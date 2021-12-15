@@ -44,6 +44,7 @@ class testOpenCV {
 //        normalize(g_result, g_result, 0, 1, TM_SQDIFF_NORMED, -1, new Mat());
         Core.MinMaxLocResult mmlr = Core.minMaxLoc(g_result);
         Point matchLocation = mmlr.minLoc; // 此处使用maxLoc还是minLoc取决于使用的匹配算法
+        System.out.println(matchLocation);
         Imgproc.rectangle(img, matchLocation,
                 new Point(matchLocation.x + template.cols(), matchLocation.y + template.rows()),
                 new Scalar(0, 0, 0, 0));
