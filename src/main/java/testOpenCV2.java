@@ -6,11 +6,12 @@ import org.opencv.imgproc.Imgproc;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.opencv.calib3d.Calib3d.*;
-import static org.opencv.core.Core.MinMaxLocResult;
-import static org.opencv.core.Core.perspectiveTransform;
+import static org.opencv.core.Core.*;
+import static org.opencv.core.Core.FILLED;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
@@ -26,11 +27,14 @@ import static org.opencv.imgproc.Imgproc.*;
 class testOpenCV2 {
     public static void main(String[] args) throws Exception {
         URL url = ClassLoader.getSystemResource("lib/opencv/opencv_java454.dll");
+        System.out.println(url);
         System.load(url.getPath());
         //获取原图
-        Mat img = imread("C:\\Users\\CNHAHUA16\\Desktop\\lena.png",IMREAD_GRAYSCALE);
+        Mat img = imread("C:\\Users\\CNHAHUA16\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
         Mat template = imread("C:\\Users\\CNHAHUA16\\Desktop\\face.png",IMREAD_GRAYSCALE);
+
+
         SIFT sift = SIFT.create(0, 3, 0.04, 10, 1.6);
 
         MatOfKeyPoint keypoints1 = new MatOfKeyPoint();
@@ -87,7 +91,7 @@ class testOpenCV2 {
         {
             //distance越小,代表DMatch的匹配率越高,
             double dist = mats[i].distance;
-            if (dist <= threshold)
+            if (dist <= minDist*2)
             {
                 bestMatches.add(mats[i]);
                 System.out.printf(i + " best match added : %s%n", dist);
@@ -99,10 +103,9 @@ class testOpenCV2 {
         //新建结果mat
         Mat res = new Mat();
         //设置线条颜色
-        Scalar color = new Scalar(-1);
-        MatOfByte matchesMask = new MatOfByte();
         //绘制匹配线条，去除其他非匹配的点
-        drawMatches(img,keypoints1,template,keypoints2,md,res,color,color,matchesMask,DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS);
+        drawMatches(img,keypoints1,template,keypoints2,md,res,Scalar.all(-1),
+                Scalar.all(-1), new MatOfByte(),DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS);
         namedWindow("picture of matching");
         imshow("picture of matching", res);
         waitKey(0);
@@ -113,15 +116,23 @@ class testOpenCV2 {
 
         List<Point> srcPointsList = new ArrayList<>();
         List<Point> dstPointsList = new ArrayList<>();
+        float x=0,y=0;
 
         for (DMatch bestMatch : bestMatches) {
             //——从最佳匹配中获取关键点
             srcPointsList.add(keypoints1.toList().get(bestMatch.queryIdx).pt);
-            System.out.println();
             dstPointsList.add(keypoints2.toList().get(bestMatch.trainIdx).pt);
-
+            x+=keypoints1.toList().get(bestMatch.queryIdx).pt.x;
+            y+=keypoints1.toList().get(bestMatch.queryIdx).pt.y;
         }
+        x=x/bestMatches.size();
+        y=y/bestMatches.size();
+        System.out.println(x);
+        System.out.println(y);
 
+        circle(img, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
+        imshow("location",img);
+        HighGui.waitKey(0);//      System.out.println(res.rows());
 
         srcPoints.fromList(srcPointsList);
         dstPoints.fromList(dstPointsList);
@@ -129,53 +140,6 @@ class testOpenCV2 {
 
         System.out.println(srcPointsList);
         System.out.println(dstPointsList);
-        double ransacThreshold = 1;
-        Mat mask= new Mat();
-        Mat H = findHomography(srcPoints,dstPoints,RANSAC,ransacThreshold,mask);
 
-        Mat objCorners = new Mat(4, 1, CvType.CV_32FC2);
-        Mat sceneCorners = new Mat();
-        float[] objCornersData = new float[(int) (objCorners.total() * objCorners.channels())];
-
-        objCorners.get(0, 0, objCornersData);
-        objCornersData[0] = 0;
-        objCornersData[1] = 0;
-        objCornersData[2] = img.cols();
-        objCornersData[3] = 0;
-        objCornersData[4] = img.cols();
-        objCornersData[5] = img.rows();
-        objCornersData[6] = 0;
-        objCornersData[7] = img.rows();
-        objCorners.put(0, 0, objCornersData);
-
-//        warpPerspective(img, res2, H, img.size());
-//        H.col(3);
-//        System.out.println(H.cols());
-//        System.out.println(H.rows());
-//        System.out.println(H.channels());
-
-
-
-        perspectiveTransform(objCorners, sceneCorners, H);//
-        float[] sceneCornersData = new float[(int) (sceneCorners.total() * sceneCorners.channels())];
-        sceneCorners.get(0, 0, sceneCornersData);
-
-        //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-        Imgproc.line(res, new Point(sceneCornersData[0] + img.cols(), sceneCornersData[1]),
-                new Point(sceneCornersData[2] + img.cols(), sceneCornersData[3]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(res, new Point(sceneCornersData[2] + img.cols(), sceneCornersData[3]),
-                new Point(sceneCornersData[4] + img.cols(), sceneCornersData[5]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(res, new Point(sceneCornersData[4] + img.cols(), sceneCornersData[5]),
-                new Point(sceneCornersData[6] + img.cols(), sceneCornersData[7]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(res, new Point(sceneCornersData[6] + img.cols(), sceneCornersData[7]),
-                new Point(sceneCornersData[0] + img.cols(), sceneCornersData[1]), new Scalar(0, 255, 0), 4);
-        //-- Show detected matches
-        HighGui.imshow("Good Matches & Object detection", res);
-        HighGui.waitKey(0);//      System.out.println(res.rows());
-//        System.out.println(res.cols());
-//        obj_corners[0] = cvPoint(0,0);
-//        obj_corners[1] = cvPoint( img_object.cols, 0 );
-//        obj_corners[2] = cvPoint( img_object.cols, img_object.rows );
-//        obj_corners[3] = cvPoint( 0, img_object.rows );
     }
 }

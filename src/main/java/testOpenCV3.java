@@ -11,12 +11,14 @@ import java.util.List;
 
 import static org.opencv.calib3d.Calib3d.RANSAC;
 import static org.opencv.calib3d.Calib3d.findHomography;
+import static org.opencv.core.Core.FILLED;
 import static org.opencv.core.Core.perspectiveTransform;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
 import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
+import static org.opencv.imgproc.Imgproc.circle;
 //import static org.opencv.imgcodecs.Imgcodecs;
 
 
@@ -33,9 +35,6 @@ class testOpenCV3 {
             System.exit(0);
         }
         //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
-        double hessianThreshold = 400;
-        int nOctaves = 4, nOctaveLayers = 3;
-        boolean extended = false, upright = false;
         SIFT sift = SIFT.create(0, 3, 0.04, 10, 1.6);
         MatOfKeyPoint keypointsObject = new MatOfKeyPoint(), keypointsScene = new MatOfKeyPoint();
         Mat descriptorsObject = new Mat(), descriptorsScene = new Mat();
@@ -68,11 +67,24 @@ class testOpenCV3 {
         List<Point> scene = new ArrayList<>();
         List<KeyPoint> listOfKeypointsObject = keypointsObject.toList();
         List<KeyPoint> listOfKeypointsScene = keypointsScene.toList();
+        float x = 0,y=0;
         for (DMatch listOfGoodMatch : listOfGoodMatches) {
             //-- Get the keypoints from the good matches
             obj.add(listOfKeypointsObject.get(listOfGoodMatch.queryIdx).pt);
             scene.add(listOfKeypointsScene.get(listOfGoodMatch.trainIdx).pt);
+            x+=listOfKeypointsScene.get(listOfGoodMatch.trainIdx).pt.x;
+            y+=listOfKeypointsScene.get(listOfGoodMatch.trainIdx).pt.y;
         }
+
+        x=x/listOfGoodMatches.size();
+        y=y/listOfGoodMatches.size();
+        System.out.println(x);
+        System.out.println(y);
+
+        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
+        imshow("location",imgObject);
+        HighGui.waitKey(0);//      System.out.println(res.rows());
+
         MatOfPoint2f objMat = new MatOfPoint2f(), sceneMat = new MatOfPoint2f();
         objMat.fromList(obj);
         sceneMat.fromList(scene);
@@ -95,14 +107,14 @@ class testOpenCV3 {
         float[] sceneCornersData = new float[(int) (sceneCorners.total() * sceneCorners.channels())];
         sceneCorners.get(0, 0, sceneCornersData);
         //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-        Imgproc.line(imgMatches, new Point(sceneCornersData[0] + imgObject.cols(), sceneCornersData[1]),
-                new Point(sceneCornersData[2] + imgObject.cols(), sceneCornersData[3]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(imgMatches, new Point(sceneCornersData[2] + imgObject.cols(), sceneCornersData[3]),
-                new Point(sceneCornersData[4] + imgObject.cols(), sceneCornersData[5]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(imgMatches, new Point(sceneCornersData[4] + imgObject.cols(), sceneCornersData[5]),
-                new Point(sceneCornersData[6] + imgObject.cols(), sceneCornersData[7]), new Scalar(0, 255, 0), 4);
-        Imgproc.line(imgMatches, new Point(sceneCornersData[6] + imgObject.cols(), sceneCornersData[7]),
-                new Point(sceneCornersData[0] + imgObject.cols(), sceneCornersData[1]), new Scalar(0, 255, 0), 4);
+        Imgproc.line(imgMatches, new Point( Math.abs(sceneCornersData[0])/3 , sceneCornersData[1]/3),
+                new Point(Math.abs(sceneCornersData[2])/3 , sceneCornersData[3]/3), new Scalar(0, 255, 0), 4);
+        Imgproc.line(imgMatches, new Point(sceneCornersData[2]/3 , sceneCornersData[3]/3),
+                new Point(sceneCornersData[4]/3 , sceneCornersData[5]/3), new Scalar(0, 255, 0), 4);
+        Imgproc.line(imgMatches, new Point(sceneCornersData[4]/3 , sceneCornersData[5]/3),
+                new Point(sceneCornersData[6]/3 , sceneCornersData[7]/3), new Scalar(0, 255, 0), 4);
+        Imgproc.line(imgMatches, new Point(sceneCornersData[6]/3 , sceneCornersData[7]/3),
+                new Point(sceneCornersData[0]/3 , sceneCornersData[1]/3), new Scalar(0, 255, 0), 4);
         //-- Show detected matches
         HighGui.imshow("Good Matches & Object detection", imgMatches);
         HighGui.waitKey(0);
