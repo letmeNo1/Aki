@@ -52,7 +52,7 @@
             <artifactId>opencv</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}\src/main/java/resources/lib/opencv/opencv-454.jar</systemPath>
+            <systemPath>${pom.basedir}/src/main/java/lib/opencv/opencv-454.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -121,6 +121,30 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-ppts-model</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/src/main/java/lib/opencv/opencv-454.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>org</groupId>
+                            <artifactId>opencv</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- gpg -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -2,19 +2,13 @@ import org.opencv.core.*;
 import org.opencv.features2d.FlannBasedMatcher;
 import org.opencv.features2d.SIFT;
 import org.opencv.highgui.HighGui;
-import org.opencv.imgproc.Imgproc;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.opencv.calib3d.Calib3d.*;
-import static org.opencv.core.Core.*;
 import static org.opencv.core.Core.FILLED;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
-import static org.opencv.highgui.HighGui.*;
 import static org.opencv.highgui.HighGui.*;
 
 import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
@@ -26,9 +20,9 @@ import static org.opencv.imgproc.Imgproc.*;
 
 class testOpenCV2 {
     public static void main(String[] args) throws Exception {
-        URL url = ClassLoader.getSystemResource("lib/opencv/opencv_java454.dll");
-        System.out.println(url);
-        System.load(url.getPath());
+//        URL url = ClassLoader.getSystemResource("resources/lib/opencv/opencv_java454.dll");
+//        System.out.println(url);
+        System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
         Mat img = imread("C:\\Users\\CNHAHUA16\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
@@ -55,7 +49,7 @@ class testOpenCV2 {
 
         //找出最优特征点
         double maxDist = 0; //初始化最大最小距离
-        double minDist = 1000;
+        double minDist = 500;
 
         DMatch[] mats = md.toArray();
         List<DMatch> bestMatches= new ArrayList<>();
@@ -91,7 +85,7 @@ class testOpenCV2 {
         {
             //distance越小,代表DMatch的匹配率越高,
             double dist = mats[i].distance;
-            if (dist <= minDist*2)
+            if (dist <= threshold)
             {
                 bestMatches.add(mats[i]);
                 System.out.printf(i + " best match added : %s%n", dist);
@@ -133,6 +127,7 @@ class testOpenCV2 {
         circle(img, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
         imshow("location",img);
         HighGui.waitKey(0);//      System.out.println(res.rows());
+
 
         srcPoints.fromList(srcPointsList);
         dstPoints.fromList(dstPointsList);

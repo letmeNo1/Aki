@@ -5,9 +5,6 @@ import org.opencv.imgproc.Imgproc;
 
 import java.net.URL;
 
-import static java.awt.Color.gray;
-import static org.opencv.core.Core.*;
-
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 import static org.opencv.imgcodecs.Imgcodecs.imwrite;
 import static org.opencv.imgproc.Imgproc.*;

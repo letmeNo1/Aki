@@ -1,6 +1,5 @@
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
-import org.opencv.features2d.FlannBasedMatcher;
 import org.opencv.features2d.SIFT;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
@@ -12,7 +11,6 @@ import java.util.List;
 import static org.opencv.calib3d.Calib3d.RANSAC;
 import static org.opencv.calib3d.Calib3d.findHomography;
 import static org.opencv.core.Core.FILLED;
-import static org.opencv.core.Core.perspectiveTransform;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
@@ -24,16 +22,17 @@ import static org.opencv.imgproc.Imgproc.circle;
 
 class testOpenCV3 {
     public static void main(String[] args) throws Exception {
-        URL url = ClassLoader.getSystemResource("lib/opencv/opencv_java454.dll");
-        System.load(url.getPath());
+        System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\lena.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
         Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\face.png",IMREAD_GRAYSCALE);
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
             System.exit(0);
         }
+
+
         //-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
         SIFT sift = SIFT.create(0, 3, 0.04, 10, 1.6);
         MatOfKeyPoint keypointsObject = new MatOfKeyPoint(), keypointsScene = new MatOfKeyPoint();
@@ -46,7 +45,7 @@ class testOpenCV3 {
         List<MatOfDMatch> knnMatches = new ArrayList<>();
         matcher.knnMatch(descriptorsObject, descriptorsScene, knnMatches, 2);
         //-- Filter matches using the Lowe's ratio test
-        float ratioThresh = 0.75f;
+        float ratioThresh = 0.4f;
         List<DMatch> listOfGoodMatches = new ArrayList<>();
         for (MatOfDMatch knnMatch : knnMatches) {
             if (knnMatch.rows() > 1) {
