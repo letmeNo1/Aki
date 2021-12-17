@@ -1,33 +1,34 @@
+package aki.OpenCV;
+
+import aki.Mac.CallQuartzWindowServices;
+import aki.Windows.CallGdi32Util;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
-import org.opencv.features2d.Features2d;
 import org.opencv.features2d.SIFT;
-import org.opencv.highgui.HighGui;
-import org.opencv.imgproc.Imgproc;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.opencv.calib3d.Calib3d.RANSAC;
-import static org.opencv.calib3d.Calib3d.findHomography;
-import static org.opencv.core.Core.FILLED;
-import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
-import static org.opencv.features2d.Features2d.drawMatches;
-import static org.opencv.highgui.HighGui.*;
 import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
-import static org.opencv.imgproc.Imgproc.circle;
-//import static org.opencv.imgcodecs.Imgcodecs;
 
+public class CallOpenCV {
+    private String getCurrentScreen(){
+        String fileName =System.getProperty("java.io.tmpdir")+"CurrentScreenCapture.png";
+        if(System.getProperty("os.name").contains("Windows")){
+            CallGdi32Util.takeScreenshotForDesktop(fileName);
+        }else {
+            CallQuartzWindowServices.takeScreenshotForDesktop(fileName);
+        }
+        return  fileName;
+    }
 
-class testOpenCV3 {
-    public static void main(String[] args) throws Exception {
+    public Point getKnnMatches(String imagePath){
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\lena.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread(getCurrentScreen(),IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\face.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread(imagePath,IMREAD_GRAYSCALE);
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
             System.exit(0);
@@ -49,6 +50,7 @@ class testOpenCV3 {
         DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.FLANNBASED);
         List<MatOfDMatch> knnMatches = new ArrayList<>();
         matcher.knnMatch(descriptorsObject, descriptorsScene, knnMatches, 2);
+
         //设置过滤值
         float ratioThresh = 0.4f;
 
@@ -65,7 +67,6 @@ class testOpenCV3 {
         }
         MatOfDMatch goodMatches = new MatOfDMatch();
 
-
         //将最佳匹配转回 MatOfDMatch
         goodMatches.fromList(listOfGoodMatches);
 
@@ -81,9 +82,11 @@ class testOpenCV3 {
         //求坐标平均值
         x=x/listOfGoodMatches.size();
         y=y/listOfGoodMatches.size();
-        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
-        imshow("location",imgObject);
-        HighGui.waitKey(0);//      System.out.println(res.rows());
+        return new Point(x,y);
+    }
 
+    public static void main(String[] args) throws Exception {
+        CallOpenCV ss = new CallOpenCV();
+        ss.getCurrentScreen();
     }
 }

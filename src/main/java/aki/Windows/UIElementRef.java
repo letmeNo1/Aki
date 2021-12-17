@@ -14,6 +14,7 @@ import aki.Windows.WinApi.GetIAccessibleExFromClient;
 import aki.Windows.WinApi.IAccessible;
 import aki.Windows.WinApi.IIDMapped;
 import aki.Windows.WinApi.Oleacc;
+import org.opencv.core.Point;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,18 @@ import static aki.Windows.WinApi.AutoElementPropertyIdentifiers.*;
 public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public UIElementRef(Pointer p) {
         super(p);
+    }
+    public double x;
+    public double y;
+
+    public void set(double[] vals) {
+        if (vals != null) {
+            this.x = vals.length > 0 ? vals[0] : 0.0D;
+            this.y = vals.length > 1 ? vals[1] : 0.0D;
+        } else {
+            this.x = 0.0D;
+            this.y = 0.0D;
+        }
     }
 
     private final int DEFAULT_TIMEOUT = 20000;
@@ -172,6 +185,10 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
 
     public UIElementRef findElementByFullDescription(String fullDescription){
         return findElementByWait(findElementByFullDescription,this,fullDescription,DEFAULT_TIMEOUT);
+    }
+
+    public Point findElementLocationByImage(String imagePath){
+        return findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
     }
 
     public void click(boolean toHWND){

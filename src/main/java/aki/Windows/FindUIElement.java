@@ -1,10 +1,14 @@
 package aki.Windows;
 
+import aki.OpenCV.CallOpenCV;
+import org.opencv.core.Point;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public interface FindUIElement {
 
@@ -113,5 +117,11 @@ public interface FindUIElement {
 
     BiFunction<UIElementRef, String, UIElementRef> findElementByFullDescription = FindUIElement::findElementByFullDescription;
 
+    static Point findElementLocationByImage(String imagePath){
+        CallOpenCV openCV =new CallOpenCV();
+        return openCV.getKnnMatches(imagePath);
+    }
+
+    Function<String, Point> findElementLocationByImage = FindUIElement::findElementLocationByImage;
 
 }

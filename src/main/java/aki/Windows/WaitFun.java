@@ -2,6 +2,7 @@ package aki.Windows;
 
 import com.sun.jna.platform.win32.WinDef;
 import aki.Windows.UIElementRef;
+import org.opencv.core.Point;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -52,6 +53,18 @@ public interface WaitFun {
             }
             if (end.isBefore(clock.instant())) {
                 throw new RuntimeException(String.format("Find element timed out, can't find element `%s` By",attribute));
+            }
+        }
+    }
+    default Point findElementByWait(Function< String, Point> function, String imagePath, int timeout) throws RuntimeException {
+        Instant end = clock.instant().plus(setTimeout(timeout));
+        while(true){
+            Point res = function.apply(imagePath);
+            if(!Double.isNaN(res.x)){
+                return res;
+            }
+            if (end.isBefore(clock.instant())) {
+                throw new RuntimeException("Find element timed out, can't find element `%s` By");
             }
         }
     }
