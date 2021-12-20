@@ -26,17 +26,19 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public UIElementRef(Pointer p) {
         super(p);
     }
-    public double x;
-    public double y;
+    public int x = this.get_Location().x;
+    public int y = this.get_Location().y;
+    public int h = this.get_Location().h;
+    public int w = this.get_Location().w;
 
-    public void set(double[] vals) {
-        if (vals != null) {
-            this.x = vals.length > 0 ? vals[0] : 0.0D;
-            this.y = vals.length > 1 ? vals[1] : 0.0D;
-        } else {
-            this.x = 0.0D;
-            this.y = 0.0D;
-        }
+    public void setXY(int[] vars) {
+        this.x = vars[0];
+        this.y = vars[1];
+    }
+
+    public void setHW(int[] vars) {
+        this.h = vars[0];
+        this.w = vars[1];
     }
 
     private final int DEFAULT_TIMEOUT = 20000;
@@ -187,8 +189,12 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         return findElementByWait(findElementByFullDescription,this,fullDescription,DEFAULT_TIMEOUT);
     }
 
-    public Point findElementLocationByImage(String imagePath){
-        return findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+    public UIElementRef findElementLocationByImage(String imagePath){
+        Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        this.setHW(new int[]{0,0});
+
+        return this;
     }
 
     public void click(boolean toHWND){
@@ -197,43 +203,43 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
 
     public void click(){
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallUser32.leftMouseClick(x, y);
     }
 
     public void hover(){
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallQuartzEventServices.mouseMoveEvent(x,y);
     }
 
     public void doubleClick(){
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallUser32.leftMouseDoubleClick(x,y);
     }
 
     public void longClick(int duration) throws InterruptedException {
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallUser32.leftMouseLongClick(x,y,duration);
     }
 
     public void clear(){
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallUser32.clear(x, y);
     }
 
     public void type(String text){
         CallUser32.setForegroundWindow(this);
-        int x = this.get_Location().x + this.get_Location().w/2;
-        int y = this.get_Location().y + this.get_Location().h/2;
+        int x = this.x + this.w/2;
+        int y = this.y + this.h/2;
         CallUser32.type(x, y,text);
     }
 }
