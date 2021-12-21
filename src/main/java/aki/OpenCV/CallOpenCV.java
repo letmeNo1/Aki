@@ -26,9 +26,9 @@ public class CallOpenCV {
     public Point getKnnMatches(String imagePath){
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread(getCurrentScreen(),IMREAD_GRAYSCALE);
+        Mat imgObject = imread(getCurrentScreen());
         //获取用于定位的图片
-        Mat imgScene = imread(imagePath,IMREAD_GRAYSCALE);
+        Mat imgScene = imread(imagePath);
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
             System.exit(0);

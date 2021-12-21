@@ -193,7 +193,6 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
-
         return this;
     }
 
@@ -201,45 +200,47 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         CallUser32.leftMouseClickToHWND(this,this.get_Location());
     }
 
+    private int[] coordinateTransformation(UIElementRef uiElementRef){
+        int x;
+        int y;
+        if(uiElementRef.h!=0&&uiElementRef.w!=0){
+            x = uiElementRef.x + uiElementRef.w/2;
+            y = uiElementRef.y + uiElementRef.h/2;
+        }else {
+            x = uiElementRef.x;
+            y = uiElementRef.y;
+        }
+
+        return new int[]{x,y};
+    }
+
     public void click(){
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallUser32.leftMouseClick(x, y);
+        CallUser32.leftMouseClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void hover(){
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallQuartzEventServices.mouseMoveEvent(x,y);
+        CallQuartzEventServices.mouseMoveEvent(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void doubleClick(){
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallUser32.leftMouseDoubleClick(x,y);
+        CallUser32.leftMouseDoubleClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void longClick(int duration) throws InterruptedException {
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallUser32.leftMouseLongClick(x,y,duration);
+        CallUser32.leftMouseLongClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1],duration);
     }
 
     public void clear(){
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallUser32.clear(x, y);
+        CallUser32.clear(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void type(String text){
         CallUser32.setForegroundWindow(this);
-        int x = this.x + this.w/2;
-        int y = this.y + this.h/2;
-        CallUser32.type(x, y,text);
+        CallUser32.type(coordinateTransformation(this)[0], coordinateTransformation(this)[1],text);
     }
 }
