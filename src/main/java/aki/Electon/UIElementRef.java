@@ -1,16 +1,9 @@
 package aki.Electon;
 
-import aki.CurrentAppRefInfo;
 import aki.Mac.*;
-import aki.Mac.CoreGraphics.CGGeometry.CGPoint;
-import aki.Mac.CoreGraphics.CGGeometry.CGSize;
 import aki.Windows.CallUser32;
 import aki.Windows.FindUIElement;
 import aki.Windows.WaitFun;
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.mac.CoreFoundation;
-import com.sun.jna.platform.mac.CoreFoundation.CFTypeRef;
-import com.sun.jna.ptr.PointerByReference;
 import org.opencv.core.Point;
 
 import java.util.List;
@@ -33,32 +26,50 @@ public class UIElementRef implements FindUIElement, WaitFun {
     }
 
     public void click(){
-        CallUser32.setForegroundWindow(this);
-        CallUser32.leftMouseClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        if(System.getProperty("os.name").contains("Windows")){
+            CallUser32.leftMouseClick(this.x,this.y);}
+        else{
+            CallQuartzEventServices.leftMouseSingleClickEvent(this.x,this.y);
+        }
     }
 
     public void hover(){
-        CallUser32.setForegroundWindow(this);
-        CallQuartzEventServices.mouseMoveEvent(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        if(System.getProperty("os.name").contains("Windows")){
+            CallQuartzEventServices.mouseMoveEvent(this.x,this.y);
+        }else {
+            CallQuartzEventServices.mouseMoveEvent(this.x,this.y);
+        }
     }
 
     public void doubleClick(){
-        CallUser32.setForegroundWindow(this);
-        CallUser32.leftMouseDoubleClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        if(System.getProperty("os.name").contains("Windows")){
+            CallUser32.leftMouseDoubleClick(this.x,this.y);
+        }else {
+            CallQuartzEventServices.leftMouseDoubleClickEvent(this.x,this.y);
+        }
     }
 
     public void longClick(int duration) throws InterruptedException {
-        CallUser32.setForegroundWindow(this);
-        CallUser32.leftMouseLongClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1],duration);
+        if(System.getProperty("os.name").contains("Windows")){
+            CallUser32.leftMouseLongClick(this.x,this.y,duration);
+        }else {
+            CallQuartzEventServices.mouseLongPressEvent(this.x,this.y,duration);
+        }
     }
 
     public void clear(){
-        CallUser32.setForegroundWindow(this);
-        CallUser32.clear(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        if(System.getProperty("os.name").contains("Windows")){
+            CallUser32.clear(this.x,this.y);
+        }else{
+            CallQuartzEventServices.clear(this.x,this.y);
+        }
     }
 
     public void type(String text){
-        CallUser32.setForegroundWindow(this);
-        CallUser32.type(coordinateTransformation(this)[0], coordinateTransformation(this)[1],text);
+        if (System.getProperty("os.name").contains("Windows")){
+            CallUser32.type(this.x,this.y,text);
+        }else {
+            CallQuartzEventServices.type(this.x,this.y,text);
+        }
     }
 }
