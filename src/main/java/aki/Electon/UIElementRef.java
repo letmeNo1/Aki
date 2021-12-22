@@ -2,8 +2,8 @@ package aki.Electon;
 
 import aki.Mac.*;
 import aki.Windows.CallUser32;
-import aki.Windows.FindUIElement;
-import aki.Windows.WaitFun;
+import aki.Electon.FindUIElement;
+import aki.Electon.WaitFun;
 import org.opencv.core.Point;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class UIElementRef implements FindUIElement, WaitFun {
         this.y = vars[1];
     }
 
-    public Point findElementLocationByImage(String imagePath){
+    public UIElementRef findElementLocationByImage(String imagePath){
         return findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
     }
 

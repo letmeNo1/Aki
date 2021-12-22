@@ -25,9 +25,9 @@ class testOpenCV3 {
     public static void main(String[] args) throws Exception {
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\desktop.png");
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\CurrentScreenCapture (2).png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\X.png");
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\001.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -65,8 +65,13 @@ class testOpenCV3 {
             }
         }
         MatOfDMatch goodMatches = new MatOfDMatch();
+        Mat res = new Mat();
 
-
+        drawMatches(imgObject,keypointsObject,imgScene,keypointsScene,goodMatches,res,Scalar.all(-1),
+                Scalar.all(-1), new MatOfByte(),DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS);
+        namedWindow("picture of matching");
+        imshow("picture of matching", res);
+        waitKey(0);
         //将最佳匹配转回 MatOfDMatch
         goodMatches.fromList(listOfGoodMatches);
 

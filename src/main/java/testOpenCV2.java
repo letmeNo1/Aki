@@ -24,9 +24,9 @@ class testOpenCV2 {
 //        System.out.println(url);
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat img = imread("C:\\Users\\CNHAHUA16\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
+        Mat img = imread("C:\\Users\\CNHAHUA16\\Desktop\\CurrentScreenCapture (2).png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat template = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
+        Mat template = imread("C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\back.png",IMREAD_GRAYSCALE);
 
 
         SIFT sift = SIFT.create(0, 3, 0.04, 10, 1.6);

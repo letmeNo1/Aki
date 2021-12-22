@@ -73,7 +73,7 @@ public class CallKernel32 {
         return getProcessesIdByName(appLaunchPath.split("\\\\")[appLaunchPath.split("\\\\").length-1]);
     }
 
-    public static int launchAppForElectron(String appLaunchPath) {
+    public static void launchAppForElectron(String appLaunchPath) {
         WinBase.STARTUPINFO startupInfo = new WinBase.STARTUPINFO();
         WinBase.PROCESS_INFORMATION.ByReference processInformation = new WinBase.PROCESS_INFORMATION.ByReference();
         boolean status = Kernel32.INSTANCE.CreateProcess(
@@ -90,6 +90,5 @@ public class CallKernel32 {
         if (!status) {
             throw new RuntimeException("launch app failed");
         }
-        return getProcessesIdByName(appLaunchPath.split("\\\\")[appLaunchPath.split("\\\\").length-1]);
     }
 }

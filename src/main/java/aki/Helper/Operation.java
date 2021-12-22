@@ -47,6 +47,14 @@ public class Operation {
         return CallOleacc.getAccessibleObject(curHWND);
     }
 
+    public static void initializeAppRefForElectron(String bundleIdentifierOrAppLaunchPath) {
+        if(System.getProperty("os.name").contains("Windows")){
+            CallKernel32.launchAppForElectron(bundleIdentifierOrAppLaunchPath);
+        }else {
+            CallNSWorkspace.launchApp(bundleIdentifierOrAppLaunchPath);
+        }
+    }
+
     public static aki.Windows.UIElementRef initializeAppRefByWindowName(String windowName){
         HWND curHWND = CallUser32.findWindowByNameByWait(windowName);
         CurrentAppRefInfo.getInstance().addHandleToList(curHWND);

@@ -1,6 +1,6 @@
 package aki.Electon;
 
-import aki.Windows.UIElementRef;
+import aki.Electon.UIElementRef;
 import com.sun.jna.platform.win32.WinDef;
 import org.opencv.core.Point;
 
@@ -18,12 +18,14 @@ public interface WaitFun {
         return Duration.ofMillis(timeout);
     }
 
-    default Point findElementByWait(Function< String, Point> function, String imagePath, int timeout) throws RuntimeException {
+    default UIElementRef findElementByWait(Function< String, Point> function, String imagePath, int timeout) throws RuntimeException {
         Instant end = clock.instant().plus(setTimeout(timeout));
         while(true){
             Point res = function.apply(imagePath);
             if(!Double.isNaN(res.x)){
-                return res;
+                UIElementRef uiElementRef = new UIElementRef();
+                uiElementRef.setXY(new int[]{(int)res.x,(int)res.y});
+                return uiElementRef;
             }
             if (end.isBefore(clock.instant())) {
                 throw new RuntimeException("Find element timed out, can't find element `%s` By");
