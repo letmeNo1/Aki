@@ -14,7 +14,7 @@ import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class CallOpenCV {
-    private String getCurrentScreen(){
+    private String getCurrentScreen() {
         String fileName =System.getProperty("java.io.tmpdir")+"CurrentScreenCapture.png";
         if(System.getProperty("os.name").contains("Windows")){
             CallGdi32Util.takeScreenshotForDesktop(fileName);

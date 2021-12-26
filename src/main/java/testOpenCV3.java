@@ -22,9 +22,9 @@ class testOpenCV3 {
     public static void main(String[] args) throws Exception {
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\no1.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\86158\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\Play.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\86158\\Documents\\GitHub\\Aki\\src\\test\\java\\Image\\Play.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");

@@ -21,15 +21,18 @@ public class windowsImagePositioning {
     }
 
     @Test
-    public void testCase() {
+    public void testCase() throws InterruptedException {
         String imageFolderPath = System.getProperty("user.dir") + "/src/test/java/Image/";
         app.findElementLocationByImage(imageFolderPath + "001.png").click();
+        app.findElementLocationByImage(imageFolderPath + "happy-HITS.png");
         app.findElementLocationByImage(imageFolderPath + "Play.png").click();
         app.findElementLocationByImage(imageFolderPath + "home.png").click();
         app.findElementLocationByImage(imageFolderPath + "002.png").click();
+        app.findElementLocationByImage(imageFolderPath + "Hip-hop.png");
         app.findElementLocationByImage(imageFolderPath + "Play.png").click();
         app.findElementLocationByImage(imageFolderPath + "home.png").click();
         app.findElementLocationByImage(imageFolderPath + "003.png").click();
+        app.findElementLocationByImage(imageFolderPath + "breakHeart-pop.png");
         app.findElementLocationByImage(imageFolderPath + "Play.png").click();
         app.findElementLocationByImage(imageFolderPath + "home.png").click();
         app.findElementLocationByImage(imageFolderPath + "Explore.png").click();
