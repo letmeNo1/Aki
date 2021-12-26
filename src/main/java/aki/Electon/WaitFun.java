@@ -22,7 +22,7 @@ public interface WaitFun {
         Instant end = clock.instant().plus(setTimeout(timeout));
         while(true){
             Point res = function.apply(imagePath);
-            if(!Double.isNaN(res.x)){
+            if(!Double.isNaN(res.x)&&res.x!=0.0&&res.y!=0.0){
                 UIElementRef uiElementRef = new UIElementRef();
                 uiElementRef.setXY(new int[]{(int)res.x,(int)res.y});
                 return uiElementRef;

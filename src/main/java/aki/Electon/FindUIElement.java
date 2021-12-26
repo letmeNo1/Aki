@@ -10,7 +10,13 @@ import java.util.function.Function;
 public interface FindUIElement {
     static Point findElementLocationByImage(String imagePath){
         CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatches(imagePath);
+        Point point = new Point();
+        try{
+            point = openCV.getKnnMatches(imagePath);
+        }
+        catch (Exception ignored){
+        }
+        return point;
     }
 
     Function<String, Point> findElementLocationByImage = FindUIElement::findElementLocationByImage;

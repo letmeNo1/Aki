@@ -24,7 +24,7 @@ class testOpenCV3 {
         //获取原图
         Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\no1.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\right.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\Play.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -88,20 +88,20 @@ class testOpenCV3 {
         //使用LOF算法筛除错误的点
         LOF lof = new LOF();
         List<DataNode> nodeList = lof.getOutlierNode(dpoints);
-        int i = 0;
-
-        for (DataNode node : nodeList) {
-            if(node.getLof()<1){
-                i++;
-                x+=node.getDimensioin()[0];
-                y+=node.getDimensioin()[1];
+        int j = 0;
+        System.out.println(Math.round(nodeList.size()*0.8));
+        for (int i =0;i<nodeList.size();i++) {
+            if(i>=Math.round(nodeList.size()*0.8)){
+                j++;
+                x+=nodeList.get(i).getDimensioin()[0];
+                y+=nodeList.get(i).getDimensioin()[1];
             }
-            System.out.println(node.getNodeName() + "  " + node.getLof() + " "+ Arrays.toString(node.getDimensioin()) + " "+i);
+            System.out.println(nodeList.get(i).getNodeName() + "  " + nodeList.get(i).getLof() + " "+ Arrays.toString(nodeList.get(i).getDimensioin()) + " "+i);
         }
         //求坐标平均值
 
-        x=x/i;
-        y=y/i;
+        x=x/j;
+        y=y/j;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
         imshow("location",imgObject);
         HighGui.waitKey(0);//      System.out.println(res.rows());
