@@ -1,15 +1,12 @@
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
-import org.opencv.features2d.Features2d;
 import org.opencv.features2d.SIFT;
 import org.opencv.highgui.HighGui;
-import org.opencv.imgproc.Imgproc;
 
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.opencv.calib3d.Calib3d.RANSAC;
 import static org.opencv.calib3d.Calib3d.findHomography;
 import static org.opencv.core.Core.FILLED;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
@@ -25,9 +22,9 @@ class testOpenCV3 {
     public static void main(String[] args) throws Exception {
         System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\CurrentScreenCapture (2).png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\no1.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\001.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\right.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -64,8 +61,12 @@ class testOpenCV3 {
                 }
             }
         }
+        if(listOfGoodMatches.size()==0){
+            throw new RuntimeException("No match can be found");
+        }
         MatOfDMatch goodMatches = new MatOfDMatch();
         Mat res = new Mat();
+        goodMatches.fromList(listOfGoodMatches);
 
         drawMatches(imgObject,keypointsObject,imgScene,keypointsScene,goodMatches,res,Scalar.all(-1),
                 Scalar.all(-1), new MatOfByte(),DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS);
@@ -73,20 +74,34 @@ class testOpenCV3 {
         imshow("picture of matching", res);
         waitKey(0);
         //将最佳匹配转回 MatOfDMatch
-        goodMatches.fromList(listOfGoodMatches);
 
         //将原图上的特征值转为数组
         List<KeyPoint> listOfKeypointsObject = keypointsObject.toList();
 
+        ArrayList<DataNode> dpoints = new ArrayList<>();
         float x=0,y=0;
-        for (DMatch listOfGoodMatch : listOfGoodMatches) {
+        for (int i = 0;i<listOfGoodMatches.size();i++) {
             //获取原图上匹配到的特征值的坐标的合集
-            x+=listOfKeypointsObject.get(listOfGoodMatch.queryIdx).pt.x;
-            y+=listOfKeypointsObject.get(listOfGoodMatch.queryIdx).pt.y;
+            dpoints.add(new DataNode("Point-"+i,new double[]{listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x,listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y}));
+        }
+
+        //使用LOF算法筛除错误的点
+        LOF lof = new LOF();
+        List<DataNode> nodeList = lof.getOutlierNode(dpoints);
+        int i = 0;
+
+        for (DataNode node : nodeList) {
+            if(node.getLof()<1){
+                i++;
+                x+=node.getDimensioin()[0];
+                y+=node.getDimensioin()[1];
+            }
+            System.out.println(node.getNodeName() + "  " + node.getLof() + " "+ Arrays.toString(node.getDimensioin()) + " "+i);
         }
         //求坐标平均值
-        x=x/listOfGoodMatches.size();
-        y=y/listOfGoodMatches.size();
+
+        x=x/i;
+        y=y/i;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
         imshow("location",imgObject);
         HighGui.waitKey(0);//      System.out.println(res.rows());
