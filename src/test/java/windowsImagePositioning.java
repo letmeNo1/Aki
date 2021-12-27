@@ -1,6 +1,7 @@
 import aki.Electon.UIElementRef;
 import aki.Helper.Operation;
 
+import aki.LaunchOption;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +17,8 @@ public class windowsImagePositioning {
 
     @Before
     public void initializeUIElement() throws InterruptedException {
-
-        Operation.initializeAppRefForElectron("C:\\Program Files\\YesPlayMusic\\YesPlayMusic.exe");
+        LaunchOption launchOption = new LaunchOption();
+        Operation.initializeAppRefForElectron("C:\\Program Files\\YesPlayMusic\\YesPlayMusic.exe",launchOption);
     }
 
     @Test

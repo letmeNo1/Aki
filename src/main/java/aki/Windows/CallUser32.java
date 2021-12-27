@@ -1,11 +1,9 @@
 package aki.Windows;
 
 import aki.CurrentAppRefInfo;
+import aki.LaunchOption;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.BaseTSD;
-import com.sun.jna.platform.win32.User32;
-import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.platform.win32.WinUser;
+import com.sun.jna.platform.win32.*;
 import com.sun.jna.ptr.IntByReference;
 import aki.Mac.CoreGraphics.QuartzEventServices.Keycodes;
 import aki.Windows.WinApi.Kernel32Ex;
@@ -14,6 +12,7 @@ import aki.Windows.WinApi.User32Ex;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.sun.jna.platform.win32.WinUser.CF_UNICODETEXT;
@@ -32,15 +31,18 @@ public class CallUser32 implements WaitFun {
         return Duration.ofMillis(timeout);
     }
 
-    public static HWND waitAppLaunched(int pid, int timeout) {
+    public static HWND waitAppLaunched(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
         Clock clock = Clock.systemDefaultZone();
-        Instant end = clock.instant().plus(SetTimeout(timeout));
-        IntByReference currentDwProcessId = new IntByReference();
+        Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
         HWND currentWinHWND;
+        currentWinHWND = User32.INSTANCE.GetForegroundWindow();
+        System.out.println(getImageName(currentWinHWND));
+        if(launchOption.getIsUWPApp()){
+            bundleIdentifierOrAppLaunchPath = "C:\\Windows\\System32\\ApplicationFrameHost.exe";
+        }
         while (true) {
             currentWinHWND = User32.INSTANCE.GetForegroundWindow();
-            User32.INSTANCE.GetWindowThreadProcessId(currentWinHWND, currentDwProcessId);
-            if (pid == currentDwProcessId.getValue()) {
+            if (Objects.equals(bundleIdentifierOrAppLaunchPath, getImageName(currentWinHWND))) {
                 System.out.println("launch app successful");
                 break;
             }
@@ -51,24 +53,27 @@ public class CallUser32 implements WaitFun {
         return currentWinHWND;
     }
 
-    public static HWND waitAppLaunchedForUWPApp(int timeout) {
-        Clock clock = Clock.systemDefaultZone();
-        Instant end = clock.instant().plus(SetTimeout(timeout));
-        HWND currentWinHWND;
-        int pid;
-        while (true) {
-            pid = CallKernel32.getProcessesIdByName("ApplicationFrameHost.exe");
-            if (pid !=0) {
-                CurrentAppRefInfo.getInstance().setPid(pid);
-                currentWinHWND = waitAppLaunched(pid,timeout);
-                break;
-            }
-            if (end.isBefore(clock.instant())) {
-                throw new RuntimeException("launch app failed");
-            }
-        }
-        return currentWinHWND;
+    private static String getImageName(HWND window) {
+        // Get the process ID of the window
+        IntByReference procId = new IntByReference();
+        User32.INSTANCE.GetWindowThreadProcessId(window, procId);
 
+        // Open the process to get permissions to the image name
+        HANDLE procHandle = Kernel32.INSTANCE.OpenProcess(
+                Kernel32.PROCESS_QUERY_LIMITED_INFORMATION,
+                false,
+                procId.getValue()
+        );
+
+        // Get the image name
+        char[] buffer = new char[4096];
+        IntByReference bufferSize = new IntByReference(buffer.length);
+        boolean success = Kernel32.INSTANCE.QueryFullProcessImageName(procHandle, 0, buffer, bufferSize);
+
+        // Clean up: close the opened process
+        Kernel32.INSTANCE.CloseHandle(procHandle);
+
+        return success ? new String(buffer, 0, bufferSize.getValue()) : null;
     }
 
 

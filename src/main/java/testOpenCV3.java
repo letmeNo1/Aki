@@ -1,8 +1,11 @@
+import aki.OpenCV.DataNode;
+import aki.OpenCV.LOF;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
 import org.opencv.highgui.HighGui;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +23,8 @@ import static org.opencv.imgproc.Imgproc.circle;
 
 class testOpenCV3 {
     public static void main(String[] args) throws Exception {
-        System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
+        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
+        System.load(url.getPath());
         //获取原图
         Mat imgObject = imread("C:\\Users\\86158\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
@@ -104,7 +108,7 @@ class testOpenCV3 {
         y=y/j;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
         imshow("location",imgObject);
-        HighGui.waitKey(0);//      System.out.println(res.rows());
+        waitKey(0);//      System.out.println(res.rows());
 
     }
 }

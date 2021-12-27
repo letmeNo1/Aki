@@ -37,19 +37,19 @@ public class Operation {
         int pid;
         pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
         CurrentAppRefInfo.getInstance().setPid(pid);
-        HWND curHWND;
-        if(launchOption.getIsUWPApp()){
-            curHWND = CallUser32.waitAppLaunchedForUWPApp(launchOption.getDefaultTimeout());
-        }else {
-            curHWND = CallUser32.waitAppLaunched(pid, launchOption.getDefaultTimeout());
-        }
+        HWND curHWND = CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
         CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         return CallOleacc.getAccessibleObject(curHWND);
     }
 
-    public static void initializeAppRefForElectron(String bundleIdentifierOrAppLaunchPath) {
+    public static void initializeAppRefForElectron(String bundleIdentifierOrAppLaunchPath,LaunchOption launchOption) {
+        int pid;
+        pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
+        CurrentAppRefInfo.getInstance().setPid(pid);
         if(System.getProperty("os.name").contains("Windows")){
             CallKernel32.launchAppForElectron(bundleIdentifierOrAppLaunchPath);
+            HWND curHWND = CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
+            CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         }else {
             CallNSWorkspace.launchApp(bundleIdentifierOrAppLaunchPath);
         }
