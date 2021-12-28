@@ -6,11 +6,11 @@ import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class CallOpenCV {
@@ -25,7 +25,7 @@ public class CallOpenCV {
     }
 
     public Point getKnnMatches(String imagePath){
-        System.load(System.getProperties().getProperty("user.dir") + "/src/main/java/lib/opencv/opencv_java454.dll");
+        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
         //获取原图
         Mat imgObject = imread(getCurrentScreen());
         //获取用于定位的图片
@@ -65,6 +65,9 @@ public class CallOpenCV {
                     listOfGoodMatches.add(matches[0]);
                 }
             }
+        }
+        if(listOfGoodMatches.size()==0){
+            throw new RuntimeException("No match can be found");
         }
         MatOfDMatch goodMatches = new MatOfDMatch();
 

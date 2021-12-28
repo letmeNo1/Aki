@@ -7,7 +7,7 @@
     <artifactId>aki</artifactId>
     <name>aki</name>
 
-    <version>1.0.4</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/letmeNo1/Aki</url>
@@ -48,11 +48,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org</groupId>
+            <groupId>org.openpnp</groupId>
             <artifactId>opencv</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/src/main/java/lib/opencv/opencv-454.jar</systemPath>
+            <version>4.5.1-2</version>
         </dependency>
     </dependencies>
 
@@ -77,6 +75,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
+
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
@@ -129,17 +128,25 @@
                     <execution>
                         <id>install-ppts-model</id>
                         <phase>clean</phase>
-                        <configuration>
-                            <file>${basedir}/src/main/java/lib/opencv/opencv-454.jar</file>
-                            <repositoryLayout>default</repositoryLayout>
-                            <groupId>org</groupId>
-                            <artifactId>opencv</artifactId>
-                            <version>1.0-SNAPSHOT</version>
-                            <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
-                        </configuration>
                         <goals>
                             <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>

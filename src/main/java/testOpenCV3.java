@@ -1,5 +1,6 @@
 import aki.OpenCV.DataNode;
 import aki.OpenCV.LOF;
+import ca.weblite.nativeutils.NativeUtils;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
@@ -23,12 +24,13 @@ import static org.opencv.imgproc.Imgproc.circle;
 
 class testOpenCV3 {
     public static void main(String[] args) throws Exception {
-        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
-        System.load(url.getPath());
+        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
+//        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
+//        System.load(url.getPath());
         //获取原图
-        Mat imgObject = imread("C:\\Users\\86158\\Desktop\\desktop.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\no1.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\86158\\Documents\\GitHub\\Aki\\src\\test\\java\\Image\\Play.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\Play.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -68,6 +70,7 @@ class testOpenCV3 {
         if(listOfGoodMatches.size()==0){
             throw new RuntimeException("No match can be found");
         }
+
         MatOfDMatch goodMatches = new MatOfDMatch();
         Mat res = new Mat();
         goodMatches.fromList(listOfGoodMatches);

@@ -149,6 +149,9 @@ public class LOF {
                 tempNodeList.add(nodeB);
             }
 
+            if(tempNodeList.size()<INT_K){
+                throw new RuntimeException("No match can be found");
+            }
             //2,对所有NodeB点中的欧几里得距离（distance）进行升序排序。  
             tempNodeList.sort(new DistComparator());
             for (int k = 1; k < INT_K; k++) {

@@ -170,24 +170,48 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
         return findElementsByWait(findElementsByText,this,text,DEFAULT_TIMEOUT).get(index);
     }
 
+    public UIElementRef findElementsByText(String text, int index,int timeout){
+        return findElementsByWait(findElementsByText,this,text,timeout).get(index);
+    }
+
     public UIElementRef findElementsByPartialText(String text, int index){
         return findElementsByWait(findElementsByPartialText,this, text,DEFAULT_TIMEOUT).get(index);
+    }
+
+    public UIElementRef findElementsByPartialText(String text, int index, int timeout){
+        return findElementsByWait(findElementsByPartialText,this, text,timeout).get(index);
     }
 
     public UIElementRef findElementsByRole(String role, int index){
         return findElementsByWait(findElementsByRole,this,role,DEFAULT_TIMEOUT).get(index);
     }
 
+    public UIElementRef findElementsByRole(String role, int index,int timeout){
+        return findElementsByWait(findElementsByRole,this,role,timeout).get(index);
+    }
+
     public UIElementRef findElementsBySubRole(String SubRole, int index){
         return findElementsByWait(findElementsBySubRole,this,SubRole,DEFAULT_TIMEOUT).get(index);
+    }
+
+    public UIElementRef findElementsBySubRole(String SubRole, int index,int timeout){
+        return findElementsByWait(findElementsBySubRole,this,SubRole,timeout).get(index);
     }
 
     public UIElementRef findElementByXpath(String xpath){
         return findElementByWait(findElementByXpath,this,xpath,DEFAULT_TIMEOUT);
     }
 
+    public UIElementRef findElementByXpath(String xpath,int timeout){
+        return findElementByWait(findElementByXpath,this,xpath,timeout);
+    }
+
     public UIElementRef findElementByIdentifier(String identifier){
         return findElementByWait(findElementByIdentifier,this,identifier,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementByIdentifier(String identifier,int timeout){
+        return findElementByWait(findElementByIdentifier,this,identifier,timeout);
     }
 
 

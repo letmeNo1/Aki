@@ -169,28 +169,60 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         return findElementsByWait(findElementsByText,this,text,DEFAULT_TIMEOUT).get(index);
     }
 
+    public UIElementRef findElementsByText(String text, int index,int timeout){
+        return findElementsByWait(findElementsByText,this,text,timeout).get(index);
+    }
+
     public UIElementRef findElementsByPartialText(String text, int index){
         return findElementsByWait(findElementsByPartialText,this,text,DEFAULT_TIMEOUT).get(index);
     }
 
+    public UIElementRef findElementsByPartialText(String text, int index, int timeout){
+        return findElementsByWait(findElementsByPartialText,this,text,timeout).get(index);
+    }
+
+
     public UIElementRef findElementsByRole(String role, int index){
         return findElementsByWait(findElementsByRole,this,role,DEFAULT_TIMEOUT).get(index);
+    }
+
+    public UIElementRef findElementsByRole(String role, int index,int timeout){
+        return findElementsByWait(findElementsByRole,this,role,timeout).get(index);
     }
 
     public UIElementRef findElementByAutomationId(String text){
         return findElementByWait(findElementByAutomationId,this,text,DEFAULT_TIMEOUT);
     }
 
+    public UIElementRef findElementByAutomationId(String text,int timeout){
+        return findElementByWait(findElementByAutomationId,this,text,timeout);
+    }
+
     public UIElementRef findElementByFull(String text){
         return findElementByWait(findElementByAutomationId,this,text,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementByFull(String text,int timeout){
+        return findElementByWait(findElementByAutomationId,this,text,timeout);
     }
 
     public UIElementRef findElementByFullDescription(String fullDescription){
         return findElementByWait(findElementByFullDescription,this,fullDescription,DEFAULT_TIMEOUT);
     }
 
+    public UIElementRef findElementByFullDescription(String fullDescription,int timeout){
+        return findElementByWait(findElementByFullDescription,this,fullDescription,timeout);
+    }
+
     public UIElementRef findElementLocationByImage(String imagePath){
         Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        this.setHW(new int[]{0,0});
+        return this;
+    }
+
+    public UIElementRef findElementLocationByImage(String imagePath, int timeout){
+        Point point = findElementByWait(findElementLocationByImage,imagePath,timeout);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;

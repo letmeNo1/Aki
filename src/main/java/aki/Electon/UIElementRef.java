@@ -25,6 +25,10 @@ public class UIElementRef implements FindUIElement, WaitFun {
         return findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
     }
 
+    public UIElementRef findElementLocationByImage(String imagePath,int timeout){
+        return findElementByWait(findElementLocationByImage,imagePath,timeout);
+    }
+
     public void click(){
         if(System.getProperty("os.name").contains("Windows")){
             CallUser32.leftMouseClick(this.x,this.y);}
