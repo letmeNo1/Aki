@@ -82,7 +82,6 @@ public class Operation {
             List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
             try {
                 System.out.println(windowId.get(index));
-
                 Runtime.getRuntime().exec("screencapture -l " + windowId.get(index) + " " + path);
             }catch (Exception ignored){
             }

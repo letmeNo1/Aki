@@ -26,10 +26,10 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public UIElementRef(Pointer p) {
         super(p);
     }
-    public int x = this.get_Location().x;
-    public int y = this.get_Location().y;
-    public int h = this.get_Location().h;
-    public int w = this.get_Location().w;
+    private int x = this.get_Location().x;
+    private int y = this.get_Location().y;
+    private int h = this.get_Location().h;
+    private int w = this.get_Location().w;
 
     public void setXY(int[] vars) {
         this.x = vars[0];
@@ -40,6 +40,19 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
         this.h = vars[0];
         this.w = vars[1];
     }
+
+    public int[] getXY(int[] vars) {
+        vars[0]= this.x;
+        vars[1] = this.y;
+        return vars;
+    }
+
+    public int[] getHW(int[] vars) {
+        vars[0]= this.h;
+        vars[1] = this.w;
+        return vars;
+    }
+
 
     private final int DEFAULT_TIMEOUT = 20000;
 

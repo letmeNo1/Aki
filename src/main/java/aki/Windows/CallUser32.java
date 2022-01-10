@@ -1,6 +1,5 @@
 package aki.Windows;
 
-import aki.CurrentAppRefInfo;
 import aki.LaunchOption;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.*;
@@ -35,8 +34,6 @@ public class CallUser32 implements WaitFun {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
         HWND currentWinHWND;
-        currentWinHWND = User32.INSTANCE.GetForegroundWindow();
-        System.out.println(getImageName(currentWinHWND));
         if(launchOption.getIsUWPApp()){
             bundleIdentifierOrAppLaunchPath = "C:\\Windows\\System32\\ApplicationFrameHost.exe";
         }

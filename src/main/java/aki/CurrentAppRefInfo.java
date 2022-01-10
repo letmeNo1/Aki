@@ -19,7 +19,7 @@ public class CurrentAppRefInfo {
 
 
     public static CurrentAppRefInfo getInstance() {
-        String threadName = String.format("%s_%s", "org.aki.CurrentAppRefInfo", Thread.currentThread().getName());
+        String threadName = String.format("%s_%s", "aki.CurrentAppRefInfo", Thread.currentThread().getName());
         if (null == instance.get().get(threadName)) {
             synchronized (CurrentAppRefInfo.class) {
                 instance.get().put(threadName, new CurrentAppRefInfo(threadName));
