@@ -1,8 +1,10 @@
 package aki.Windows;
 
 import aki.Mac.CallQuartzEventServices;
+import aki.Windows.WinApi.*;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.mac.CoreFoundation;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.platform.win32.COM.Dispatch;
@@ -10,10 +12,6 @@ import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.NativeLongByReference;
 import com.sun.jna.ptr.PointerByReference;
 
-import aki.Windows.WinApi.GetIAccessibleExFromClient;
-import aki.Windows.WinApi.IAccessible;
-import aki.Windows.WinApi.IIDMapped;
-import aki.Windows.WinApi.Oleacc;
 import org.opencv.core.Point;
 
 import java.util.ArrayList;
@@ -287,5 +285,9 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public void type(String text){
         CallUser32.setForegroundWindow(this);
         CallUser32.type(coordinateTransformation(this)[0], coordinateTransformation(this)[1],text);
+    }
+
+    public void release() {
+        Kernel32Ex.INSTANCE.GlobalFree(this.getPointer());
     }
 }

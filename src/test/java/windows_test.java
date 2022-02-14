@@ -23,6 +23,7 @@ public class windows_test {
 
     @Test
     public void testCase() {
+//        app.release();
         app.findElementByAutomationId("num3Button").click();
         app.findElementByAutomationId("num2Button").click();
         app.findElementByAutomationId("multiplyButton").click();

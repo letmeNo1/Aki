@@ -18,6 +18,8 @@ public interface Kernel32Ex extends StdCallLibrary, WinNT, Wincon {
 
     void GlobalUnlock (Pointer hMem);
 
+    void GlobalFree (Pointer hMem);
+
     int GetTickCount ();
 
     int GetCurrentProcessId ();
