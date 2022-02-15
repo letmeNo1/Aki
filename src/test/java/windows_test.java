@@ -39,6 +39,7 @@ public class windows_test {
     @After
     public void end() throws IOException {
         Operation.killApp();
+        app.release();
     }
 
 
