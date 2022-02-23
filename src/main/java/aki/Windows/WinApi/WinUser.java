@@ -7,7 +7,8 @@ public class WinUser {
             WM_LBUTTONDOWN                                            = 515,
             WM_LBUTTONUP                                              = 514,
             MK_LBUTTON                                                = 1,
-            MK_RBUTTON                                                = 2;
+            MK_RBUTTON                                                = 2,
+            BM_CLICK                                                  = 245;
     public static final long
             //dwFlags
             MOUSEEVENTF_ABSOLUTE                                      = 0x8000,

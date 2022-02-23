@@ -4,10 +4,10 @@ import aki.Mac.CallQuartzEventServices;
 import aki.Windows.WinApi.*;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.mac.CoreFoundation;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.platform.win32.COM.Dispatch;
+import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.NativeLongByReference;
 import com.sun.jna.ptr.PointerByReference;
@@ -285,6 +285,11 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public void type(String text){
         CallUser32.setForegroundWindow(this);
         CallUser32.type(coordinateTransformation(this)[0], coordinateTransformation(this)[1],text);
+    }
+
+    public void kill() {
+        CallUser32.sendMessage(CallOleacc.getHWNDFromUIElement(this), WinUser.WM_CLOSE,new WinDef.WPARAM(0),
+        new WinDef.LPARAM(0));
     }
 
     public void release() {

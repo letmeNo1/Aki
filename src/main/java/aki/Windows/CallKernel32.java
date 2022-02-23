@@ -24,7 +24,7 @@ public class CallKernel32 {
                 final String szExeFileName = String.valueOf(entry.szExeFile);
                 if(szExeFileName.toLowerCase().contains(executeName.toLowerCase())){
                     pid = entry.th32ProcessID;
-                    break;
+                    return pid.intValue();
                 }
 
             } while ( Kernel32.INSTANCE.Process32Next( snapshot, entry ) );
@@ -32,7 +32,7 @@ public class CallKernel32 {
         }catch (Exception ignored){
 
         }
-        return pid.intValue();
+        return 0;
     }
 
 

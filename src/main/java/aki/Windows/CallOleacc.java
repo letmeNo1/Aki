@@ -26,4 +26,13 @@ public class CallOleacc {
 
         return new WinDef.HWND(ptr.getValue());
     }
+
+    public static WinDef.HWND getHWNDFromUIElement(UIElementRef pAcc){
+        PointerByReference ptr = new PointerByReference();
+        WinNT.HRESULT res = Oleacc.INSTANCE.WindowFromAccessibleObject(pAcc.getPointer(), ptr);
+
+        COMUtils.checkRC(res);
+
+        return new WinDef.HWND(ptr.getValue());
+    }
 }

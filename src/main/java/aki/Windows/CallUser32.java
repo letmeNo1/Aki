@@ -11,6 +11,7 @@ import aki.Windows.WinApi.User32Ex;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -38,8 +39,13 @@ public class CallUser32 implements WaitFun {
             bundleIdentifierOrAppLaunchPath = "C:\\Windows\\System32\\ApplicationFrameHost.exe";
         }
         while (true) {
+            String A = "";
             currentWinHWND = User32.INSTANCE.GetForegroundWindow();
-            if (Objects.equals(bundleIdentifierOrAppLaunchPath, getImageName(currentWinHWND))) {
+            try {
+                A = Objects.requireNonNull(getImageName(currentWinHWND)).toLowerCase();
+            }catch (Exception ignored){
+            }
+            if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(),A )) {
                 System.out.println("launch app successful");
                 break;
             }
@@ -71,6 +77,15 @@ public class CallUser32 implements WaitFun {
         Kernel32.INSTANCE.CloseHandle(procHandle);
 
         return success ? new String(buffer, 0, bufferSize.getValue()) : null;
+    }
+
+
+    public static void sendMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4){
+        User32.INSTANCE.SendMessage(hwnd,msg,var3,var4);
+    }
+
+    public static void postMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4){
+        User32.INSTANCE.PostMessage(hwnd,msg,var3,var4);
     }
 
 
