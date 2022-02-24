@@ -16,8 +16,7 @@ import static org.opencv.core.Core.FILLED;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
-import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
-import static org.opencv.imgcodecs.Imgcodecs.imread;
+import static org.opencv.imgcodecs.Imgcodecs.*;
 import static org.opencv.imgproc.Imgproc.circle;
 //import static org.opencv.imgcodecs.Imgcodecs;
 
@@ -30,7 +29,7 @@ class testOpenCV3 {
         //获取原图
         Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.jpg",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.jpg",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -111,7 +110,10 @@ class testOpenCV3 {
         y=y/j;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
         imshow("location",imgObject);
+        imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
         waitKey(0);//      System.out.println(res.rows());
+
+
 
     }
 }
