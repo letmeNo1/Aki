@@ -31,10 +31,13 @@ Requires jdk version >= 1.8.0_295
 Requires a system running OS X and Xcode installed. 
 Requires system version 10.6 and above
 
+
 Systemwide accessibility must be enabled. Check the checkbox: System Preferences > Security and privacy
 > Universal Access > Enable access for assistive devices. 
 
 **For Windows**
+
+Download opencv_java451.dll and move it to your jdk path（C:\Program Files\Java\jdk1.8.0_202\bin）
 
 Requires system version >= Windows 7
 
@@ -132,6 +135,14 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
       The automationId corresponds to the "automationId"
 
      e.g. `app.findElementByAutomationId("num3button")`
+     
+ ***For Common：***
+      1.By image
+      
+      Use images for element positioning
+      
+      e.g. `app.findElementLocationByImage(imageFolderPath + "001.png")`
+
     
 ### Operation
 
@@ -170,6 +181,8 @@ mvn install
 需要在在隐私权限中开启Xcode对辅助设备访问的权限。系统偏好设置 > 安全性与隐私 > 通用访问 > 启用辅助设备访问。
 
 **对于 Windows**
+
+下载opencv_java451.dll，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin）
 
 需要版本高于Windows 7
 
@@ -266,6 +279,11 @@ UIElementRef 对象支持输入和清除
       automationId对应于元素属性中的"automationId"
 
       例如 `app.findElementByAutomationId ("num3button")`
+      
+  ***通用定位方式：***
+      1.图像定位
+      
+      e.g. `app.findElementLocationByImage(imageFolderPath + "001.png")`
     
 ### 通用操作
 
