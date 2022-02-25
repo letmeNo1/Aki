@@ -18,9 +18,8 @@ public class windows_test {
     public void initializeUIElement() throws InterruptedException {
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(true);
+        launchOption.setDefaultTimeout(30000);
         app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
-//        app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Ability Device Registration Tool\\DeviceRegistrationTool.exe",launchOption);
-
     }
 
     @Test
