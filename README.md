@@ -37,7 +37,7 @@ Systemwide accessibility must be enabled. Check the checkbox: System Preferences
 
 **For Windows**
 
-Download opencv_java451.dll and move it to your jdk path（C:\Program Files\Java\jdk1.8.0_202\bin）
+Download [opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll) and move it to your jdk path（C:\Program Files\Java\jdk1.8.0_202\bin）
 
 Requires system version >= Windows 7
 
@@ -51,7 +51,7 @@ Using `Accessibility Inspector` can provide a quick way to find these attributes
 
 **For Windows**
 
-download the exe file `inspect.exe` from here
+download  [inspect.exe](https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe)
 
 Using `inspect.exe` can provide a quick way to find these attributes.
 
@@ -182,7 +182,7 @@ mvn install
 
 **对于 Windows**
 
-下载opencv_java451.dll，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin）
+下载[opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll)，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin）
 
 需要版本高于Windows 7
 
@@ -196,7 +196,7 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 **对于 Windows**
 
-在主页里下载 inspect.exe
+下载 [inspect.exe](https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe)
 
 使用“inspect.exe”可以查找到App对应的元素属性
 
