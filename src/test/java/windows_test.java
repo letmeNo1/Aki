@@ -17,7 +17,7 @@ public class windows_test {
     @Before
     public void initializeUIElement() throws InterruptedException {
         LaunchOption launchOption = new LaunchOption();
-        launchOption.setIsUWPApp(false);
+        launchOption.setIsUWPApp(true);
         app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
 //        app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Ability Device Registration Tool\\DeviceRegistrationTool.exe",launchOption);
 
@@ -25,7 +25,7 @@ public class windows_test {
 
     @Test
     public void testCase() {
-        app.release();
+        app.setTimeout(90000);
         app.findElementByAutomationId("num3Button").click();
         app.findElementByAutomationId("num2Button").click();
         app.findElementByAutomationId("multiplyButton").click();

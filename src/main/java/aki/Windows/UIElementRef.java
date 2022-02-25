@@ -53,7 +53,11 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     }
 
 
-    private final int DEFAULT_TIMEOUT = 20000;
+    private int DEFAULT_TIMEOUT = 20000;
+
+    public void setTimeout(int timeout){
+        this.DEFAULT_TIMEOUT = timeout;
+    }
 
     public int get_ChildCount() {
         NativeLongByReference pcountChildren = new NativeLongByReference();
