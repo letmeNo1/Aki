@@ -17,13 +17,15 @@ public class windows_test {
     @Before
     public void initializeUIElement() throws InterruptedException {
         LaunchOption launchOption = new LaunchOption();
-        launchOption.setIsUWPApp(true);
+        launchOption.setIsUWPApp(false);
         app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
+//        app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Ability Device Registration Tool\\DeviceRegistrationTool.exe",launchOption);
+
     }
 
     @Test
     public void testCase() {
-//        app.release();
+        app.release();
         app.findElementByAutomationId("num3Button").click();
         app.findElementByAutomationId("num2Button").click();
         app.findElementByAutomationId("multiplyButton").click();
@@ -33,7 +35,7 @@ public class windows_test {
         String res = app.findElementByAutomationId("CalculatorResults").get_Name();
         assertEquals(res, "Display is 1,024");
         String Desktop =FileSystemView.getFileSystemView().getHomeDirectory().getPath();
-        Operation.takeScreenshotForDesktop(Desktop+"/Screenshot_1634617817.png");
+        app.takeScreenshot(Desktop+"/Screenshot_1634617817.png");
     }
 
     @After

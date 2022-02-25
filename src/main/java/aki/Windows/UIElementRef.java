@@ -1,5 +1,6 @@
 package aki.Windows;
 
+import aki.CurrentAppRefInfo;
 import aki.Mac.CallQuartzEventServices;
 import aki.Windows.WinApi.*;
 import com.sun.jna.Native;
@@ -290,6 +291,13 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     public void kill() {
         CallUser32.sendMessage(CallOleacc.getHWNDFromUIElement(this), WinUser.WM_CLOSE,new WinDef.WPARAM(0),
         new WinDef.LPARAM(0));
+    }
+
+    public void takeScreenshot(String path){
+        PointerByReference ptr = new PointerByReference();
+        WinNT.HRESULT res = Oleacc.INSTANCE.WindowFromAccessibleObject(this.getPointer(), ptr);
+        COMUtils.checkRC(res);
+        CallGdi32Util.takeScreenshot(new WinDef.HWND(ptr.getValue()),path);
     }
 
     public void release() {
