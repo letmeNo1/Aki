@@ -51,7 +51,7 @@ Using `Accessibility Inspector` can provide a quick way to find these attributes
 
 **For Windows**
 
-download the exe file `inspect.exe` from https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe
+download  [inspect.exe](https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe)
 
 Using `inspect.exe` can provide a quick way to find these attributes.
 
@@ -196,7 +196,7 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 **对于 Windows**
 
-在 https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe 中下载 inspect.exe 
+下载 [inspect.exe](https://github.com/letmeNo1/Aki-Tools/blob/main/inspect.exe)
 
 使用“inspect.exe”可以查找到App对应的元素属性
 
