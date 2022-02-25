@@ -54,12 +54,4 @@ public class CurrentAppRefInfo {
     public void setPid(int pid) {
         this.pid = pid;
     }
-
-    public WinDef.HWND getCurrentHandle(int index) {
-        return this.currentHandleList.get(index);
-    }
-
-    public void addHandleToList(WinDef.HWND currentHandle) {
-        this.currentHandleList.add(currentHandle);
-    }
 }

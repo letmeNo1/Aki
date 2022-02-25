@@ -38,53 +38,32 @@ public class Operation {
         pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
         CurrentAppRefInfo.getInstance().setPid(pid);
         HWND curHWND = CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
-        CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
         return CallOleacc.getAccessibleObject(curHWND);
     }
 
     public static void initializeAppRefForElectron(String bundleIdentifierOrAppLaunchPath,LaunchOption launchOption) {
-        int pid;
-        pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
-        CurrentAppRefInfo.getInstance().setPid(pid);
         if(System.getProperty("os.name").contains("Windows")){
             CallKernel32.launchAppForElectron(bundleIdentifierOrAppLaunchPath);
-            HWND curHWND = CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
-            CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
+            CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
         }else {
             CallNSWorkspace.launchApp(bundleIdentifierOrAppLaunchPath);
         }
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefByWindowName(String windowName){
-        HWND curHWND = CallUser32.findWindowByNameByWait(windowName);
-        CurrentAppRefInfo.getInstance().addHandleToList(curHWND);
-        return CallOleacc.getAccessibleObject(curHWND);
-    }
-
+    //only for mac
     public static void takeScreenshot(String path){
-        if(System.getProperty("os.name").contains("Windows")){
-            HWND currentHandle = CurrentAppRefInfo.getInstance().getCurrentHandle(0);
-            IntByReference currentDwProcessId = new IntByReference();
-            User32.INSTANCE.GetWindowThreadProcessId(currentHandle, currentDwProcessId);
-            CallGdi32Util.takeScreenshot(currentHandle,path);
-        }else {
-            List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
-            CallQuartzWindowServices.takeScreenshot(windowId.get(0),path);
-        }
+        List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
+        CallQuartzWindowServices.takeScreenshot(windowId.get(0),path);
     }
 
 
+    //Only for mac
     public static void takeScreenshot(String path,int index){
-        if(System.getProperty("os.name").contains("Windows")){
-            HWND currentHandle = CurrentAppRefInfo.getInstance().getCurrentHandle(index);
-            CallGdi32Util.takeScreenshot(currentHandle,path);
-        }else {
-            List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
-            try {
-                System.out.println(windowId.get(index));
-                Runtime.getRuntime().exec("screencapture -l " + windowId.get(index) + " " + path);
-            }catch (Exception ignored){
-            }
+        List<Integer> windowId = CallQuartzWindowServices.getWindowIdsByPid(CurrentAppRefInfo.getInstance().getPid());
+        try {
+            System.out.println(windowId.get(index));
+            Runtime.getRuntime().exec("screencapture -l " + windowId.get(index) + " " + path);
+        }catch (Exception ignored){
         }
     }
 
@@ -96,12 +75,10 @@ public class Operation {
         }
     }
 
+
+    //only for mac
     public static void killApp() throws IOException {
-        if(System.getProperty("os.name").contains("Windows")){
-            Runtime.getRuntime().exec(String.format("taskkill /pid %s -f", CurrentAppRefInfo.getInstance().getPid()));
-        }else {
-            Runtime.getRuntime().exec(String.format("kill -9 %s", CurrentAppRefInfo.getInstance().getPid()));
-        }
+        Runtime.getRuntime().exec(String.format("kill -9 %s", CurrentAppRefInfo.getInstance().getPid()));
     }
 
     public static void killApp(int pid) throws IOException {
