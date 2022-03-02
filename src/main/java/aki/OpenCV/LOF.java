@@ -84,11 +84,7 @@ public class LOF {
                 //获取tempNode点的k-距离  
                 double kDis = getKDis(tempNode.getNodeName(), kdAndKnList);
                 //reachdis(p,o)=max{ k-distance(o),d(p,o)}  
-                if (kDis < tempNode.getDistance()) {
-                    tempNode.setReachDis(tempNode.getDistance());
-                } else {
-                    tempNode.setReachDis(kDis);
-                }
+                tempNode.setReachDis(Math.max(kDis, tempNode.getDistance()));
             }
         }
     }
@@ -149,8 +145,8 @@ public class LOF {
                 tempNodeList.add(nodeB);
             }
 
-            if(tempNodeList.size()<INT_K){
-                throw new RuntimeException("No match can be found");
+            if(tempNodeList.size()<INT_K&&tempNodeList.size()>2){
+                INT_K = tempNodeList.size();
             }
             //2,对所有NodeB点中的欧几里得距离（distance）进行升序排序。  
             tempNodeList.sort(new DistComparator());
@@ -219,63 +215,5 @@ public class LOF {
                 return -1;
             else return 0;
         }
-    }
-
-
-    public static void main(String[] args) throws IOException {
-
-        ArrayList<DataNode> dpoints = new ArrayList<>();
-
-        double[] a = { 222.62451171875, 484.74359130859375 };
-        double[] b = { 383.7865295410156, 672.5980224609375 };
-        double[] c = { 1166.50244140625, 808.751708984375};
-        double[] d = { 1166.50244140625, 808.748291015625 };
-        double[] e = { 1067.031982421875, 51.17864990234375 };
-        double[] f = { 988.0794067382812, 272.37713623046875 };
-
-        double[] g = { 739.267822265625, 49.42849349975586};
-        double[] h = { 739.267822265625, 49.42849349975586 };
-        double[] i = { 737.205078125, 51.901710510253906 };
-        double[] j = {732.9031982421875, 51.69352722167969 };
-        double[] k = { 674.2673950195312, 49.428627014160156 };
-
-        double[] l = { 624.7438354492188, 52.448883056640625 };// 孤立点
-
-        double[] m = {619.779296875, 49.428550720214844 };
-        double[] n = { 619.779296875, 49.428550720214844 };
-        double[] o = { 617.9927368164062, 51.88138961791992};
-        double[] p = { 617.7667236328125, 57.48080825805664 };
-        double[] q = { 615.6155395507812, 51.71768569946289 };
-
-        dpoints.add(new DataNode("a", a));
-        dpoints.add(new DataNode("b", b));
-        dpoints.add(new DataNode("c", c));
-        dpoints.add(new DataNode("d", d));
-        dpoints.add(new DataNode("e", e));
-        dpoints.add(new DataNode("f", f));
-
-        dpoints.add(new DataNode("g", g));
-        dpoints.add(new DataNode("h", h));
-        dpoints.add(new DataNode("i", i));
-        dpoints.add(new DataNode("j", j));
-        dpoints.add(new DataNode("k", k));
-
-        dpoints.add(new DataNode("l", l));
-
-        dpoints.add(new DataNode("m", m));
-        dpoints.add(new DataNode("n", n));
-        dpoints.add(new DataNode("o", o));
-        dpoints.add(new DataNode("p", p));
-        dpoints.add(new DataNode("q", q));
-
-        LOF lof = new LOF();
-
-        List<DataNode> nodeList = lof.getOutlierNode(dpoints);
-
-        for (DataNode node : nodeList) {
-            System.out.println(node.getNodeName() + "  " + node.getLof() + " "+ Arrays.toString(node.getDimensioin()));
-
-        }
-
     }
 }

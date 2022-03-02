@@ -88,6 +88,7 @@ class testOpenCV3 {
         float x=0,y=0;
         for (int i = 0;i<listOfGoodMatches.size();i++) {
             //获取原图上匹配到的特征值的坐标的合集
+            System.out.println(listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x + " " + listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y);
             dpoints.add(new DataNode("Point-"+i,new double[]{listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x,listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y}));
         }
 
@@ -112,8 +113,6 @@ class testOpenCV3 {
         imshow("location",imgObject);
         imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
         waitKey(0);//      System.out.println(res.rows());
-
-
 
     }
 }

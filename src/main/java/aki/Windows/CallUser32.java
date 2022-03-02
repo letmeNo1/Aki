@@ -11,7 +11,6 @@ import aki.Windows.WinApi.User32Ex;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -47,6 +46,7 @@ public class CallUser32 implements WaitFun {
             }
             if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(),A )) {
                 System.out.println("launch app successful");
+                User32.INSTANCE.SetForegroundWindow(currentWinHWND);
                 break;
             }
             if (end.isBefore(clock.instant())) {
