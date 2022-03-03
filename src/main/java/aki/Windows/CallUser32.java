@@ -47,6 +47,7 @@ public class CallUser32 implements WaitFun {
             if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(),A )) {
                 System.out.println("launch app successful");
                 User32.INSTANCE.SetForegroundWindow(currentWinHWND);
+                User32.INSTANCE.SetFocus(currentWinHWND);
                 break;
             }
             if (end.isBefore(clock.instant())) {
@@ -129,6 +130,11 @@ public class CallUser32 implements WaitFun {
     public static void setForegroundWindow(UIElementRef uiElementRef) {
         HWND hwnd = uiElementRef.getHWNDFromIAccessible();
         User32.INSTANCE.SetForegroundWindow(hwnd);
+    }
+
+    public static void SetFocus(UIElementRef uiElementRef) {
+        HWND hwnd = uiElementRef.getHWNDFromIAccessible();
+        User32.INSTANCE.SetFocus(hwnd);
     }
 
     public static HWND findWindowByName(String windowName) {

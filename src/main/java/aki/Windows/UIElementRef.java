@@ -263,32 +263,32 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
     }
 
     public void click(){
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallUser32.leftMouseClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void hover(){
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallQuartzEventServices.mouseMoveEvent(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void doubleClick(){
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallUser32.leftMouseDoubleClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void longClick(int duration) throws InterruptedException {
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallUser32.leftMouseLongClick(coordinateTransformation(this)[0], coordinateTransformation(this)[1],duration);
     }
 
     public void clear(){
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallUser32.clear(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void type(String text){
-        CallUser32.setForegroundWindow(this);
+        CallUser32.SetFocus(this);
         CallUser32.type(coordinateTransformation(this)[0], coordinateTransformation(this)[1],text);
     }
 
