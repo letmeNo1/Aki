@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.opencv.calib3d.Calib3d.findHomography;
 import static org.opencv.core.Core.FILLED;
 import static org.opencv.features2d.Features2d.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS;
 import static org.opencv.features2d.Features2d.drawMatches;
 import static org.opencv.highgui.HighGui.*;
 import static org.opencv.imgcodecs.Imgcodecs.*;
 import static org.opencv.imgproc.Imgproc.circle;
-//import static org.opencv.imgcodecs.Imgcodecs;
 
 
 class testOpenCV3 {
@@ -24,9 +22,9 @@ class testOpenCV3 {
 //        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
 //        System.load(url.getPath());
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -106,10 +104,7 @@ class testOpenCV3 {
 
         x=x/j;
         y=y/j;
-//        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
-        circle(imgObject, new Point(339,243),10, new Scalar(255,0,0),3,FILLED);
-        circle(imgObject, new Point(209,224.6),10, new Scalar(255,0,0),3,FILLED);
-        circle(imgObject, new Point(67,71.5),10, new Scalar(255,0,0),3,FILLED);
+        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
 
         imshow("location",imgObject);
         imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);

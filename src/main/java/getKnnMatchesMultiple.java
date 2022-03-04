@@ -5,19 +5,20 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static org.opencv.imgcodecs.Imgcodecs.IMREAD_GRAYSCALE;
-import static org.opencv.imgcodecs.Imgcodecs.imread;
+import static org.opencv.core.Core.FILLED;
+import static org.opencv.highgui.HighGui.imshow;
+import static org.opencv.imgcodecs.Imgcodecs.*;
+import static org.opencv.imgproc.Imgproc.circle;
 
-public class test2 {
+public class getKnnMatchesMultiple {
     public static void main(String[] args) throws Exception {
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -78,7 +79,15 @@ public class test2 {
         for (Cluster cluster : clusterSet) {
             Point point = new Point(cluster.getCenter().getlocalArray()[0],cluster.getCenter().getlocalArray()[1]);
             pointArray.add(point);
+            System.out.println(cluster);
+            System.out.println(cluster.getCenter());
+
+            circle(imgObject, new Point(cluster.getCenter().getlocalArray()[0],cluster.getCenter().getlocalArray()[1]),10, new Scalar(0,0,255),3,FILLED);
+
         }
+
+        imshow("location",imgObject);
+        imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
 
         System.out.println(pointArray);
     }
