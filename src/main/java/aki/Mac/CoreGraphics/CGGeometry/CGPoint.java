@@ -7,7 +7,7 @@ import java.util.List;
 import com.sun.jna.Structure;
 
 /**
- * A structure that contains a point in a two-dimensional coordinate system.
+ * A structure that contains a aki.point in a two-dimensional coordinate system.
  */
 
 public class CGPoint extends Structure implements Structure.ByValue {

@@ -1,8 +1,6 @@
-package aki.OpenCV;
+package aki.OpenCV.LOF;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 

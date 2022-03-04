@@ -1,12 +1,9 @@
-import aki.OpenCV.DataNode;
-import aki.OpenCV.LOF;
-import ca.weblite.nativeutils.NativeUtils;
+import aki.OpenCV.LOF.DataNode;
+import aki.OpenCV.LOF.LOF;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
-import org.opencv.highgui.HighGui;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,9 +24,9 @@ class testOpenCV3 {
 //        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
 //        System.load(url.getPath());
         //获取原图
-        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.jpg",IMREAD_GRAYSCALE);
+        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\1.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.jpg",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\2.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -109,7 +106,11 @@ class testOpenCV3 {
 
         x=x/j;
         y=y/j;
-        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
+//        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
+        circle(imgObject, new Point(339,243),10, new Scalar(255,0,0),3,FILLED);
+        circle(imgObject, new Point(209,224.6),10, new Scalar(255,0,0),3,FILLED);
+        circle(imgObject, new Point(67,71.5),10, new Scalar(255,0,0),3,FILLED);
+
         imshow("location",imgObject);
         imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
         waitKey(0);//      System.out.println(res.rows());

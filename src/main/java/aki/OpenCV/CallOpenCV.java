@@ -1,15 +1,18 @@
 package aki.OpenCV;
 
 import aki.Mac.CallQuartzWindowServices;
+import aki.OpenCV.KMean.Cluster;
+import aki.OpenCV.KMean.KMeansRun;
+import aki.OpenCV.LOF.DataNode;
+import aki.OpenCV.LOF.LOF;
 import aki.Windows.CallGdi32Util;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.SIFT;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
@@ -103,7 +106,7 @@ public class CallOpenCV {
         return new Point(x,y);
     }
 
-    public Point getKnnMatchesMultiple(String imagePath){
+    public ArrayList<Point> getKnnMatchesMultiple(String imagePath, int k){
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
         //获取原图
         Mat imgObject = imread(getCurrentScreen());
@@ -157,11 +160,20 @@ public class CallOpenCV {
         List<KeyPoint> listOfKeypointsObject = keypointsObject.toList();
 
         //获取原图上匹配到的特征值的坐标的合集
-        ArrayList<DataNode> dpoints = new ArrayList<>();
-        for (int i = 0;i<listOfGoodMatches.size();i++) {
-            dpoints.add(new DataNode("Point-"+i,new double[]{listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x,listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y}));
+        ArrayList<float[]> dataSet = new ArrayList<>();
+        for (DMatch listOfGoodMatch : listOfGoodMatches) {
+            dataSet.add(new float[]{(float) listOfKeypointsObject.get(listOfGoodMatch.queryIdx).pt.x, (float) listOfKeypointsObject.get(listOfGoodMatch.queryIdx).pt.y});
         }
-        return new Point(1,2);
+        KMeansRun kRun =new KMeansRun(k, dataSet);
+
+        Set<Cluster> clusterSet = kRun.run();
+        ArrayList<Point> pointArray = new ArrayList<>();
+        for (Cluster cluster : clusterSet) {
+            Point point = new Point(cluster.getCenter().getlocalArray()[0],cluster.getCenter().getlocalArray()[1]);
+            pointArray.add(point);
+        }
+
+        return pointArray;
     }
 
     public Point getKnnMatches(String imagePath){

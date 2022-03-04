@@ -1,4 +1,4 @@
-package aki.OpenCV;
+package aki.OpenCV.LOF;
 
 import java.util.ArrayList;
 import java.util.List;
