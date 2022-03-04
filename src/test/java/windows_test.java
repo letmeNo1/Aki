@@ -1,6 +1,9 @@
 import aki.Helper.Operation;
 
 import aki.LaunchOption;
+import aki.Windows.WinApi.User32Ex;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.ptr.IntByReference;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +19,7 @@ public class windows_test {
 
     @Before
     public void initializeUIElement() throws InterruptedException {
+
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(true);
         launchOption.setDefaultTimeout(30000);
@@ -39,8 +43,8 @@ public class windows_test {
 
     @After
     public void end() throws IOException {
-        app.kill();
-        app.release();
+//        app.kill();
+//        app.release();
     }
 
 

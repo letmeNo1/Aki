@@ -90,5 +90,8 @@ public interface User32Ex extends StdCallLibrary {
 
     Pointer SetClipboardData (int format, Pointer hMem);
 
+    HWND GetTopWindow();
+
+
 
 }

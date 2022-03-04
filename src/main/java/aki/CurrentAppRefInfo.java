@@ -12,10 +12,10 @@ public class CurrentAppRefInfo {
     private static final ThreadLocal<Map<String, CurrentAppRefInfo>> instance = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
     public String bundleIdentifier;
-    public List<WinDef.HWND> currentHandleList = new ArrayList<>();
 
     public int pid;
     public int defaultTimeout = 20000;
+    public long peerIdOfHWND;
 
 
     public static CurrentAppRefInfo getInstance() {
@@ -39,13 +39,6 @@ public class CurrentAppRefInfo {
         this.bundleIdentifier = bundleIdentifier;
     }
 
-    public int getDefaultTimeout() {
-        return this.defaultTimeout;
-    }
-
-    public void setDefaultTimeout(int defaultTimeout) {
-        this.defaultTimeout = defaultTimeout;
-    }
 
     public int getPid() {
         return this.pid;
@@ -53,5 +46,13 @@ public class CurrentAppRefInfo {
 
     public void setPid(int pid) {
         this.pid = pid;
+    }
+
+    public void setPeerIdOfHWND(long peerIdOfHWND) {
+        this.peerIdOfHWND = peerIdOfHWND;
+    }
+
+    public long getPeerIdOfHWND() {
+        return this.peerIdOfHWND;
     }
 }

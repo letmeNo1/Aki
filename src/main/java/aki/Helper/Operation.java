@@ -3,6 +3,8 @@ package aki.Helper;
 
 import aki.LaunchOption;
 import aki.Mac.*;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.sun.jna.platform.win32.WinUser;
@@ -35,9 +37,9 @@ public class Operation {
 
     public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
         int pid;
-        pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath);
+        pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath,launchOption);
         CurrentAppRefInfo.getInstance().setPid(pid);
-        HWND curHWND = CallUser32.waitAppLaunched(bundleIdentifierOrAppLaunchPath, launchOption);
+        HWND curHWND = CallUser32.waitAppLaunched(pid,launchOption);
         return CallOleacc.getAccessibleObject(curHWND);
     }
 

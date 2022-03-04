@@ -1,6 +1,7 @@
 package aki.Windows;
 
 import aki.LaunchOption;
+import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.ptr.IntByReference;
@@ -30,11 +31,29 @@ public class CallUser32 implements WaitFun {
         return Duration.ofMillis(timeout);
     }
 
-    public static HWND waitAppLaunched(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
+
+    public static HWND waitAppLaunched(int pid,LaunchOption launchOption) {
+        while (true) {
+            Clock clock = Clock.systemDefaultZone();
+            Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
+            HWND hwnd = getCurrentWinHWND(pid);
+            if (hwnd.getPointer() != null) {
+                System.out.println("launch app successful");
+                User32.INSTANCE.SetForegroundWindow(hwnd);
+                User32.INSTANCE.SetFocus(hwnd);
+                return hwnd;
+            }
+            if (end.isBefore(clock.instant())) {
+                throw new RuntimeException("launch app timeout");
+            }
+        }
+    }
+
+    public static void waitAppLaunched(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
         Clock clock = Clock.systemDefaultZone();
         Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
         HWND currentWinHWND;
-        if(launchOption.getIsUWPApp()){
+        if (launchOption.getIsUWPApp()) {
             bundleIdentifierOrAppLaunchPath = "C:\\Windows\\System32\\ApplicationFrameHost.exe";
         }
         while (true) {
@@ -42,9 +61,9 @@ public class CallUser32 implements WaitFun {
             currentWinHWND = User32.INSTANCE.GetForegroundWindow();
             try {
                 A = Objects.requireNonNull(getImageName(currentWinHWND)).toLowerCase();
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
             }
-            if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(),A )) {
+            if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(), A)) {
                 System.out.println("launch app successful");
                 User32.INSTANCE.SetForegroundWindow(currentWinHWND);
                 User32.INSTANCE.SetFocus(currentWinHWND);
@@ -54,8 +73,8 @@ public class CallUser32 implements WaitFun {
                 throw new RuntimeException("launch app failed");
             }
         }
-        return currentWinHWND;
     }
+
 
     private static String getImageName(HWND window) {
         // Get the process ID of the window
@@ -81,12 +100,12 @@ public class CallUser32 implements WaitFun {
     }
 
 
-    public static void sendMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4){
-        User32.INSTANCE.SendMessage(hwnd,msg,var3,var4);
+    public static void sendMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4) {
+        User32.INSTANCE.SendMessage(hwnd, msg, var3, var4);
     }
 
-    public static void postMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4){
-        User32.INSTANCE.PostMessage(hwnd,msg,var3,var4);
+    public static void postMessage(HWND hwnd, int msg, WPARAM var3, LPARAM var4) {
+        User32.INSTANCE.PostMessage(hwnd, msg, var3, var4);
     }
 
 
@@ -138,7 +157,7 @@ public class CallUser32 implements WaitFun {
     }
 
     public static HWND findWindowByName(String windowName) {
-        return User32.INSTANCE.FindWindow(null,windowName);
+        return User32.INSTANCE.FindWindow(null, windowName);
     }
 
     static Function<String, HWND> findWindowByName = CallUser32::findWindowByName;
@@ -146,7 +165,7 @@ public class CallUser32 implements WaitFun {
     public final static int DEFAULT_TIMEOUT = 20000;
 
     public static HWND findWindowByNameByWait(String windowName) {
-        return WaitFun.findWindowByWait(findWindowByName,windowName,DEFAULT_TIMEOUT);
+        return WaitFun.findWindowByWait(findWindowByName, windowName, DEFAULT_TIMEOUT);
     }
 
     public static void keyboardPress(int key) {
@@ -192,7 +211,7 @@ public class CallUser32 implements WaitFun {
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, location.x, location.y);
     }
 
-    public static void leftMouseLongClick(int dx, int dy,int duringTime) throws InterruptedException {
+    public static void leftMouseLongClick(int dx, int dy, int duringTime) throws InterruptedException {
         Location location = conversionCoordinate(dx, dy);
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, location.x, location.y);
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN, location.x, location.y);
@@ -246,15 +265,15 @@ public class CallUser32 implements WaitFun {
         }
     }
 
-    public static void type(int x,int y,String input){
-        writeObjectsToClipboard(null,input);
-        leftMouseClick(x,y);
+    public static void type(int x, int y, String input) {
+        writeObjectsToClipboard(null, input);
+        leftMouseClick(x, y);
         combinationKeyOperation(VK_CONTROL, VK_V);
     }
 
-    public static void clear(int x,int y){
-        leftMouseClick(x,y);
-        combinationKeyOperation(Keycodes.kVK_ANSI_A,Keycodes.kVK_Control);
+    public static void clear(int x, int y) {
+        leftMouseClick(x, y);
+        combinationKeyOperation(Keycodes.kVK_ANSI_A, Keycodes.kVK_Control);
         combinationKeyOperation(Keycodes.kVK_Delete);
     }
 
@@ -263,7 +282,7 @@ public class CallUser32 implements WaitFun {
         setClipboardContents(hwnd, text);
     }
 
-    public static void combinationKeyOperation(int... keycodes){
+    public static void combinationKeyOperation(int... keycodes) {
         for (int keycode : keycodes) {
             keyboardPress(keycode);
         }
@@ -271,4 +290,37 @@ public class CallUser32 implements WaitFun {
             keyboardRelease(keycode);
         }
     }
+
+    public static HWND getCurrentWinHWND(int curPid){
+        final HWND[] currentWinHWND = {new HWND()};
+        User32.INSTANCE.EnumWindows(new WinUser.WNDENUMPROC() {
+            int count = 0;
+            public boolean callback(HWND hWnd, Pointer arg1) {
+                char[] windowText = new char[512];
+                User32.INSTANCE.GetWindowText(hWnd, windowText, 512);
+                String wText = Native.toString(windowText);
+                RECT rectangle = new RECT();
+                User32.INSTANCE.GetWindowRect(hWnd, rectangle);
+                IntByReference pid = new IntByReference();
+                User32.INSTANCE.GetWindowThreadProcessId(hWnd, pid);
+                // get rid of this if block if you want all windows regardless
+                // of whether
+                // or not they have text
+                // second condition is for visible and non minimised windows
+                if (wText.isEmpty() || !(User32.INSTANCE.IsWindowVisible(hWnd)
+                        && rectangle.left > -32000)) {
+                    return true;
+                }
+                if(pid.getValue()==curPid&&count<1){
+                    count+=1;
+                    System.out.println(wText);
+                    User32.INSTANCE.SetForegroundWindow(hWnd);
+                    currentWinHWND[0] = hWnd;
+                }
+                return true;
+            }
+        }, null);
+        return currentWinHWND[0];
+    }
+
 }
