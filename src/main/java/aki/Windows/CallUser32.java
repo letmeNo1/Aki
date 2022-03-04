@@ -313,7 +313,6 @@ public class CallUser32 implements WaitFun {
                 }
                 if(pid.getValue()==curPid&&count<1){
                     count+=1;
-                    System.out.println(wText);
                     User32.INSTANCE.SetForegroundWindow(hWnd);
                     currentWinHWND[0] = hWnd;
                 }
