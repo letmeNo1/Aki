@@ -1,5 +1,6 @@
 package aki.Mac;
 
+import aki.Common.FindUIElementByImage;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.mac.CoreFoundation;
 import com.sun.jna.platform.mac.CoreFoundation.*;
@@ -11,7 +12,7 @@ import aki.Mac.CoreGraphics.CGGeometry.CGSize;
 import java.util.List;
 
 
-public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement {
+public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement, FindUIElementByImage {
     public UIElementRef() {
         super();
     }

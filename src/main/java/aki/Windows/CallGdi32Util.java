@@ -1,5 +1,6 @@
 package aki.Windows;
 
+import aki.TraceLog;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.GDI32Util;
 
@@ -10,6 +11,7 @@ import java.text.MessageFormat;
 
 
 public class CallGdi32Util {
+    static TraceLog log = new TraceLog();
 
     public static void takeScreenshot(WinDef.HWND hWnd, String savaPath){
         // set a compatible pixel format
@@ -18,7 +20,7 @@ public class CallGdi32Util {
         try{
             ImageIO.write(buffered, "png", outPutFile);
         }catch (Exception E){
-            System.out.println(MessageFormat.format("Save failed, {0}", E.getMessage()));
+            log.logErr(MessageFormat.format("Save failed, {0}", E.getMessage()));
         }
     }
 
@@ -29,7 +31,7 @@ public class CallGdi32Util {
         try{
             ImageIO.write(buffered, "png", outPutFile);
         }catch (Exception E){
-            System.out.println(MessageFormat.format("Save failed, {0}", E.getMessage()));
+            log.logErr(MessageFormat.format("Save failed, {0}", E.getMessage()));
         }
     }
 }

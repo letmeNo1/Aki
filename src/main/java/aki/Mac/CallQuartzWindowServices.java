@@ -1,5 +1,6 @@
 package aki.Mac;
 
+import aki.TraceLog;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.mac.CoreFoundation.*;
 import aki.Mac.CoreGraphics.CGGeometry.CGImageRef;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CallQuartzWindowServices {
     private static final CoreGraphics cg = CoreGraphics.INSTANCE;
 
+    static TraceLog log = new TraceLog();
     /**
      * List all windows in this user session, including both on- and off-screen
      * windows. The parameter `relativeToWindow' should be `kCGNullWindowID'.
@@ -135,7 +137,7 @@ public class CallQuartzWindowServices {
         try{
             ImageIO.write(buffered, "png", outPutFile);
         }catch (Exception E){
-            System.out.println(MessageFormat.format("Save failed, {0}", E.getMessage()));
+            log.logErr(MessageFormat.format("Save failed, {0}", E.getMessage()));
         }
         cg.CGImageRelease(imageRef);
     }

@@ -147,15 +147,5 @@ public interface FindUIElement {
         return currentElement;
     }
 
-    static Point findElementLocationByImage(String imagePath){
-        CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatches(imagePath);
-    }
-
-    static ArrayList<Point> findElementsLocationByImage(String imagePath, int k){
-        CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatchesMultiple(imagePath, k);
-    }
-
     BiFunction<UIElementRef, String, UIElementRef> findElementByXpath = FindUIElement::findElementByXpath;
 }

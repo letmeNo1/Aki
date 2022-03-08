@@ -18,8 +18,7 @@ public class windows_test {
     aki.Windows.UIElementRef app;
 
     @Before
-    public void initializeUIElement() throws InterruptedException {
-
+    public void initializeUIElement() {
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(true);
         launchOption.setDefaultTimeout(30000);
@@ -28,9 +27,9 @@ public class windows_test {
 
     @Test
     public void testCase() {
-        app.setTimeout(90000);
+        app.setTimeout(1900);
         app.findElementByAutomationId("num3Button").click();
-        app.findElementByAutomationId("num2Button").click();
+        app.findElementByAutomationId("num2Button",100000).click();
         app.findElementByAutomationId("multiplyButton").click();
         app.findElementByAutomationId("num3Button").click();
         app.findElementByAutomationId("num2Button").click();
@@ -43,8 +42,8 @@ public class windows_test {
 
     @After
     public void end() throws IOException {
-//        app.kill();
-//        app.release();
+        app.kill();
+        app.release();
     }
 
 

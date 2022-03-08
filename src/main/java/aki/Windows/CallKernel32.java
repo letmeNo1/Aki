@@ -1,6 +1,7 @@
 package aki.Windows;
 
 import aki.LaunchOption;
+import aki.TraceLog;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinBase;
 import com.sun.jna.platform.win32.Kernel32;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class CallKernel32 {
+    static TraceLog log = new TraceLog();
     public static int getProcessesIdByName(String executeName,LaunchOption launchOption){
         HANDLE snapshot;
         DWORD pid = new DWORD();
@@ -21,22 +23,25 @@ public class CallKernel32 {
                     Tlhelp32.TH32CS_SNAPPROCESS,  new DWORD( 0 ) );
             final Tlhelp32.PROCESSENTRY32 entry = new Tlhelp32.PROCESSENTRY32();
             Kernel32.INSTANCE.Process32First( snapshot,  entry );
+            log.logInfo("looking for pid...");
             do {
                 final String szExeFileName = String.valueOf(entry.szExeFile);
                 if(launchOption.getIsUWPApp()){
                     if(szExeFileName.contains("ApplicationFrameHost.exe")){
                         pid = entry.th32ProcessID;
+                        log.logInfo("Found it! pid of current app is " + pid);
                         return pid.intValue();
                     }
                 }else {
                     if(szExeFileName.toLowerCase().contains(executeName.toLowerCase())){
                         pid = entry.th32ProcessID;
+                        log.logInfo("Found it! pid of current app is " + pid);
                         return pid.intValue();
                     }
                 }
-
-
             } while ( Kernel32.INSTANCE.Process32Next( snapshot, entry ) );
+            log.logErr("pid not found!");
+
 
         }catch (Exception ignored){
 
@@ -65,26 +70,34 @@ public class CallKernel32 {
     public static int launchApp(String appLaunchPath, LaunchOption launchOption) {
         WinBase.STARTUPINFO startupInfo = new WinBase.STARTUPINFO();
         WinBase.PROCESS_INFORMATION.ByReference processInformation = new WinBase.PROCESS_INFORMATION.ByReference();
-        boolean status = Kernel32.INSTANCE.CreateProcess(
-                null,
-                appLaunchPath,
-                null,
-                null,
-                true,
-                null,
-                null,
-                null,
-                startupInfo,
-                processInformation);
-        if (!status) {
-            throw new RuntimeException("launch app failed");
+        if(!launchOption.getAlreadyLaunch()){
+            log.logInfo(String.format("Launch app by %s...",appLaunchPath));
+            boolean status = Kernel32.INSTANCE.CreateProcess(
+                    null,
+                    appLaunchPath,
+                    null,
+                    null,
+                    true,
+                    null,
+                    null,
+                    null,
+                    startupInfo,
+                    processInformation);
+            if (!status) {
+                log.logErr("launch app failed!");
+                throw new RuntimeException("launch app failed");
+            }
+        }else{
+            log.logInfo("App already launched.");
         }
+
         return getProcessesIdByName(appLaunchPath.split("\\\\")[appLaunchPath.split("\\\\").length-1],launchOption);
     }
 
     public static void launchAppForElectron(String appLaunchPath) {
         WinBase.STARTUPINFO startupInfo = new WinBase.STARTUPINFO();
         WinBase.PROCESS_INFORMATION.ByReference processInformation = new WinBase.PROCESS_INFORMATION.ByReference();
+        log.logInfo("Launch app...");
         boolean status = Kernel32.INSTANCE.CreateProcess(
                 null,
                 appLaunchPath,
@@ -97,6 +110,7 @@ public class CallKernel32 {
                 startupInfo,
                 processInformation);
         if (!status) {
+            log.logErr("launch app failed!");
             throw new RuntimeException("launch app failed");
         }
     }

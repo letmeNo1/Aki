@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.function.Function;
 
+import static aki.Windows.CallKernel32.log;
 import static com.sun.jna.platform.win32.WinUser.CF_UNICODETEXT;
 import static java.awt.event.KeyEvent.VK_CONTROL;
 import static java.awt.event.KeyEvent.VK_V;
@@ -33,12 +34,13 @@ public class CallUser32 implements WaitFun {
 
 
     public static HWND waitAppLaunched(int pid,LaunchOption launchOption) {
+        log.logInfo("Wait for the window to initialize successfully...");
         while (true) {
             Clock clock = Clock.systemDefaultZone();
-            Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
+            Instant end = clock.instant().plus(SetTimeout(launchOption.getLaunchTimeoutTimeout()));
             HWND hwnd = getCurrentWinHWND(pid);
             if (hwnd.getPointer() != null) {
-                System.out.println("launch app successful");
+                log.logInfo("launch app successful!");
                 User32.INSTANCE.SetForegroundWindow(hwnd);
                 User32.INSTANCE.SetFocus(hwnd);
                 return hwnd;
@@ -64,7 +66,7 @@ public class CallUser32 implements WaitFun {
             } catch (Exception ignored) {
             }
             if (Objects.equals(bundleIdentifierOrAppLaunchPath.toLowerCase(), A)) {
-                System.out.println("launch app successful");
+                log.logInfo("launch app successful");
                 User32.INSTANCE.SetForegroundWindow(currentWinHWND);
                 User32.INSTANCE.SetFocus(currentWinHWND);
                 break;
@@ -311,7 +313,8 @@ public class CallUser32 implements WaitFun {
                         && rectangle.left > -32000)) {
                     return true;
                 }
-                if(pid.getValue()==curPid&&count<1){
+                if(pid.getValue()==curPid&&count<1&&!wText.equals("Settings")){
+                    log.logInfo("Window initialization succeeded!");
                     count+=1;
                     User32.INSTANCE.SetForegroundWindow(hWnd);
                     currentWinHWND[0] = hWnd;

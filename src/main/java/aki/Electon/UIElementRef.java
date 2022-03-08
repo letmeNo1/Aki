@@ -1,15 +1,17 @@
 package aki.Electon;
 
+import aki.Common.FindUIElementByImage;
+import aki.Common.WaitFunForImage;
 import aki.Mac.*;
 import aki.Windows.CallUser32;
-import aki.Electon.FindUIElement;
-import aki.Electon.WaitFun;
 import org.opencv.core.Point;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import static aki.Common.FindUIElementByImage.findElementLocationByImage;
 
 
-public class UIElementRef implements FindUIElement, WaitFun {
+public class UIElementRef implements WaitFunForImage, FindUIElementByImage {
     private final int DEFAULT_TIMEOUT = 20000;
     public UIElementRef() {}
 
@@ -22,11 +24,16 @@ public class UIElementRef implements FindUIElement, WaitFun {
     }
 
     public UIElementRef findElementLocationByImage(String imagePath){
-        return findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+        Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        return this;
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath,int timeout){
-        return findElementByWait(findElementLocationByImage,imagePath,timeout);
+    public UIElementRef findElementsLocationByImage(String imagePath, int k, int index){
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsLocationByImage,imagePath,k,DEFAULT_TIMEOUT);
+        Point point = pointArrayList.get(index);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        return this;
     }
 
     public void click(){

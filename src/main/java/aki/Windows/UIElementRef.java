@@ -1,5 +1,7 @@
 package aki.Windows;
 
+import aki.Common.FindUIElementByImage;
+import aki.Common.WaitFunForImage;
 import aki.CurrentAppRefInfo;
 import aki.Mac.CallQuartzEventServices;
 import aki.Windows.WinApi.*;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import static aki.Windows.WinApi.AutoElementPropertyIdentifiers.*;
 
-public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
+public class UIElementRef extends IAccessible implements FindUIElement,WaitFun, FindUIElementByImage , WaitFunForImage {
     public UIElementRef(Pointer p) {
         super(p);
     }
@@ -181,64 +183,88 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun{
 
     }
 
-    public UIElementRef findElementsByText(String text, int index){
-        return findElementsByWait(findElementsByText,this,text,DEFAULT_TIMEOUT).get(index);
+
+    public UIElementRef findElementByText(String text){
+        return findElementByText(text,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementsByText(String text, int index,int timeout){
-        return findElementsByWait(findElementsByText,this,text,timeout).get(index);
+    public UIElementRef findElementByText(String text,int timeOut){
+        return findElementByWait(findElementByText,this,text,timeOut);
+    }
+
+    public UIElementRef findElementsByText(String text, int index){
+        return findElementsByText(text,index,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementsByText(String text, int index,int timeOut){
+        return findElementsByWait(findElementsByText,this,text,timeOut).get(index);
     }
 
     public UIElementRef findElementsByPartialText(String text, int index){
-        return findElementsByWait(findElementsByPartialText,this,text,DEFAULT_TIMEOUT).get(index);
+        return findElementsByPartialText(text,index,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementsByPartialText(String text, int index, int timeout){
-        return findElementsByWait(findElementsByPartialText,this,text,timeout).get(index);
+    public UIElementRef findElementsByPartialText(String text, int index, int timeOut){
+        return findElementsByWait(findElementsByPartialText,this,text,timeOut).get(index);
     }
 
-
-    public UIElementRef findElementsByRole(String role, int index){
-        return findElementsByWait(findElementsByRole,this,role,DEFAULT_TIMEOUT).get(index);
+    public UIElementRef findElementByPartialText(String text ){
+        return findElementByPartialText(text,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementsByRole(String role, int index,int timeout){
-        return findElementsByWait(findElementsByRole,this,role,timeout).get(index);
+    public UIElementRef findElementByPartialText(String text,int timeOut ){
+        return findElementByWait(findElementByPartialText,this,text,timeOut);
     }
 
-    public UIElementRef findElementByAutomationId(String text){
-        return findElementByWait(findElementByAutomationId,this,text,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByRole(String role){
+        return findElementByRole(role,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementByAutomationId(String text,int timeout){
-        return findElementByWait(findElementByAutomationId,this,text,timeout);
+    public UIElementRef findElementByRole(String role, int timeOut){
+        return findElementByWait(findElementByRole,this,role,timeOut);
     }
 
-    public UIElementRef findElementByFull(String text){
-        return findElementByWait(findElementByAutomationId,this,text,DEFAULT_TIMEOUT);
+    public UIElementRef findElementsByRole(String role,int index){
+        return findElementsByRole(role,index,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementByFull(String text,int timeout){
-        return findElementByWait(findElementByAutomationId,this,text,timeout);
+    public UIElementRef findElementsByRole(String role, int index, int timeOut){
+        return findElementsByWait(findElementsByRole,this,role,timeOut).get(index);
     }
 
-    public UIElementRef findElementByFullDescription(String fullDescription){
-        return findElementByWait(findElementByFullDescription,this,fullDescription,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByAutomationId(String text) {
+        return findElementByAutomationId(text,DEFAULT_TIMEOUT);
+    }
+    public UIElementRef findElementByAutomationId(String text, int timeOut){
+        return findElementByWait(findElementByAutomationId,this,text,timeOut);
     }
 
-    public UIElementRef findElementByFullDescription(String fullDescription,int timeout){
-        return findElementByWait(findElementByFullDescription,this,fullDescription,timeout);
+    public UIElementRef findElementByFullDescription(String fullDescription) {
+        return findElementByFullDescription(fullDescription,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath){
-        Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByFullDescription(String fullDescription,int timeOut){
+        return findElementByWait(findElementByFullDescription,this,fullDescription,timeOut);
+    }
+
+    public UIElementRef findElementLocationByImage(String imagePath) {
+        return  findElementLocationByImage(imagePath,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementLocationByImage(String imagePath,int timeOut){
+        Point point = findElementByWait(findElementLocationByImage,imagePath,timeOut);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath, int timeout){
-        Point point = findElementByWait(findElementLocationByImage,imagePath,timeout);
+    public UIElementRef findElementsLocationByImage(String imagePath,int k,int index){
+        return findElementsLocationByImage(imagePath,k,index,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementsLocationByImage(String imagePath,int k,int index, int timeOut){
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsLocationByImage,imagePath,k,timeOut);
+        Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;

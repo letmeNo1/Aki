@@ -2,6 +2,7 @@ package aki.Mac;
 
 import aki.CurrentAppRefInfo;
 import aki.Mac.Appkit.AppAndEnvironment.NSWorkspace;
+import aki.TraceLog;
 import com.sun.jna.platform.win32.User32;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class CallNSWorkspace {
+    static TraceLog log = new TraceLog();
     /**
      * Launch App by BundleIdentifier
      */
@@ -46,7 +48,7 @@ public class CallNSWorkspace {
         Instant end = clock.instant().plus(SetTimeout(20000));
         while (true) {
             if (getRunningApplications().contains(bundleIdentifier)) {
-                System.out.println("launch app successful");
+                log.logInfo("launch app successful");
                 break;
             }
             if (end.isBefore(clock.instant())) {

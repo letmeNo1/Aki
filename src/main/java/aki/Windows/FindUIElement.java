@@ -12,6 +12,27 @@ import java.util.function.Function;
 
 public interface FindUIElement {
 
+    static UIElementRef findElementByText(UIElementRef rootElement, String Text){
+        UIElementRef resElementRef = null;
+        Stack<UIElementRef> allNode= new Stack<>() ;
+        allNode.push(rootElement);
+        while (!allNode.isEmpty()){
+            UIElementRef ele = allNode.pop();
+            if(ele.get_Name().equals(Text)){
+                resElementRef = ele;
+                break;
+            }
+            if (!ele.get_ChildrenElements().isEmpty()) {
+                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                    allNode.push(childEle);
+                }
+            }
+        }
+        return resElementRef;
+    }
+
+    BiFunction<UIElementRef, String, UIElementRef> findElementByText = FindUIElement::findElementByText;
+
     static List<UIElementRef> findElementsByText(UIElementRef rootElement, String Text){
         List<UIElementRef> resElementRefList = new ArrayList<>();
         Stack<UIElementRef> allNode= new Stack<>() ;
@@ -33,6 +54,26 @@ public interface FindUIElement {
 
     BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByText = FindUIElement::findElementsByText;
 
+
+    static UIElementRef findElementByRole(UIElementRef rootElement, String role){
+        UIElementRef resElementRef=null;
+        Stack<UIElementRef> allNode= new Stack<>() ;
+        allNode.push(rootElement);
+        while (!allNode.isEmpty()){
+            UIElementRef ele = allNode.pop();
+            if(ele.get_Name().equals(role)){
+                resElementRef=ele;
+            }
+            if (!ele.get_ChildrenElements().isEmpty()) {
+                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                    allNode.push(childEle);
+                }
+            }
+        }
+        return resElementRef;
+    }
+    BiFunction<UIElementRef, String, UIElementRef> findElementByRole = FindUIElement::findElementByRole;
+
     static List<UIElementRef> findElementsByRole(UIElementRef rootElement, String role){
         List<UIElementRef> resElementRefList = new ArrayList<>();
         Stack<UIElementRef> allNode= new Stack<>() ;
@@ -52,6 +93,25 @@ public interface FindUIElement {
         return resElementRefList;
     }
     BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByText;
+
+    static UIElementRef findElementByPartialText(UIElementRef rootElement, String text){
+        UIElementRef childElementRef = null;
+        Stack<UIElementRef> allNode= new Stack<>() ;
+        allNode.push(rootElement);
+        while (!allNode.isEmpty()){
+            UIElementRef ele = allNode.pop();
+            if(ele.get_Name().contains(text)){
+                childElementRef = ele;
+            }
+            if (!ele.get_ChildrenElements().isEmpty()) {
+                for (UIElementRef childEle : ele.get_ChildrenElements())
+                    allNode.push(childEle);
+            }
+        }
+        return childElementRef;
+    }
+
+    BiFunction<UIElementRef, String, UIElementRef> findElementByPartialText = FindUIElement::findElementByPartialText;
 
     static List<UIElementRef> findElementsByPartialText(UIElementRef rootElement, String text){
         List<UIElementRef> childElementRefList = new ArrayList<>();
@@ -95,6 +155,7 @@ public interface FindUIElement {
 
     BiFunction<UIElementRef, String, UIElementRef> findElementByAutomationId = FindUIElement::findElementByAutomationId;
 
+
     static UIElementRef findElementByFullDescription(UIElementRef rootElement, String automationId){
         UIElementRef resultElementRef = null;
         Stack<UIElementRef> allNode;
@@ -116,17 +177,5 @@ public interface FindUIElement {
     }
 
     BiFunction<UIElementRef, String, UIElementRef> findElementByFullDescription = FindUIElement::findElementByFullDescription;
-
-    static Point findElementLocationByImage(String imagePath){
-        CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatches(imagePath);
-    }
-
-    static ArrayList<Point> findElementsLocationByImage(String imagePath, int k){
-        CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatchesMultiple(imagePath, k);
-    }
-
-    Function<String, Point> findElementLocationByImage = FindUIElement::findElementLocationByImage;
 
 }
