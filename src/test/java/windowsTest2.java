@@ -1,5 +1,6 @@
 import aki.Helper.Operation;
 import aki.LaunchOption;
+import aki.Windows.UIElementRef;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +24,14 @@ public class windowsTest2 {
 
     @Test
     public void testCase() {
-        app.setTimeout(1900);
-        app.findElementByAutomationId("num3Button").click();
+        app.findElementByAutomationId("LoginCommand").click();
+        UIElementRef childWindows = app.findWindowByWindowName("Sign in to your account",30000);
+        childWindows.findElementByText("Use another account").click();
+        childWindows.findElementByText("someone@example.com").click();
+        childWindows.findElementByText("someone@example.com").type("testuser1.elbackoffice@in.abb.com");
+
+//        app.findElementByAutomationId("StartProvisioning").click();
+//        app.findElementsByAutomationId("GotoConfiguration",3).click();
 //        app.findElementByAutomationId("num2Button",100000).click();
 //        app.findElementByAutomationId("multiplyButton").click();
 //        app.findElementByAutomationId("num3Button").click();
@@ -38,8 +45,8 @@ public class windowsTest2 {
 
     @After
     public void end() throws IOException {
-        app.kill();
-        app.release();
+//        app.kill();
+//        app.release();
     }
 
 

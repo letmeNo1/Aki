@@ -92,7 +92,7 @@ public interface FindUIElement {
         Collections.reverse(resElementRefList);
         return resElementRefList;
     }
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByText;
+    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
 
     static UIElementRef findElementByPartialText(UIElementRef rootElement, String text){
         UIElementRef childElementRef = null;
@@ -154,6 +154,26 @@ public interface FindUIElement {
     }
 
     BiFunction<UIElementRef, String, UIElementRef> findElementByAutomationId = FindUIElement::findElementByAutomationId;
+
+    static List<UIElementRef> findElementsByAutomationId(UIElementRef rootElement, String automationId){
+        List<UIElementRef> resElementRefList = new ArrayList<>();
+        Stack<UIElementRef> allNode= new Stack<>() ;
+        allNode.push(rootElement);
+        while (!allNode.isEmpty()){
+            UIElementRef ele = allNode.pop();
+            if(ele.get_Name().equals(automationId)){
+                resElementRefList.add(ele);
+            }
+            if (!ele.get_ChildrenElements().isEmpty()) {
+                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                    allNode.push(childEle);
+                }
+            }
+        }
+        Collections.reverse(resElementRefList);
+        return resElementRefList;
+    }
+    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByAutomationId = FindUIElement::findElementsByAutomationId;
 
 
     static UIElementRef findElementByFullDescription(UIElementRef rootElement, String automationId){

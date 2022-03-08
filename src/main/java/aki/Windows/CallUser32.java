@@ -166,8 +166,8 @@ public class CallUser32 implements WaitFun {
 
     public final static int DEFAULT_TIMEOUT = 20000;
 
-    public static HWND findWindowByNameByWait(String windowName) {
-        return WaitFun.findWindowByWait(findWindowByName, windowName, DEFAULT_TIMEOUT);
+    public static HWND findWindowByNameByWait(String windowName,int timeOut) {
+        return WaitFun.findWindowByWait(findWindowByName, windowName, timeOut);
     }
 
     public static void keyboardPress(int key) {

@@ -239,6 +239,13 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun, 
         return findElementByWait(findElementByAutomationId,this,text,timeOut);
     }
 
+    public UIElementRef findElementsByAutomationId(String text,int index) {
+        return findElementsByAutomationId(text,index,DEFAULT_TIMEOUT);
+    }
+    public UIElementRef findElementsByAutomationId(String text,int index, int timeOut){
+        return findElementsByWait(findElementsByAutomationId,this,text,timeOut).get(index);
+    }
+
     public UIElementRef findElementByFullDescription(String fullDescription) {
         return findElementByFullDescription(fullDescription,DEFAULT_TIMEOUT);
     }
@@ -256,6 +263,10 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun, 
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;
+    }
+
+    public UIElementRef findWindowByWindowName(String windowName,int timeOut){
+        return CallOleacc.getAccessibleObject(CallUser32.findWindowByNameByWait(windowName,timeOut));
     }
 
     public UIElementRef findElementsLocationByImage(String imagePath,int k,int index){
