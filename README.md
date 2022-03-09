@@ -36,10 +36,11 @@ Systemwide accessibility must be enabled. Check the checkbox: System Preferences
 > Universal Access > Enable access for assistive devices. 
 
 **For Windows**
+Requires system version >= Windows 7
 
+PS: If you need to use image recognition positioning
 Download [opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll) and move it to your jdk path（C:\Program Files\Java\jdk1.8.0_202\bin）
 
-Requires system version >= Windows 7
 
 Applicaion element locate tool
 ===============
@@ -83,6 +84,28 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
 
 
 ### find elements
+
+  ***General positioning method：*** 
+    Image recognition and positioning:
+
+    Image recognition and positioning, based on openCV to realize image recognition and positioning, and support multi-element recognition (the number of elements displayed needs to be provided).
+    No requirement for image resolution size
+    With the help of LOF outlier algorithm to remove impurities, the accuracy of identification is greatly improved.
+
+    example:
+
+    Single object identification, this method can be used when the element on the page is unique:
+
+    `String imageFolderPath = "image path"`
+    `app.findElementByImage(imageFolderPath + "001.png")`
+
+    For multi-object recognition, you need to provide the number of objects to be recognized on the target page:
+
+    `int k = 3; //Number of images to be recognized`
+
+    `int index = 1 //The index of the element you want to get`
+
+    `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
 
  ***For Mac：*** 
   
@@ -173,6 +196,7 @@ mvn install
 ===============
 需要 jdk version >= 1.8.0_295
 
+
 **对于 Mac**
 
 需要安装Xcode
@@ -182,9 +206,10 @@ mvn install
 
 **对于 Windows**
 
-下载[opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll)，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin）
-
 需要版本高于Windows 7
+
+PS:如需使用图像识别定位
+请下载[opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll)，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin
 
 元素定位工具
 ===============
@@ -227,6 +252,30 @@ UIElementRef 对象支持输入和清除
 
 
 ### 查找元素
+
+***通用定位方式：*** 
+    
+    图像识别定位：
+
+    图像识别定位，基于openCV实现了图像识别定位，支持多元素识别(需提供元素显示的数量)。
+    对图像分辨率大小无要求
+    借助了LOF离群算法进行了除杂极大提高了识别的准确性。
+
+    例子:
+
+    单一对象识别，当页面上元素唯一时可使用该方法
+
+    `String imageFolderPath = "图像路径"`
+    `app.findElementByImage(imageFolderPath + "001.png")`
+
+    多对象识别，需提供目标页面上待识别对象个数
+
+    `int k = 3; //待识别的图像个数`
+
+    `int index = 1 //想要获取的元素索引`
+
+    `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+
 
  ***对于 Mac：*** 
   
