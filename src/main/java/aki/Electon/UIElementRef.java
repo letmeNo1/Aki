@@ -8,7 +8,7 @@ import org.opencv.core.Point;
 
 import java.util.ArrayList;
 
-import static aki.Common.FindUIElementByImage.findElementLocationByImage;
+import static aki.Common.FindUIElementByImage.findElementByImage;
 
 
 public class UIElementRef implements WaitFunForImage, FindUIElementByImage {
@@ -23,14 +23,14 @@ public class UIElementRef implements WaitFunForImage, FindUIElementByImage {
         this.y = vars[1];
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath){
-        Point point = findElementByWait(findElementLocationByImage,imagePath,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByImage(String imagePath){
+        Point point = findElementByWait(findElementByImage,imagePath,DEFAULT_TIMEOUT);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
     }
 
-    public UIElementRef findElementsLocationByImage(String imagePath, int k, int index){
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsLocationByImage,imagePath,k,DEFAULT_TIMEOUT);
+    public UIElementRef findElementsByImage(String imagePath, int k, int index){
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,DEFAULT_TIMEOUT);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;

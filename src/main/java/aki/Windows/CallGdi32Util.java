@@ -1,6 +1,6 @@
 package aki.Windows;
 
-import aki.TraceLog;
+import aki.Common.TraceLog;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.GDI32Util;
 

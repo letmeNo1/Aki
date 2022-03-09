@@ -1,7 +1,7 @@
 import aki.Electon.UIElementRef;
 import aki.Helper.Operation;
 
-import aki.LaunchOption;
+import aki.Common.LaunchOption;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,20 +24,20 @@ public class windowsImagePositioning {
     @Test
     public void testCase() throws InterruptedException {
         String imageFolderPath = System.getProperty("user.dir") + "/src/test/java/Image/";
-        app.findElementLocationByImage(imageFolderPath + "001.png").click();
-        app.findElementLocationByImage(imageFolderPath + "happy-HITS.png");
-        app.findElementLocationByImage(imageFolderPath + "Play.png").click();
-        app.findElementLocationByImage(imageFolderPath + "home.png").click();
-        app.findElementLocationByImage(imageFolderPath + "002.png").click();
-        app.findElementLocationByImage(imageFolderPath + "Hip-hop.png");
-        app.findElementLocationByImage(imageFolderPath + "Play.png").click();
-        app.findElementLocationByImage(imageFolderPath + "home.png").click();
-        app.findElementLocationByImage(imageFolderPath + "003.png").click();
-        app.findElementLocationByImage(imageFolderPath + "breakHeart-pop.png");
-        app.findElementLocationByImage(imageFolderPath + "Play.png").click();
-        app.findElementLocationByImage(imageFolderPath + "home.png").click();
-        app.findElementLocationByImage(imageFolderPath + "Explore.png").click();
-        app.findElementLocationByImage(imageFolderPath + "Library.png").click();
+        app.findElementByImage(imageFolderPath + "001.png").click();
+        app.findElementByImage(imageFolderPath + "happy-HITS.png");
+        app.findElementByImage(imageFolderPath + "Play.png").click();
+        app.findElementByImage(imageFolderPath + "home.png").click();
+        app.findElementByImage(imageFolderPath + "002.png").click();
+        app.findElementByImage(imageFolderPath + "Hip-hop.png");
+        app.findElementByImage(imageFolderPath + "Play.png").click();
+        app.findElementByImage(imageFolderPath + "home.png").click();
+        app.findElementByImage(imageFolderPath + "003.png").click();
+        app.findElementByImage(imageFolderPath + "breakHeart-pop.png");
+        app.findElementByImage(imageFolderPath + "Play.png").click();
+        app.findElementByImage(imageFolderPath + "home.png").click();
+        app.findElementByImage(imageFolderPath + "Explore.png").click();
+        app.findElementByImage(imageFolderPath + "Library.png").click();
         String Desktop =FileSystemView.getFileSystemView().getHomeDirectory().getPath();
         Operation.takeScreenshotForDesktop(Desktop+"/Screenshot_1634617817.png");
     }

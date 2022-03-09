@@ -1,9 +1,6 @@
 import aki.Helper.Operation;
 
-import aki.LaunchOption;
-import aki.Windows.WinApi.User32Ex;
-import com.sun.jna.platform.win32.User32;
-import com.sun.jna.ptr.IntByReference;
+import aki.Common.LaunchOption;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

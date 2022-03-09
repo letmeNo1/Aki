@@ -1,6 +1,6 @@
 package aki.Mac;
 
-import aki.TraceLog;
+import aki.Common.TraceLog;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.mac.CoreFoundation.*;
 import aki.Mac.CoreGraphics.CGGeometry.CGImageRef;

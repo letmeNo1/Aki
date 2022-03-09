@@ -1,27 +1,21 @@
 package aki.Windows;
 
-import aki.TraceLog;
+import aki.Common.TraceLog;
 import com.sun.jna.platform.win32.WinDef;
-import aki.Windows.UIElementRef;
-import org.opencv.core.Point;
 
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.logging.Logger;
+
+import static aki.Common.ClockRef.clock;
+import static aki.Common.ClockRef.setTimeout;
 
 public interface WaitFun {
-    Clock clock = Clock.systemDefaultZone();
     TraceLog log = new TraceLog();
-
-    static Duration setTimeout(long timeout) {
-        return Duration.ofMillis(timeout);
-    }
 
     default List<UIElementRef> findElementsByWait(BiFunction<UIElementRef, String, List<UIElementRef>> function, UIElementRef element, String attribute, int timeout) throws RuntimeException {
         Instant end = clock.instant().plus(setTimeout(timeout));
@@ -32,7 +26,7 @@ public interface WaitFun {
             if(!resList.isEmpty()){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Found element in %ss",timeElapsed));
+                log.logInfo(String.format("Found element %s in %ss",attribute,timeElapsed));
                 return resList;
             }
             if (end.isBefore(clock.instant())) {
@@ -51,7 +45,7 @@ public interface WaitFun {
             if(res != null){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Found element in %ss",timeElapsed));
+                log.logInfo(String.format("Found element %s in %ss",attribute,timeElapsed));
                 return res;
             }
             if (end.isBefore(clock.instant())) {

@@ -1,4 +1,4 @@
-package aki;
+package aki.Common;
 
 public class LaunchOption {
     private int defaultTimeout = 20000;

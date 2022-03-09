@@ -1,7 +1,7 @@
 package aki.Windows;
 
-import aki.LaunchOption;
-import aki.TraceLog;
+import aki.Common.LaunchOption;
+import aki.Common.TraceLog;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinBase;
 import com.sun.jna.platform.win32.Kernel32;

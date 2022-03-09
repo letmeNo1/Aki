@@ -1,6 +1,5 @@
 package aki.Common;
 
-import aki.TraceLog;
 import org.opencv.core.Point;
 
 import java.math.BigDecimal;
@@ -11,16 +10,13 @@ import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static aki.Common.ClockRef.clock;
+import static aki.Common.ClockRef.setTimeout;
+
 public interface WaitFunForImage {
-    Clock clock = Clock.systemDefaultZone();
-
-    static Duration setTimeout(long timeout) {
-        return Duration.ofMillis(timeout);
-    }
-
     TraceLog log = new TraceLog();
 
-    default Point findElementByWait(Function< String, Point> function, String imagePath, int timeout) throws RuntimeException {
+    default Point findElementByWait(Function<String, Point> function, String imagePath, int timeout) throws RuntimeException {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();
         while(true){
@@ -38,7 +34,7 @@ public interface WaitFunForImage {
         }
     }
 
-    default ArrayList<Point> findPointListByWait(BiFunction< String,Integer,  ArrayList<Point>> function, String imagePath, int k, int timeout) throws RuntimeException {
+    default ArrayList<Point> findPointListByWait(BiFunction<String,Integer,  ArrayList<Point>> function, String imagePath, int k, int timeout) throws RuntimeException {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();
         while(true){

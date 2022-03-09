@@ -1,6 +1,6 @@
 package aki.Windows;
 
-import aki.LaunchOption;
+import aki.Common.LaunchOption;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.*;
@@ -15,7 +15,6 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static aki.Windows.CallKernel32.log;
 import static com.sun.jna.platform.win32.WinUser.CF_UNICODETEXT;
 import static java.awt.event.KeyEvent.VK_CONTROL;
 import static java.awt.event.KeyEvent.VK_V;

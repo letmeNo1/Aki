@@ -141,7 +141,7 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
       
       Use images for element positioning
       
-      e.g. `app.findElementLocationByImage(imageFolderPath + "001.png")`
+      e.g. `app.findElementByImage(imageFolderPath + "001.png")`
 
     
 ### Operation
@@ -283,7 +283,7 @@ UIElementRef 对象支持输入和清除
   ***通用定位方式：***
       1.图像定位
       
-      e.g. `app.findElementLocationByImage(imageFolderPath + "001.png")`
+      e.g. `app.findElementByImage(imageFolderPath + "001.png")`
     
 ### 通用操作
 

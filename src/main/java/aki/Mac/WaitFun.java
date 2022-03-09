@@ -1,6 +1,6 @@
 package aki.Mac;
 
-import aki.TraceLog;
+import aki.Common.TraceLog;
 
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -8,15 +8,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.logging.Logger;
+import static aki.Common.ClockRef.setTimeout;
+
+import static aki.Common.ClockRef.clock;
 
 public interface WaitFun {
-    Clock clock = Clock.systemDefaultZone();
     TraceLog log = new TraceLog();
 
-    default Duration setTimeout(long timeout) {
-        return Duration.ofMillis(timeout);
-    }
 
     default List<UIElementRef> findElementsByWait(BiFunction<UIElementRef, String, List<UIElementRef>> function,
                                                   UIElementRef element, String attribute,

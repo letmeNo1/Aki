@@ -2,7 +2,6 @@ package aki.Windows;
 
 import aki.Common.FindUIElementByImage;
 import aki.Common.WaitFunForImage;
-import aki.CurrentAppRefInfo;
 import aki.Mac.CallQuartzEventServices;
 import aki.Windows.WinApi.*;
 import com.sun.jna.Native;
@@ -254,12 +253,12 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun, 
         return findElementByWait(findElementByFullDescription,this,fullDescription,timeOut);
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath) {
-        return  findElementLocationByImage(imagePath,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByImage(String imagePath) {
+        return  findElementByImage(imagePath,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementLocationByImage(String imagePath,int timeOut){
-        Point point = findElementByWait(findElementLocationByImage,imagePath,timeOut);
+    public UIElementRef findElementByImage(String imagePath,int timeOut){
+        Point point = findElementByWait(findElementByImage,imagePath,timeOut);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;
@@ -269,12 +268,12 @@ public class UIElementRef extends IAccessible implements FindUIElement,WaitFun, 
         return CallOleacc.getAccessibleObject(CallUser32.findWindowByNameByWait(windowName,timeOut));
     }
 
-    public UIElementRef findElementsLocationByImage(String imagePath,int k,int index){
-        return findElementsLocationByImage(imagePath,k,index,DEFAULT_TIMEOUT);
+    public UIElementRef findElementsByImage(String imagePath,int k,int index){
+        return findElementsByImage(imagePath,k,index,DEFAULT_TIMEOUT);
     }
 
-    public UIElementRef findElementsLocationByImage(String imagePath,int k,int index, int timeOut){
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsLocationByImage,imagePath,k,timeOut);
+    public UIElementRef findElementsByImage(String imagePath,int k,int index, int timeOut){
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,timeOut);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});

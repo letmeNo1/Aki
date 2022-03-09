@@ -1,9 +1,8 @@
 package aki.Mac;
 
-import aki.CurrentAppRefInfo;
+import aki.Common.CurrentAppRefInfo;
 import aki.Mac.Appkit.AppAndEnvironment.NSWorkspace;
-import aki.TraceLog;
-import com.sun.jna.platform.win32.User32;
+import aki.Common.TraceLog;
 
 import java.io.IOException;
 import java.time.Clock;

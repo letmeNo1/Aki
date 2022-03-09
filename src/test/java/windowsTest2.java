@@ -1,5 +1,5 @@
 import aki.Helper.Operation;
-import aki.LaunchOption;
+import aki.Common.LaunchOption;
 import aki.Windows.UIElementRef;
 import org.junit.After;
 import org.junit.Before;
@@ -24,11 +24,14 @@ public class windowsTest2 {
 
     @Test
     public void testCase() {
+        app.setTimeout(3000);
         app.findElementByAutomationId("LoginCommand").click();
-        UIElementRef childWindows = app.findWindowByWindowName("Sign in to your account",30000);
-        childWindows.findElementByText("Use another account").click();
-        childWindows.findElementByText("someone@example.com").click();
-        childWindows.findElementByText("someone@example.com").type("testuser1.elbackoffice@in.abb.com");
+        UIElementRef signWindow = app.findWindowByWindowName("Sign in to your account",30000);
+        signWindow.findElementByText("Use another account").click();
+        signWindow.findElementByText("someone@example.com").click();
+        signWindow.findElementByText("someone@example.com").type("testuser1.elbackoffice@in.abb.com");
+        signWindow.findElementByText("Next").click();
+        signWindow.findElementByText("Enter the password for testuser1.elbackoffice@in.abb.com").type("testuser1.elbackoffice@in.abb.com");
 
 //        app.findElementByAutomationId("StartProvisioning").click();
 //        app.findElementsByAutomationId("GotoConfiguration",3).click();

@@ -1,21 +1,15 @@
 package aki.Helper;
 
 
-import aki.LaunchOption;
+import aki.Common.LaunchOption;
 import aki.Mac.*;
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
-import com.sun.jna.platform.win32.WinUser;
-import aki.CurrentAppRefInfo;
+import aki.Common.CurrentAppRefInfo;
 
 import aki.Windows.CallGdi32Util;
 import aki.Windows.CallKernel32;
 import aki.Windows.CallOleacc;
 import aki.Windows.CallUser32;
-import com.sun.jna.ptr.IntByReference;
-import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import java.io.IOException;
 import java.util.List;

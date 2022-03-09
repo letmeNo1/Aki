@@ -1,6 +1,5 @@
-package aki;
+package aki.Common;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -21,6 +20,7 @@ public class TraceLog {
             InfoLog = logManager.getLogger("LogInfo");
         }
     }
+
 
     private void iniInfoLog () {
         InfoLog = Logger.getLogger("LogInfo");

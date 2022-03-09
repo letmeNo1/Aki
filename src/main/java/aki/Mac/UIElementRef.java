@@ -1,18 +1,25 @@
 package aki.Mac;
 
 import aki.Common.FindUIElementByImage;
+import aki.Common.WaitFunForImage;
+import aki.Mac.CoreGraphics.CGGeometry.CGFloat;
+import aki.Mac.FindUIElement;
+import aki.Mac.WaitFun;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.mac.CoreFoundation;
 import com.sun.jna.platform.mac.CoreFoundation.*;
 import com.sun.jna.ptr.PointerByReference;
-import aki.CurrentAppRefInfo;
+import aki.Common.CurrentAppRefInfo;
 import aki.Mac.CoreGraphics.CGGeometry.CGPoint;
 import aki.Mac.CoreGraphics.CGGeometry.CGSize;
+import org.opencv.core.Point;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 
-public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement, FindUIElementByImage {
+public class UIElementRef extends CFTypeRef implements FindUIElement, WaitFun, FindUIElementByImage , WaitFunForImage {
     public UIElementRef() {
         super();
     }
@@ -21,9 +28,18 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement, Fi
         super(p);
     }
 
+    private CGFloat x = this.get_CGPoint().x;
+    private CGFloat y = this.get_CGPoint().y;
+
+
     private final CallAppServices callAppServicesApi = new CallAppServices();
 
     private final int DEFAULT_TIMEOUT = 20000;
+
+    public void setXY(CGFloat[] vars) {
+        this.x = vars[0];
+        this.y = vars[1];
+    }
 
     public void isForefront(){
         UIElementRef topLevelElement;
@@ -215,6 +231,30 @@ public class UIElementRef extends CFTypeRef implements WaitFun,FindUIElement, Fi
         return findElementByWait(findElementByIdentifier,this,identifier,timeout);
     }
 
+    public UIElementRef findElementByImage(String imagePath) {
+        return  findElementByImage(imagePath,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementByImage(String imagePath, int timeOut){
+        Point point = findElementByWait(findElementByImage,imagePath,timeOut);
+        CGFloat x = new CGFloat(point.x);
+        CGFloat y = new CGFloat(point.y);
+        this.setXY(new CGFloat[]{x,y});
+        return this;
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, int k, int index){
+        return findElementsByImage(imagePath,k,index,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, int k, int index, int timeOut){
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,timeOut);
+        Point point = pointArrayList.get(index);
+        CGFloat x = new CGFloat(point.x);
+        CGFloat y = new CGFloat(point.y);
+        this.setXY(new CGFloat[]{x,y});
+        return this;
+    }
 
     public void retain() {
         CoreFoundation.INSTANCE.CFRetain(this);
