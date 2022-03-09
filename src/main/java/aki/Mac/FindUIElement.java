@@ -1,9 +1,6 @@
 package aki.Mac;
 
 
-import aki.OpenCV.CallOpenCV;
-import org.opencv.core.Point;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,38 +9,38 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public interface FindUIElement {
-    static UIElementRef findElementByIdentifier(UIElementRef rootElement, String identifier){
-        UIElementRef resultElementRef = null;
-        Stack<UIElementRef> allNode;
+    static MacUIElementRef findElementByIdentifier(MacUIElementRef rootElement, String identifier){
+        MacUIElementRef resultElementRef = null;
+        Stack<MacUIElementRef> allNode;
         allNode = new Stack<>();
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            MacUIElementRef ele = allNode.pop();
             if(ele.get_AXIdentifier().equals(identifier)){
                 resultElementRef = ele;
                 break;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (MacUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return resultElementRef;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByIdentifier = FindUIElement::findElementByIdentifier;
+    BiFunction<MacUIElementRef, String, MacUIElementRef> findElementByIdentifier = FindUIElement::findElementByIdentifier;
 
-    static List<UIElementRef> findElementsByRole(UIElementRef rootElement, String role){
-        List<UIElementRef> resElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<MacUIElementRef> findElementsByRole(MacUIElementRef rootElement, String role){
+        List<MacUIElementRef> resElementRefList = new ArrayList<>();
+        Stack<MacUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            MacUIElementRef ele = allNode.pop();
             if(ele.get_Role().equals(role)){
                 resElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (MacUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
@@ -51,19 +48,19 @@ public interface FindUIElement {
         return resElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
+    BiFunction<MacUIElementRef, String, List<MacUIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
 
-    static List<UIElementRef> findElementsBySubRole(UIElementRef rootElement, String role){
-        List<UIElementRef> resElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<MacUIElementRef> findElementsBySubRole(MacUIElementRef rootElement, String role){
+        List<MacUIElementRef> resElementRefList = new ArrayList<>();
+        Stack<MacUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            MacUIElementRef ele = allNode.pop();
             if(ele.get_SubRole().equals(role)){
                 resElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (MacUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
@@ -71,19 +68,19 @@ public interface FindUIElement {
         return resElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsBySubRole = FindUIElement::findElementsBySubRole;
+    BiFunction<MacUIElementRef, String, List<MacUIElementRef>> findElementsBySubRole = FindUIElement::findElementsBySubRole;
 
-    static List<UIElementRef> findElementsByText(UIElementRef rootElement, String text){
-       List<UIElementRef> resElementRefList = new ArrayList<>();
-       Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<MacUIElementRef> findElementsByText(MacUIElementRef rootElement, String text){
+       List<MacUIElementRef> resElementRefList = new ArrayList<>();
+       Stack<MacUIElementRef> allNode= new Stack<>() ;
        allNode.push(rootElement);
        while (!allNode.isEmpty()){
-           UIElementRef ele = allNode.pop();
+           MacUIElementRef ele = allNode.pop();
            if(ele.get_Value().equals(text)||ele.get_Title().equals(text)||ele.get_Help().equals(text)){
                resElementRefList.add(ele);
            }
            if (!ele.get_ChildrenElements().isEmpty()) {
-               for (UIElementRef childEle : ele.get_ChildrenElements())
+               for (MacUIElementRef childEle : ele.get_ChildrenElements())
                    allNode.push(childEle);
            }
        }
@@ -91,32 +88,32 @@ public interface FindUIElement {
        return resElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByText = FindUIElement::findElementsByText;
+    BiFunction<MacUIElementRef, String, List<MacUIElementRef>> findElementsByText = FindUIElement::findElementsByText;
 
 
-    static List<UIElementRef> findElementsByPartialText(UIElementRef rootElement, String text){
-        List<UIElementRef> childElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<MacUIElementRef> findElementsByPartialText(MacUIElementRef rootElement, String text){
+        List<MacUIElementRef> childElementRefList = new ArrayList<>();
+        Stack<MacUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            MacUIElementRef ele = allNode.pop();
             if(ele.get_Value().contains(text)||ele.get_Title().contains(text)||ele.get_Help().contains(text)){
                 childElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (MacUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return childElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByPartialText = FindUIElement::findElementsByPartialText;
+    BiFunction<MacUIElementRef, String, List<MacUIElementRef>> findElementsByPartialText = FindUIElement::findElementsByPartialText;
 
 
-    static UIElementRef findElementByXpath(UIElementRef element, String xpath){
+    static MacUIElementRef findElementByXpath(MacUIElementRef element, String xpath){
         String[] nodes = xpath.split("/");
-        UIElementRef currentElement =element;
+        MacUIElementRef currentElement =element;
         for(String node:nodes){
             if(node.equals("**")){
                    /*
@@ -147,5 +144,5 @@ public interface FindUIElement {
         return currentElement;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByXpath = FindUIElement::findElementByXpath;
+    BiFunction<MacUIElementRef, String, MacUIElementRef> findElementByXpath = FindUIElement::findElementByXpath;
 }

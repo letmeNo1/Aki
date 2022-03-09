@@ -29,7 +29,7 @@ public class CallAppServices {
     /**
      * get elementRef by pid
      */
-    public static UIElementRef getElementRefByPid(int pid){
+    public static MacUIElementRef getElementRefByPid(int pid){
         return ApplicationServices.INSTANCE.AXUIElementCreateApplication(pid);
     }
     
@@ -73,7 +73,7 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the String type from an accessibility object's attribute.
      */
-    public static String getCopyAttributeValueOfStringType(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static String getCopyAttributeValueOfStringType(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
@@ -104,7 +104,7 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the Boolean type from an accessibility object's attribute.
      */
-    public static boolean getCopyAttributeValueOfBooleanType(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static boolean getCopyAttributeValueOfBooleanType(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
@@ -122,7 +122,7 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the GCPoint type from an accessibility object's attribute.
      */
-    public static CGPoint getCopyAttributeValueOfCGPoint(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static CGPoint getCopyAttributeValueOfCGPoint(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
@@ -144,7 +144,7 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the CGSize type from an accessibility object's attribute.
      */
-    public static CGSize getCopyAttributeValueOfCGSize(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static CGSize getCopyAttributeValueOfCGSize(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
@@ -166,7 +166,7 @@ public class CallAppServices {
     /**
      * Get all attribute names from an accessibility object.
      */
-    public static List<String> getAXUIElementCopyAttributeNames(UIElementRef element, PointerByReference value){
+    public static List<String> getAXUIElementCopyAttributeNames(MacUIElementRef element, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeNames(element,value);
         try{
             if (error == 0) {
@@ -187,15 +187,15 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the List<AXUIElementRef> from an accessibility object's attribute.
      */
-    public static List<UIElementRef> getCopyAttributeValueOfAXUIElementRefList(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static List<MacUIElementRef> getCopyAttributeValueOfAXUIElementRefList(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
                 CFArrayRef cfObject = new CFArrayRef();
                 cfObject.setPointer(value.getValue());
-                List<UIElementRef> axUIElementRefs = new ArrayList<>();
+                List<MacUIElementRef> axUIElementRefs = new ArrayList<>();
                 for(int i= 0; i<cfObject.getCount();i++){
-                    axUIElementRefs.add(new UIElementRef(cfObject.getValueAtIndex(i)));
+                    axUIElementRefs.add(new MacUIElementRef(cfObject.getValueAtIndex(i)));
                 }
                 return axUIElementRefs;
             } else {
@@ -209,11 +209,11 @@ public class CallAppServices {
     /**
      * Get the specified attribute of the AXUIElementRef from an accessibility object's attribute.
      */
-    public static UIElementRef getCopyAttributeValueOfAXUIElementRef(UIElementRef element, CFStringRef attribute, PointerByReference value){
+    public static MacUIElementRef getCopyAttributeValueOfAXUIElementRef(MacUIElementRef element, CFStringRef attribute, PointerByReference value){
         final int error = ApplicationServices.INSTANCE.AXUIElementCopyAttributeValue(element,attribute,value);
         try{
             if (error == 0) {
-                UIElementRef cfObject = new UIElementRef();
+                MacUIElementRef cfObject = new MacUIElementRef();
                 cfObject.setPointer(value.getValue());
                 return cfObject;
             }else {
@@ -229,7 +229,7 @@ public class CallAppServices {
     /**
      * Execute the specified auxiliary function instance to perform the specified operation
      */
-    public static void axUIElementPerformAction(UIElementRef element, CFStringRef action){
+    public static void axUIElementPerformAction(MacUIElementRef element, CFStringRef action){
         try{
             ApplicationServices.INSTANCE.AXUIElementPerformAction(element,action);
         }finally {

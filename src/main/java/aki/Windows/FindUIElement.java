@@ -1,29 +1,25 @@
 package aki.Windows;
 
-import aki.OpenCV.CallOpenCV;
-import org.opencv.core.Point;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public interface FindUIElement {
 
-    static UIElementRef findElementByText(UIElementRef rootElement, String Text){
-        UIElementRef resElementRef = null;
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static WinUIElementRef findElementByText(WinUIElementRef rootElement, String Text){
+        WinUIElementRef resElementRef = null;
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().equals(Text)){
                 resElementRef = ele;
                 break;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                for (WinUIElementRef childEle : ele.get_ChildrenElements()) {
                     allNode.push(childEle);
                 }
             }
@@ -31,19 +27,19 @@ public interface FindUIElement {
         return resElementRef;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByText = FindUIElement::findElementByText;
+    BiFunction<WinUIElementRef, String, WinUIElementRef> findElementByText = FindUIElement::findElementByText;
 
-    static List<UIElementRef> findElementsByText(UIElementRef rootElement, String Text){
-        List<UIElementRef> resElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<WinUIElementRef> findElementsByText(WinUIElementRef rootElement, String Text){
+        List<WinUIElementRef> resElementRefList = new ArrayList<>();
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().equals(Text)){
                 resElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                for (WinUIElementRef childEle : ele.get_ChildrenElements()) {
                     allNode.push(childEle);
                 }
             }
@@ -52,39 +48,39 @@ public interface FindUIElement {
         return resElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByText = FindUIElement::findElementsByText;
+    BiFunction<WinUIElementRef, String, List<WinUIElementRef>> findElementsByText = FindUIElement::findElementsByText;
 
 
-    static UIElementRef findElementByRole(UIElementRef rootElement, String role){
-        UIElementRef resElementRef=null;
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static WinUIElementRef findElementByRole(WinUIElementRef rootElement, String role){
+        WinUIElementRef resElementRef=null;
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().equals(role)){
                 resElementRef=ele;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                for (WinUIElementRef childEle : ele.get_ChildrenElements()) {
                     allNode.push(childEle);
                 }
             }
         }
         return resElementRef;
     }
-    BiFunction<UIElementRef, String, UIElementRef> findElementByRole = FindUIElement::findElementByRole;
+    BiFunction<WinUIElementRef, String, WinUIElementRef> findElementByRole = FindUIElement::findElementByRole;
 
-    static List<UIElementRef> findElementsByRole(UIElementRef rootElement, String role){
-        List<UIElementRef> resElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<WinUIElementRef> findElementsByRole(WinUIElementRef rootElement, String role){
+        List<WinUIElementRef> resElementRefList = new ArrayList<>();
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().equals(role)){
                 resElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                for (WinUIElementRef childEle : ele.get_ChildrenElements()) {
                     allNode.push(childEle);
                 }
             }
@@ -92,80 +88,80 @@ public interface FindUIElement {
         Collections.reverse(resElementRefList);
         return resElementRefList;
     }
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
+    BiFunction<WinUIElementRef, String, List<WinUIElementRef>> findElementsByRole = FindUIElement::findElementsByRole;
 
-    static UIElementRef findElementByPartialText(UIElementRef rootElement, String text){
-        UIElementRef childElementRef = null;
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static WinUIElementRef findElementByPartialText(WinUIElementRef rootElement, String text){
+        WinUIElementRef childElementRef = null;
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().contains(text)){
                 childElementRef = ele;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (WinUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return childElementRef;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByPartialText = FindUIElement::findElementByPartialText;
+    BiFunction<WinUIElementRef, String, WinUIElementRef> findElementByPartialText = FindUIElement::findElementByPartialText;
 
-    static List<UIElementRef> findElementsByPartialText(UIElementRef rootElement, String text){
-        List<UIElementRef> childElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<WinUIElementRef> findElementsByPartialText(WinUIElementRef rootElement, String text){
+        List<WinUIElementRef> childElementRefList = new ArrayList<>();
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-           UIElementRef ele = allNode.pop();
+           WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().contains(text)){
                 childElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (WinUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return childElementRefList;
     }
 
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByPartialText = FindUIElement::findElementsByPartialText;
+    BiFunction<WinUIElementRef, String, List<WinUIElementRef>> findElementsByPartialText = FindUIElement::findElementsByPartialText;
 
 
-    static UIElementRef findElementByAutomationId(UIElementRef rootElement, String automationId){
-        UIElementRef resultElementRef = null;
-        Stack<UIElementRef> allNode;
+    static WinUIElementRef findElementByAutomationId(WinUIElementRef rootElement, String automationId){
+        WinUIElementRef resultElementRef = null;
+        Stack<WinUIElementRef> allNode;
         allNode = new Stack<>();
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             String eleAutomationId = ele.get_AutomationId();
             if(eleAutomationId.equals(automationId)){
                 resultElementRef = ele;
                 break;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (WinUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return resultElementRef;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByAutomationId = FindUIElement::findElementByAutomationId;
+    BiFunction<WinUIElementRef, String, WinUIElementRef> findElementByAutomationId = FindUIElement::findElementByAutomationId;
 
-    static List<UIElementRef> findElementsByAutomationId(UIElementRef rootElement, String automationId){
-        List<UIElementRef> resElementRefList = new ArrayList<>();
-        Stack<UIElementRef> allNode= new Stack<>() ;
+    static List<WinUIElementRef> findElementsByAutomationId(WinUIElementRef rootElement, String automationId){
+        List<WinUIElementRef> resElementRefList = new ArrayList<>();
+        Stack<WinUIElementRef> allNode= new Stack<>() ;
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             if(ele.get_Name().equals(automationId)){
                 resElementRefList.add(ele);
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements()) {
+                for (WinUIElementRef childEle : ele.get_ChildrenElements()) {
                     allNode.push(childEle);
                 }
             }
@@ -173,29 +169,29 @@ public interface FindUIElement {
         Collections.reverse(resElementRefList);
         return resElementRefList;
     }
-    BiFunction<UIElementRef, String, List<UIElementRef>> findElementsByAutomationId = FindUIElement::findElementsByAutomationId;
+    BiFunction<WinUIElementRef, String, List<WinUIElementRef>> findElementsByAutomationId = FindUIElement::findElementsByAutomationId;
 
 
-    static UIElementRef findElementByFullDescription(UIElementRef rootElement, String automationId){
-        UIElementRef resultElementRef = null;
-        Stack<UIElementRef> allNode;
+    static WinUIElementRef findElementByFullDescription(WinUIElementRef rootElement, String automationId){
+        WinUIElementRef resultElementRef = null;
+        Stack<WinUIElementRef> allNode;
         allNode = new Stack<>();
         allNode.push(rootElement);
         while (!allNode.isEmpty()){
-            UIElementRef ele = allNode.pop();
+            WinUIElementRef ele = allNode.pop();
             String eleAutomationId = ele.get_FullDescriptionPropertyId();
             if(eleAutomationId.equals(automationId)){
                 resultElementRef = ele;
                 break;
             }
             if (!ele.get_ChildrenElements().isEmpty()) {
-                for (UIElementRef childEle : ele.get_ChildrenElements())
+                for (WinUIElementRef childEle : ele.get_ChildrenElements())
                     allNode.push(childEle);
             }
         }
         return resultElementRef;
     }
 
-    BiFunction<UIElementRef, String, UIElementRef> findElementByFullDescription = FindUIElement::findElementByFullDescription;
+    BiFunction<WinUIElementRef, String, WinUIElementRef> findElementByFullDescription = FindUIElement::findElementByFullDescription;
 
 }

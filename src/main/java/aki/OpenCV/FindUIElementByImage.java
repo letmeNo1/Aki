@@ -1,6 +1,5 @@
-package aki.Common;
+package aki.OpenCV;
 
-import aki.OpenCV.CallOpenCV;
 import org.opencv.core.Point;
 
 import java.util.ArrayList;

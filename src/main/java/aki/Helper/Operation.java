@@ -3,20 +3,16 @@ package aki.Helper;
 
 import aki.Common.LaunchOption;
 import aki.Mac.*;
+import aki.Windows.*;
 import com.sun.jna.platform.win32.WinDef.*;
 import aki.Common.CurrentAppRefInfo;
-
-import aki.Windows.CallGdi32Util;
-import aki.Windows.CallKernel32;
-import aki.Windows.CallOleacc;
-import aki.Windows.CallUser32;
 
 import java.io.IOException;
 import java.util.List;
 
 
 public class Operation {
-    public static UIElementRef initializeAppRefForMac(String bundleIdentifierOrAppLaunchPath){
+    public static MacUIElementRef initializeAppRefForMac(String bundleIdentifierOrAppLaunchPath){
         CallNSWorkspace.launchApp(bundleIdentifierOrAppLaunchPath);
         int pid = CallNSWorkspace.getPidByBundleIdentifier(bundleIdentifierOrAppLaunchPath);
         CurrentAppRefInfo.getInstance().setBundleIdentifier(bundleIdentifierOrAppLaunchPath);
@@ -24,12 +20,12 @@ public class Operation {
         return CallAppServices.getElementRefByPid(pid);
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath) {
+    public static WinUIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath) {
         LaunchOption launchOption = new LaunchOption();
         return initializeAppRefForWin(bundleIdentifierOrAppLaunchPath,launchOption);
     }
 
-    public static aki.Windows.UIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
+    public static WinUIElementRef initializeAppRefForWin(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
         int pid;
         pid = CallKernel32.launchApp(bundleIdentifierOrAppLaunchPath,launchOption);
         CurrentAppRefInfo.getInstance().setPid(pid);

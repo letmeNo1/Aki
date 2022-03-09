@@ -1,15 +1,9 @@
 package aki.Windows.WinApi;
 
 import com.sun.jna.platform.win32.COM.COMUtils;
-import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.Variant;
-import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.PointerByReference;
-import aki.Windows.CallOleacc;
-import aki.Windows.UIElementRef;
-
-import java.io.IOException;
 
 import static aki.Windows.WinApi.IIDMapped.*;
 

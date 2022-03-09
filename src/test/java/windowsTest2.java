@@ -1,6 +1,6 @@
 import aki.Helper.Operation;
 import aki.Common.LaunchOption;
-import aki.Windows.UIElementRef;
+import aki.Windows.WinUIElementRef;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class windowsTest2 {
-    aki.Windows.UIElementRef app;
+    WinUIElementRef app;
 
     @Before
     public void initializeUIElement() {
@@ -26,7 +26,7 @@ public class windowsTest2 {
     public void testCase() {
         app.setTimeout(3000);
         app.findElementByAutomationId("LoginCommand").click();
-        UIElementRef signWindow = app.findWindowByWindowName("Sign in to your account",30000);
+        WinUIElementRef signWindow = app.findWindowByWindowName("Sign in to your account",30000);
         signWindow.findElementByText("Use another account").click();
         signWindow.findElementByText("someone@example.com").click();
         signWindow.findElementByText("someone@example.com").type("testuser1.elbackoffice@in.abb.com");

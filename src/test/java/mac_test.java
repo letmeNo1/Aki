@@ -1,5 +1,5 @@
 import aki.Helper.Operation;
-import aki.Mac.UIElementRef;
+import aki.Mac.MacUIElementRef;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class mac_test {
-    UIElementRef app;
+    MacUIElementRef app;
 
     @Before
     public void initializeUIElement(){

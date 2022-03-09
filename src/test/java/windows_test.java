@@ -1,6 +1,7 @@
 import aki.Helper.Operation;
 
 import aki.Common.LaunchOption;
+import aki.Windows.WinUIElementRef;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class windows_test {
-    aki.Windows.UIElementRef app;
+    WinUIElementRef app;
 
     @Before
     public void initializeUIElement() {

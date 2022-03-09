@@ -10,12 +10,12 @@ import aki.Windows.WinApi.Oleacc;
 
 public class CallOleacc {
 
-    public static UIElementRef getAccessibleObject(WinDef.HWND winHWND){
+    public static WinUIElementRef getAccessibleObject(WinDef.HWND winHWND){
         Guid.IID IID_IAccessible = new Guid.IID("{618736E0-3C3D-11CF-810C-00AA00389B71}");
         Guid.REFIID REFIID_IAccessible = new Guid.REFIID(IID_IAccessible);
         PointerByReference ptr = new PointerByReference();
         Oleacc.INSTANCE.AccessibleObjectFromWindow(winHWND,0,REFIID_IAccessible,ptr);
-        return new UIElementRef(ptr.getValue());
+        return new WinUIElementRef(ptr.getValue());
     }
 
     private WinDef.HWND getHWNDFromIAccessible(IAccessible pAcc){
@@ -27,7 +27,7 @@ public class CallOleacc {
         return new WinDef.HWND(ptr.getValue());
     }
 
-    public static WinDef.HWND getHWNDFromUIElement(UIElementRef pAcc){
+    public static WinDef.HWND getHWNDFromUIElement(WinUIElementRef pAcc){
         PointerByReference ptr = new PointerByReference();
         WinNT.HRESULT res = Oleacc.INSTANCE.WindowFromAccessibleObject(pAcc.getPointer(), ptr);
 

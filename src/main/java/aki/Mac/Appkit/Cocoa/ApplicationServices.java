@@ -4,7 +4,7 @@ import com.sun.jna.*;
 
 import com.sun.jna.platform.mac.CoreFoundation.*;
 import com.sun.jna.ptr.PointerByReference;
-import aki.Mac.UIElementRef;
+import aki.Mac.MacUIElementRef;
 import aki.Mac.AXValueRef;
 
 
@@ -16,7 +16,7 @@ public interface ApplicationServices extends Library {
      *
      * @param pid process identifier of application
      */
-    UIElementRef AXUIElementCreateApplication(int pid);
+    MacUIElementRef AXUIElementCreateApplication(int pid);
 
     /**
      * Get pid from element
@@ -24,7 +24,7 @@ public interface ApplicationServices extends Library {
      * @param element The AXUIElementRef representing the accessibility object.
      * @param pid On return, the value associated with the specified attribute. The corresponding value in C++ is *pid
      */
-    int AXUIElementGetPid(UIElementRef element, int pid);
+    int AXUIElementGetPid(MacUIElementRef element, int pid);
 
     /**
      * get attribute of element
@@ -35,7 +35,7 @@ public interface ApplicationServices extends Library {
      * You can find it here: https://developer.apple.com/documentation/applicationservices/axattributeconstants_h/miscellaneous_defines
      * @param value On return, the value associated with the specified attribute. The corresponding value in C++ is *value
      */
-    int AXUIElementCopyAttributeValue(UIElementRef element, CFStringRef attribute, PointerByReference value);
+    int AXUIElementCopyAttributeValue(MacUIElementRef element, CFStringRef attribute, PointerByReference value);
 
 
     /**
@@ -44,7 +44,7 @@ public interface ApplicationServices extends Library {
      * @param element The AXUIElementRef representing the accessibility object.
      * @param value On return, the value associated with the specified attribute. The corresponding value in C++ is *value
      */
-    int AXUIElementCopyAttributeNames(UIElementRef element, PointerByReference value);
+    int AXUIElementCopyAttributeNames(MacUIElementRef element, PointerByReference value);
 
     /**
      * Decodes the structure stored in value and copies it into valuePtr. If the structure stored in value
@@ -64,5 +64,5 @@ public interface ApplicationServices extends Library {
      * @param element The AXUIElementRef representing the accessibility object.
      * @param action The action to be performed.
      */
-    void AXUIElementPerformAction(UIElementRef element, CFStringRef action);
+    void AXUIElementPerformAction(MacUIElementRef element, CFStringRef action);
 }

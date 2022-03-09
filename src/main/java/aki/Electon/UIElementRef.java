@@ -1,17 +1,17 @@
 package aki.Electon;
 
-import aki.Common.FindUIElementByImage;
-import aki.Common.WaitFunForImage;
+import aki.OpenCV.FindUIElementByImage;
+import aki.Common.WaitFun;
 import aki.Mac.*;
 import aki.Windows.CallUser32;
 import org.opencv.core.Point;
 
 import java.util.ArrayList;
 
-import static aki.Common.FindUIElementByImage.findElementByImage;
+import static aki.OpenCV.FindUIElementByImage.findElementByImage;
 
 
-public class UIElementRef implements WaitFunForImage, FindUIElementByImage {
+public class UIElementRef implements WaitFun, FindUIElementByImage {
     private final int DEFAULT_TIMEOUT = 20000;
     public UIElementRef() {}
 

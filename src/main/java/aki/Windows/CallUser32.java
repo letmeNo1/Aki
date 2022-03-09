@@ -1,6 +1,7 @@
 package aki.Windows;
 
 import aki.Common.LaunchOption;
+import aki.Common.WaitFun;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.*;
@@ -147,13 +148,13 @@ public class CallUser32 implements WaitFun {
         User32.INSTANCE.SendInput(new WinDef.DWORD(1), (WinUser.INPUT[]) input.toArray(1), input.size());
     }
 
-    public static void setForegroundWindow(UIElementRef uiElementRef) {
-        HWND hwnd = uiElementRef.getHWNDFromIAccessible();
+    public static void setForegroundWindow(WinUIElementRef winUiElementRef) {
+        HWND hwnd = winUiElementRef.getHWNDFromIAccessible();
         User32.INSTANCE.SetForegroundWindow(hwnd);
     }
 
-    public static void SetFocus(UIElementRef uiElementRef) {
-        HWND hwnd = uiElementRef.getHWNDFromIAccessible();
+    public static void SetFocus(WinUIElementRef winUiElementRef) {
+        HWND hwnd = winUiElementRef.getHWNDFromIAccessible();
         User32.INSTANCE.SetFocus(hwnd);
     }
 
@@ -227,8 +228,8 @@ public class CallUser32 implements WaitFun {
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP, dx, dy);
     }
 
-    public static void leftMouseClickToHWND(UIElementRef uiElementRef, Location location) {
-        HWND hwnd = uiElementRef.getHWNDFromIAccessible();
+    public static void leftMouseClickToHWND(WinUIElementRef winUiElementRef, Location location) {
+        HWND hwnd = winUiElementRef.getHWNDFromIAccessible();
         User32.INSTANCE.SendMessage(hwnd, WM_LBUTTONDOWN, new WPARAM(1), makeLParam(location.w / 2, location.h));
         User32.INSTANCE.SendMessage(hwnd, WM_LBUTTONUP, new WPARAM(0), makeLParam(location.w / 2, location.h));
     }
