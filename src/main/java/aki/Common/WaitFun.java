@@ -20,42 +20,6 @@ import static aki.Common.ClockRef.setTimeout;
 public interface WaitFun {
     TraceLog log = new TraceLog();
 
-    default Boolean WaitVisibleFun(BiFunction<MacUIElementRef, String, MacUIElementRef> function, MacUIElementRef element, String attribute, int timeout) throws RuntimeException {
-        Instant end = clock.instant().plus(ClockRef.setTimeout(timeout));
-        while(true){
-            log.logInfo("Looking for element..");
-            MacUIElementRef res = function.apply(element, attribute);
-            if(res != null){
-                log.logInfo(String.format("This element %s is visible",attribute));
-                return true;
-            }
-            if (end.isBefore(clock.instant())) {
-                BigDecimal time = new BigDecimal(timeout).divide(new BigDecimal(1000));
-                log.logInfo(String.format("This element %s does not currently exist",attribute));
-                return false;
-            }
-        }
-    }
-
-    default Boolean WaitVisibleFun(BiFunction<WinUIElementRef, String, WinUIElementRef> function, WinUIElementRef element, String attribute, int timeout) throws RuntimeException {
-        Instant end = clock.instant().plus(ClockRef.setTimeout(timeout));
-        while(true){
-            log.logInfo("Looking for element..");
-            WinUIElementRef res = function.apply(element, attribute);
-            if(res != null){
-                log.logInfo(String.format("This element %s is visible",attribute));
-                return true;
-            }
-            if (end.isBefore(clock.instant())) {
-                BigDecimal time = new BigDecimal(timeout).divide(new BigDecimal(1000));
-                log.logInfo(String.format("This element %s does not currently exist",attribute));
-                return false;
-            }
-        }
-    }
-
-
-
     default List<WinUIElementRef> findElementsByWait(BiFunction<WinUIElementRef, String, List<WinUIElementRef>> function, WinUIElementRef element, String attribute, int timeout) throws RuntimeException {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();

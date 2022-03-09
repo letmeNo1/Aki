@@ -17,7 +17,7 @@ public class windowsTest2 {
     public void initializeUIElement() {
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(false);
-        launchOption.setAlreadyLaunch(true);
+        launchOption.setAlreadyLaunch(false);
         launchOption.setLaunchTimeoutTimeout(30000);
         app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.3.0.56\\ELConnect.exe",launchOption);
     }
