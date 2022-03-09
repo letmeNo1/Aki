@@ -70,19 +70,19 @@ Usage
 App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
 You can call the find or click method through UIElementRef
 
-***Mouse event ***
+ ***Mouse event：***
 
 UIElementRef object support click, double click, long click, hover
 
 e.g.  `app.findElementsByText("Input phone number",0).click()` or `app.findElementsByText("Input phone number",0).doubleClick()`
 
-***Input event ***
+ ***Input Event：***
 
 UIElementRef object support type and clear
 
 e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.findElementsByText("Input phone number",0).clear()`
 
-***Launch parameters ***
+ ***Launch Option：***
 
 Before starting the App, you can set the following startup parameters,
 
