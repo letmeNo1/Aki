@@ -70,18 +70,39 @@ Usage
 App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
 You can call the find or click method through UIElementRef
 
-Mouse event
+***Mouse event ***
 
 UIElementRef object support click, double click, long click, hover
 
 e.g.  `app.findElementsByText("Input phone number",0).click()` or `app.findElementsByText("Input phone number",0).doubleClick()`
 
-Input event 
+***Input event ***
 
 UIElementRef object support type and clear
 
 e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.findElementsByText("Input phone number",0).clear()`
 
+***Launch parameters ***
+
+Before starting the App, you can set the following startup parameters,
+
+`LaunchOption launchOption = new LaunchOption();`
+
+    //Set whether it is a UWP application, only for Window
+    launchOption.setIsUWPApp(true);
+
+    //Set the startup timeout, the default is 20000ms
+    launchOption.setLaunchTimeoutTimeout(30000);
+
+    //Set the search timeout, the default is 20000ms
+    launchOption.setDefaultTimeout(30000);
+
+    //Set whether the App has been started. If it is TRUE, the process of starting the creation process will not be started.
+    lauchOpthion.setAlreadyLaunch(false)
+
+Pass startup parameters as objects
+
+`app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);`
 
 ### find elements
    
@@ -229,18 +250,38 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 App 窗口本身就是一个 UIElementRef 对象，而每个元素也都是一个 UIElementRef 对象。你可以通过UIElementRef来调用各种查找或者是点击的方法
 
-鼠标事件
+***鼠标事件 ***
 
 UIElementRef 对象支持单击、双击、长按、悬停
 
 例如:  `app.findElementsByText("Input phone number",0).click()` 或 `app.findElementsByText("Input phone number",0).doubleClick()`
 
-输入事件
+***输入事件 ***
 
 UIElementRef 对象支持输入和清除
 
 例如:  `app.findElementsByText("Input phone number",0).type("188888")` 或 `app.findElementsByText("Input phone number",0).clear()`
 
+***启动参数 ***
+
+在启动App前，可设置以下启动参数，
+`LaunchOption launchOption = new LaunchOption();`
+
+    //设置是否是UWP应用，仅限于Window
+    launchOption.setIsUWPApp(true);
+
+    //设置启动超时时间，默认是20000ms
+    launchOption.setLaunchTimeoutTimeout(30000);
+
+    //设置查找超时时间，默认是20000ms
+    launchOption.setDefaultTimeout(30000);
+
+    //设置App是否已启动，若为TRUE，则不走启创建进程启动的流程
+    lauchOpthion.setAlreadyLaunch(false)
+
+将启动参数以对象的方式传递
+
+`app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);`
 
 ### 查找元素
 
