@@ -36,10 +36,11 @@ Systemwide accessibility must be enabled. Check the checkbox: System Preferences
 > Universal Access > Enable access for assistive devices. 
 
 **For Windows**
+Requires system version >= Windows 7
 
+PS: If you need to use image recognition positioning
 Download [opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll) and move it to your jdk path（C:\Program Files\Java\jdk1.8.0_202\bin）
 
-Requires system version >= Windows 7
 
 Applicaion element locate tool
 ===============
@@ -69,21 +70,42 @@ Usage
 App window itself is an UIElementRef object, And every elements are an UIElementRef object yet.
 You can call the find or click method through UIElementRef
 
-Mouse event
+ ***Mouse event：***
 
 UIElementRef object support click, double click, long click, hover
 
 e.g.  `app.findElementsByText("Input phone number",0).click()` or `app.findElementsByText("Input phone number",0).doubleClick()`
 
-Input event 
+ ***Input Event：***
 
 UIElementRef object support type and clear
 
 e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.findElementsByText("Input phone number",0).clear()`
 
+ ***Launch Option：***
+
+Before starting the App, you can set the following startup parameters,
+
+`LaunchOption launchOption = new LaunchOption();`
+
+    //Set whether it is a UWP application, only for Window
+    launchOption.setIsUWPApp(true);
+
+    //Set the startup timeout, the default is 20000ms
+    launchOption.setLaunchTimeoutTimeout(30000);
+
+    //Set the search timeout, the default is 20000ms
+    launchOption.setDefaultTimeout(30000);
+
+    //Set whether the App has been started. If it is TRUE, the process of starting the creation process will not be started.
+    lauchOpthion.setAlreadyLaunch(false)
+
+Pass startup parameters as objects
+
+`app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);`
 
 ### find elements
-
+   
  ***For Mac：*** 
   
      support text, role(which is element type), identifier, xpath.
@@ -137,11 +159,24 @@ e.g. `app.findElementsByText("Input phone number",0).type("188888")` or `app.fin
      e.g. `app.findElementByAutomationId("num3button")`
      
  ***For Common：***
-      1.By image
+ 
+      Support image recognition and positioning
+     
+      No requirement for image resolution size
+      With the help of LOF outlier algorithm to remove impurities, the accuracy of identification is greatly improved.
+
+      1. Single object recognition, this method can be used when the element on the page is unique
       
-      Use images for element positioning
+       `String imageFolderPath = "image path"`
+       `app.findElementByImage(imageFolderPath + "001.png")`
       
-      e.g. `app.findElementByImage(imageFolderPath + "001.png")`
+      2. For multi-object recognition, you need to provide the number of objects to be recognized on the target page. A collection of elements will be returned, and the elements you need are indexed by index.
+      
+       `int k = 3; //Number of images to be recognized`
+
+       `int index = 1 //The index of the element you want to get`
+
+       `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
 
     
 ### Operation
@@ -173,6 +208,7 @@ mvn install
 ===============
 需要 jdk version >= 1.8.0_295
 
+
 **对于 Mac**
 
 需要安装Xcode
@@ -182,9 +218,10 @@ mvn install
 
 **对于 Windows**
 
-下载[opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll)，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin）
-
 需要版本高于Windows 7
+
+PS:如需使用图像识别定位
+请下载[opencv_java451.dll](https://github.com/letmeNo1/Aki-Tools/blob/main/opencv_java451.dll)，并放在你jdk安装目录下（C:\Program Files\Java\jdk1.8.0_202\bin
 
 元素定位工具
 ===============
@@ -213,18 +250,38 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 App 窗口本身就是一个 UIElementRef 对象，而每个元素也都是一个 UIElementRef 对象。你可以通过UIElementRef来调用各种查找或者是点击的方法
 
-鼠标事件
+***鼠标事件 ***
 
 UIElementRef 对象支持单击、双击、长按、悬停
 
 例如:  `app.findElementsByText("Input phone number",0).click()` 或 `app.findElementsByText("Input phone number",0).doubleClick()`
 
-输入事件
+***输入事件 ***
 
 UIElementRef 对象支持输入和清除
 
 例如:  `app.findElementsByText("Input phone number",0).type("188888")` 或 `app.findElementsByText("Input phone number",0).clear()`
 
+***启动参数 ***
+
+在启动App前，可设置以下启动参数，
+`LaunchOption launchOption = new LaunchOption();`
+
+    //设置是否是UWP应用，仅限于Window
+    launchOption.setIsUWPApp(true);
+
+    //设置启动超时时间，默认是20000ms
+    launchOption.setLaunchTimeoutTimeout(30000);
+
+    //设置查找超时时间，默认是20000ms
+    launchOption.setDefaultTimeout(30000);
+
+    //设置App是否已启动，若为TRUE，则不走启创建进程启动的流程
+    lauchOpthion.setAlreadyLaunch(false)
+
+将启动参数以对象的方式传递
+
+`app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);`
 
 ### 查找元素
 
@@ -281,9 +338,27 @@ UIElementRef 对象支持输入和清除
       例如 `app.findElementByAutomationId ("num3button")`
       
   ***通用定位方式：***
-      1.图像定位
+  
+     支持 图像识别定位
+     
+     对图像分辨率大小无要求
+     借助了LOF离群算法进行了除杂极大提高了识别的准确性。
+
+     1.单一对象识别，当页面上元素唯一时可使用该方法
       
-      e.g. `app.findElementByImage(imageFolderPath + "001.png")`
+      `String imageFolderPath = "图像路径"`
+      `app.findElementByImage(imageFolderPath + "001.png")`
+      
+     2.多对象识别，需提供目标页面上待识别对象个数，将返回一个元素集合，通过index来索引你需要的元素
+      
+      `int k = 3; //待识别的图像个数`
+
+      `int index = 1 //想要获取的元素索引`
+
+      `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+     
+
+      `
     
 ### 通用操作
 
