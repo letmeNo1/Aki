@@ -256,19 +256,19 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 App 窗口本身就是一个 UIElementRef 对象，而每个元素也都是一个 UIElementRef 对象。你可以通过UIElementRef来调用各种查找或者是点击的方法
 
-***鼠标事件 ***
+ ***鼠标事件：***
 
 UIElementRef 对象支持单击、双击、长按、悬停
 
 例如:  `app.findElementsByText("Input phone number",0).click()` 或 `app.findElementsByText("Input phone number",0).doubleClick()`
 
-***输入事件 ***
+ ***输入事件：***
 
 UIElementRef 对象支持输入和清除
 
 例如:  `app.findElementsByText("Input phone number",0).type("188888")` 或 `app.findElementsByText("Input phone number",0).clear()`
 
-***启动参数 ***
+***启动参数：***
 
 在启动App前，可设置以下启动参数，
 `LaunchOption launchOption = new LaunchOption();`
