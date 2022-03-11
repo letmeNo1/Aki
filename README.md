@@ -353,9 +353,12 @@ UIElementRef 对象支持输入和清除
      1.单一对象识别，当页面上元素唯一时可使用该方法
       
       `String imageFolderPath = "图像路径"`
+      
       `app.findElementByImage(imageFolderPath)`
       
      2.多对象识别，需提供目标页面上待识别对象个数，将返回一个元素集合，通过index来索引你需要的元素
+      
+      `String imageFolderPath = "图像路径"`
       
       `int cluster = 3; //待识别的图像个数`
 
