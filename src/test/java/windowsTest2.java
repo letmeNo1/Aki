@@ -12,6 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class windowsTest2 {
     WinUIElementRef app;
+    public final static String TEST_ACCOUNT = "testuser1.elbackoffice@in.abb.com";
+    public final static String USE_ANOTHER_ACCOUNT_TEXT = "Use another account";
+    public final static String ACCOUNT_INPUT_FIELD_TEXT = "someone@example.com";
+    public final static String NEXT_BUTTON_TEXT = "Next";
+    public final static String PASSWORD_INPUT_FIELD_TEXT = "Enter the password for testuser1.elbackoffice@in.abb.com";
+    public final static String SIGN_IN_BUTTON = "Sign in";
+    public final static String SIGN_IN_WINDOW_NAME = "Sign in to your account";
 
     @Before
     public void initializeUIElement() {
@@ -19,20 +26,23 @@ public class windowsTest2 {
         launchOption.setIsUWPApp(false);
         launchOption.setAlreadyLaunch(false);
         launchOption.setLaunchTimeoutTimeout(30000);
-        app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.3.0.56\\ELConnect.exe",launchOption);
+        app = Operation.initializeAppRefForWin("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.5.0.15\\ELConnect.exe",launchOption);
     }
 
     @Test
-    public void testCase() {
-        app.setTimeout(3000);
-        app.findElementByAutomationId("LoginCommand").click();
-        WinUIElementRef signWindow = app.findWindowByWindowName("Sign in to your account",30000);
-        signWindow.findElementByText("Use another account").click();
-        signWindow.findElementByText("someone@example.com").click();
-        signWindow.findElementByText("someone@example.com").type("testuser1.elbackoffice@in.abb.com");
-        signWindow.findElementByText("Next").click();
-        signWindow.findElementByText("Enter the password for testuser1.elbackoffice@in.abb.com").type("testuser1.elbackoffice@in.abb.com");
+    public void testCase() throws InterruptedException {
 
+        WinUIElementRef signWindow;
+        app.findElementByAutomationId("LoginCommand").click();
+        app.assertElementExistByImage("src/test/Image/pick_an_account.png",0.3f);
+        signWindow = app.findWindowByWindowName(SIGN_IN_WINDOW_NAME,3000);
+        Thread.sleep(2000);
+        signWindow.findElementByText(USE_ANOTHER_ACCOUNT_TEXT).click();
+        signWindow.findElementByText(ACCOUNT_INPUT_FIELD_TEXT).click();
+        signWindow.findElementByText(ACCOUNT_INPUT_FIELD_TEXT).type(TEST_ACCOUNT);
+        signWindow.findElementByText(NEXT_BUTTON_TEXT).click();
+        signWindow.findElementByText(PASSWORD_INPUT_FIELD_TEXT).hover();
+        signWindow.findElementByText(PASSWORD_INPUT_FIELD_TEXT).type("TEST_PASSWORD");
 //        app.findElementByAutomationId("StartProvisioning").click();
 //        app.findElementsByAutomationId("GotoConfiguration",3).click();
 //        app.findElementByAutomationId("num2Button",100000).click();

@@ -24,7 +24,7 @@ class testOpenCV3 {
         //获取原图
         Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\Screenshot_1634617817.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\pick_an_account.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\logout_button.png",IMREAD_GRAYSCALE);
 
         if (imgObject.empty() || imgScene.empty()) {
             System.err.println("Cannot read images!");
@@ -48,7 +48,7 @@ class testOpenCV3 {
         List<MatOfDMatch> knnMatches = new ArrayList<>();
         matcher.knnMatch(descriptorsObject, descriptorsScene, knnMatches, 2);
         //设置过滤值
-        float ratioThresh = 0.3f;
+        float ratioThresh = 0.4f;
 
         List<DMatch> listOfGoodMatches = new ArrayList<>();
 

@@ -260,7 +260,6 @@ public class CallUser32 implements WaitFun {
             if (User32Ex.INSTANCE.SetClipboardData(CF_UNICODETEXT, buffer) == null) {
                 throw new RuntimeException("Unable to set clipboard data");
             }
-
             return true;
         } finally {
             User32Ex.INSTANCE.CloseClipboard(hwnd);
@@ -282,6 +281,7 @@ public class CallUser32 implements WaitFun {
     public static void writeObjectsToClipboard(HWND hwnd, String text) {
         openClipboard(hwnd);
         setClipboardContents(hwnd, text);
+        System.out.println(User32Ex.INSTANCE.GetClipboardData(CF_UNICODETEXT));
     }
 
     public static void combinationKeyOperation(int... keycodes) {

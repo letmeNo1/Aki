@@ -5,3 +5,4 @@
 *.xml
 target/
 *.lst
+src/test/Image/

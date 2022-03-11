@@ -197,7 +197,7 @@ public interface WaitFun {
         Instant start = Instant.now();
         while(true){
             Point res = function.apply(option);
-            if(!Double.isNaN(res.x)){
+            if(res.x>=0){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
                 log.logInfo(String.format("Found element %s in %ss",option.getImagePath(),timeElapsed));

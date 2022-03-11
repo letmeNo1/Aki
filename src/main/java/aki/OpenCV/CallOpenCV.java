@@ -146,40 +146,41 @@ public class CallOpenCV {
                 }
             }
         }
-        if(listOfGoodMatches.size()==0){
-            float x=0,y=0;
+        if(listOfGoodMatches.size()<9){
+            float x=-1,y=-1;
+            return new Point(x,y);
+        }else{
+            MatOfDMatch goodMatches = new MatOfDMatch();
+
+            //将最佳匹配转回 MatOfDMatch
+            goodMatches.fromList(listOfGoodMatches);
+
+            //将原图上的特征值转为数组
+            List<KeyPoint> listOfKeypointsObject = keypointsObject.toList();
+
+            //获取原图上匹配到的特征值的坐标的合集
+            ArrayList<DataNode> dpoints = new ArrayList<>();
+            for (int i = 0;i<listOfGoodMatches.size();i++) {
+                dpoints.add(new DataNode("Point-"+i,new double[]{listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x,listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y}));
+            }
+
+            //使用LOF算法筛除错误的点
+            float x=-1,y=-1;
+            LOF lof = new LOF();
+            List<DataNode> nodeList = lof.getOutlierNode(dpoints);
+            int j = 0;
+            for (int i =0;i<nodeList.size();i++) {
+                if(i>=Math.round(nodeList.size()*0.8)){
+                    j++;
+                    x+=nodeList.get(i).getDimensioin()[0];
+                    y+=nodeList.get(i).getDimensioin()[1];
+                }
+            }
+
+            //求坐标平均值
+            x=x/j;
+            y=y/j;
             return new Point(x,y);
         }
-        MatOfDMatch goodMatches = new MatOfDMatch();
-
-        //将最佳匹配转回 MatOfDMatch
-        goodMatches.fromList(listOfGoodMatches);
-
-        //将原图上的特征值转为数组
-        List<KeyPoint> listOfKeypointsObject = keypointsObject.toList();
-
-        //获取原图上匹配到的特征值的坐标的合集
-        ArrayList<DataNode> dpoints = new ArrayList<>();
-        for (int i = 0;i<listOfGoodMatches.size();i++) {
-            dpoints.add(new DataNode("Point-"+i,new double[]{listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.x,listOfKeypointsObject.get(listOfGoodMatches.get(i).queryIdx).pt.y}));
-        }
-
-        //使用LOF算法筛除错误的点
-        float x=0,y=0;
-        LOF lof = new LOF();
-        List<DataNode> nodeList = lof.getOutlierNode(dpoints);
-        int j = 0;
-        for (int i =0;i<nodeList.size();i++) {
-            if(i>=Math.round(nodeList.size()*0.8)){
-                j++;
-                x+=nodeList.get(i).getDimensioin()[0];
-                y+=nodeList.get(i).getDimensioin()[1];
-            }
-        }
-
-        //求坐标平均值
-        x=x/j;
-        y=y/j;
-        return new Point(x,y);
     }
 }
