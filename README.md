@@ -177,6 +177,12 @@ Pass startup parameters as objects
        `int index = 1 //The index of the element you want to get`
 
        `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+       
+      3. The above feature recognition algorithm, the default precision is 4f (this value is 0 value. The range value is 1~1, the value is all value 1)
+     
+     The value is passed through the ratio ThreshValue
+     
+     `app.findElementByImage(imageFolderPath, ratioThreshValue)` or `app.findElementsByImage(imageFolderPath,ratioThreshValue,cluster, index)`
 
     
 ### Operation
@@ -347,16 +353,22 @@ UIElementRef 对象支持输入和清除
      1.单一对象识别，当页面上元素唯一时可使用该方法
       
       `String imageFolderPath = "图像路径"`
-      `app.findElementByImage(imageFolderPath + "001.png")`
+      `app.findElementByImage(imageFolderPath)`
       
      2.多对象识别，需提供目标页面上待识别对象个数，将返回一个元素集合，通过index来索引你需要的元素
       
-      `int k = 3; //待识别的图像个数`
+      `int cluster = 3; //待识别的图像个数`
 
       `int index = 1 //想要获取的元素索引`
 
-      `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+      `app.findElementsByImage(imageFolderPath,cluster, index)`
+      
+     3.以上定位都采用特征值算法进行图像识别,默认精度对0.4f(此数值为浮点型, 范围值为0.1~1，值越大识别精度越低,值越小识别精度越高)
      
+     该值通过通过ratioThreshValue来传递
+     
+     `app.findElementByImage(imageFolderPath, ratioThreshValue)` or `app.findElementsByImage(imageFolderPath,ratioThreshValue,cluster, index)`
+
 
       `
     
