@@ -1,8 +1,10 @@
 package aki.Windows;
 
+import aki.Common.ImageAssert;
 import aki.OpenCV.FindUIElementByImage;
 import aki.Common.WaitFun;
 import aki.Mac.CallQuartzEventServices;
+import aki.OpenCV.OptionOfFindByImage;
 import aki.Windows.WinApi.*;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -19,10 +21,12 @@ import org.opencv.core.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+import static aki.Windows.CallUser32.findWindowByName;
 import static aki.Windows.WinApi.AutoElementPropertyIdentifiers.*;
 
-public class WinUIElementRef extends IAccessible implements FindUIElement, WaitFun, FindUIElementByImage {
+public class WinUIElementRef extends IAccessible implements FindUIElement, WaitFun, FindUIElementByImage, ImageAssert {
     public WinUIElementRef(Pointer p) {
         super(p);
     }
@@ -253,31 +257,82 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
         return findElementByWait(findElementByFullDescription,this,fullDescription,timeOut);
     }
 
-    public WinUIElementRef findElementByImage(String imagePath) {
-        return  findElementByImage(imagePath,DEFAULT_TIMEOUT);
-    }
-
-    public WinUIElementRef findElementByImage(String imagePath, int timeOut){
-        Point point = findElementByWait(findElementByImage,imagePath,timeOut);
-        this.setXY(new int[]{(int) point.x,(int) point.y});
-        this.setHW(new int[]{0,0});
-        return this;
-    }
-
     public WinUIElementRef findWindowByWindowName(String windowName, int timeOut){
         return CallOleacc.getAccessibleObject(CallUser32.findWindowByNameByWait(windowName,timeOut));
     }
 
-    public WinUIElementRef findElementsByImage(String imagePath, int k, int index){
-        return findElementsByImage(imagePath,k,index,DEFAULT_TIMEOUT);
+    public WinUIElementRef findElementByImage(String imagePath) {
+        return  findElementByImage(imagePath,DEFAULT_TIMEOUT);
     }
 
-    public WinUIElementRef findElementsByImage(String imagePath, int k, int index, int timeOut){
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,timeOut);
+    public WinUIElementRef findElementByImage(String imagePath,float ratioThreshValue) {
+        return  findElementByImage(imagePath,ratioThreshValue,DEFAULT_TIMEOUT);
+    }
+
+    public WinUIElementRef findElementByImage(String imagePath, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(0.4f);
+        Point point = findElementByWait(findElementByImage,option,timeOut);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        this.setHW(new int[]{0,0});
+        return this;
+    }
+
+    public WinUIElementRef findElementByImage(String imagePath, float ratioThreshValue, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        Point point = findElementByWait(findElementByImage,option,timeOut);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        this.setHW(new int[]{0,0});
+        return this;
+    }
+
+    public WinUIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index){
+        return findElementsByImage(imagePath,ratioThreshValue,cluster,index,DEFAULT_TIMEOUT);
+    }
+
+    public WinUIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        option.setCluster(cluster);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeOut);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         this.setHW(new int[]{0,0});
         return this;
+    }
+
+    public boolean assertElementExist(String var,String method) {
+        return  assertElementExist(var,method,DEFAULT_TIMEOUT);
+    }
+
+    public boolean assertElementExist(String var,String method,int timeout) {
+        boolean res;
+        if(Objects.equals(method, "ByText")){
+            res = AssertElementExistByWait(findElementByText,this,var,timeout);
+        }else if(Objects.equals(method, "ByFullDescription")){
+            res = AssertElementExistByWait(findElementByFullDescription,this,var,timeout);
+        }else if(Objects.equals(method, "ByAutomationId")){
+            res = AssertElementExistByWait(findElementByAutomationId,this,var,timeout);
+        }else if(Objects.equals(method,"ByPartialText")){
+            res = AssertElementExistByWait(findElementByPartialText,this,var,timeout);
+        }else if(Objects.equals(method,"ByRole")){
+            res = AssertElementExistByWait(findElementByRole,this,var,timeout);
+        }else {
+            throw new IllegalArgumentException("The method could not be found!");
+        }
+        return  res;
+    }
+
+    public boolean assertWindowExist(String windowName) {
+        return assertWindowExist(windowName,DEFAULT_TIMEOUT);
+    }
+
+    public boolean assertWindowExist(String windowName,int timeout) {
+        return AssertWindowExistByWait(findWindowByName,windowName,timeout);
     }
 
     public void click(boolean toHWND){
@@ -305,7 +360,7 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
 
     public void hover(){
         CallUser32.SetFocus(this);
-        CallQuartzEventServices.mouseMoveEvent(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        CallUser32.MouseMove(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void doubleClick(){

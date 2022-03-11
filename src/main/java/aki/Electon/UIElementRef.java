@@ -3,12 +3,12 @@ package aki.Electon;
 import aki.OpenCV.FindUIElementByImage;
 import aki.Common.WaitFun;
 import aki.Mac.*;
+import aki.OpenCV.OptionOfFindByImage;
 import aki.Windows.CallUser32;
 import org.opencv.core.Point;
 
 import java.util.ArrayList;
 
-import static aki.OpenCV.FindUIElementByImage.findElementByImage;
 
 
 public class UIElementRef implements WaitFun, FindUIElementByImage {
@@ -23,17 +23,81 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
         this.y = vars[1];
     }
 
-    public UIElementRef findElementByImage(String imagePath){
-        Point point = findElementByWait(findElementByImage,imagePath,DEFAULT_TIMEOUT);
+
+    public UIElementRef findElementByImage(String imagePath,float ratioThreshValue){
+        return findElementByImage(imagePath,ratioThreshValue,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementByImage(String imagePath,float ratioThreshValue,int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        Point point = findElementByWait(findElementByImage,option,timeOut);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
     }
 
-    public UIElementRef findElementsByImage(String imagePath, int k, int index){
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,DEFAULT_TIMEOUT);
+    public UIElementRef findElementByImage(String imagePath){
+        return findElementByImage(imagePath,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementByImage(String imagePath,int timeout){
+        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
+        optionOfFindByImage.setImagePath(imagePath);
+        Point point = findElementByWait(findElementByImage,optionOfFindByImage,timeout);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        return this;
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, int cluster, int index) {
+        return findElementsByImage(imagePath,cluster,index,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, int cluster, int index,int timeout){
+        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
+        optionOfFindByImage.setImagePath(imagePath);
+        optionOfFindByImage.setCluster(cluster);
+        optionOfFindByImage.setRatioThreshValue(0.4f);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,optionOfFindByImage,timeout);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index) {
+        return findElementsByImage(imagePath,ratioThreshValue,cluster,index,DEFAULT_TIMEOUT);
+    }
+
+    public UIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index,int timeout){
+        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
+        optionOfFindByImage.setImagePath(imagePath);
+        optionOfFindByImage.setCluster(cluster);
+        optionOfFindByImage.setRatioThreshValue(ratioThreshValue);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,optionOfFindByImage,timeout);
+        Point point = pointArrayList.get(index);
+        this.setXY(new int[]{(int) point.x,(int) point.y});
+        return this;
+    }
+
+    public boolean assertElementExistByImage(String imagePath) {
+        return assertElementExistByImage(imagePath,0.4f,DEFAULT_TIMEOUT);
+    }
+
+    public boolean assertElementExistByImage(String imagePath,int timeout) {
+        return assertElementExistByImage(imagePath,0.4f,timeout);
+    }
+
+    public boolean assertElementExistByImage(String imagePath,float ratioThreshValue) {
+        return assertElementExistByImage(imagePath,ratioThreshValue,DEFAULT_TIMEOUT);
+    }
+
+    public boolean assertElementExistByImage(String imagePath, float ratioThreshValue,int timeout) {
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        boolean res;
+        res = AssertElementExistByWait(findElementByImage,option,timeout);
+        return  res;
     }
 
     public void click(){

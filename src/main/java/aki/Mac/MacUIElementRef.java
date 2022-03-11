@@ -1,8 +1,10 @@
 package aki.Mac;
 
+import aki.Common.ImageAssert;
 import aki.OpenCV.FindUIElementByImage;
 import aki.Common.WaitFun;
 import aki.Mac.CoreGraphics.CGGeometry.CGFloat;
+import aki.OpenCV.OptionOfFindByImage;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.mac.CoreFoundation;
 import com.sun.jna.platform.mac.CoreFoundation.*;
@@ -14,9 +16,10 @@ import org.opencv.core.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
-public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun, FindUIElementByImage {
+public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun, FindUIElementByImage, ImageAssert {
     public MacUIElementRef() {
         super();
     }
@@ -188,6 +191,14 @@ public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun
         return findElementsByWait(findElementsByText,this,text,timeout).get(index);
     }
 
+    public MacUIElementRef findElementByText(String text){
+        return findElementByWait(findElementByText,this,text,DEFAULT_TIMEOUT);
+    }
+
+    public MacUIElementRef findElementByText(String text, int timeout){
+        return findElementByWait(findElementByText,this,text,timeout);
+    }
+
     public MacUIElementRef findElementsByPartialText(String text, int index){
         return findElementsByWait(findElementsByPartialText,this, text,DEFAULT_TIMEOUT).get(index);
     }
@@ -204,12 +215,29 @@ public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun
         return findElementsByWait(findElementsByRole,this,role,timeout).get(index);
     }
 
+    public MacUIElementRef findElementByRole(String role){
+        return findElementByWait(findElementByRole,this,role,DEFAULT_TIMEOUT);
+    }
+
+    public MacUIElementRef findElementByRole(String role, int timeout){
+        return findElementByWait(findElementByRole,this,role,timeout);
+    }
+
+
     public MacUIElementRef findElementsBySubRole(String SubRole, int index){
         return findElementsByWait(findElementsBySubRole,this,SubRole,DEFAULT_TIMEOUT).get(index);
     }
 
     public MacUIElementRef findElementsBySubRole(String SubRole, int index, int timeout){
         return findElementsByWait(findElementsBySubRole,this,SubRole,timeout).get(index);
+    }
+
+    public MacUIElementRef findElementBySubRole(String SubRole){
+        return findElementByWait(findElementBySubRole,this,SubRole,DEFAULT_TIMEOUT);
+    }
+
+    public MacUIElementRef findElementBySubRole(String SubRole, int timeout){
+        return findElementByWait(findElementBySubRole,this,SubRole,timeout);
     }
 
     public MacUIElementRef findElementByXpath(String xpath){
@@ -228,29 +256,94 @@ public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun
         return findElementByWait(findElementByIdentifier,this,identifier,timeout);
     }
 
+    public MacUIElementRef findElementByImage(String imagePath,float ratioThreshValue) {
+        return  findElementByImage(imagePath,ratioThreshValue,DEFAULT_TIMEOUT);
+    }
+
+    public MacUIElementRef findElementByImage(String imagePath,float ratioThreshValue, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        Point point = findElementByWait(findElementByImage,option,timeOut);
+        CGFloat x = new CGFloat(point.x);
+        CGFloat y = new CGFloat(point.y);
+        this.setXY(new CGFloat[]{x,y});
+        return this;
+    }
+
     public MacUIElementRef findElementByImage(String imagePath) {
         return  findElementByImage(imagePath,DEFAULT_TIMEOUT);
     }
 
     public MacUIElementRef findElementByImage(String imagePath, int timeOut){
-        Point point = findElementByWait(findElementByImage,imagePath,timeOut);
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(0.4f);
+        Point point = findElementByWait(findElementByImage,option,timeOut);
         CGFloat x = new CGFloat(point.x);
         CGFloat y = new CGFloat(point.y);
         this.setXY(new CGFloat[]{x,y});
         return this;
     }
 
-    public MacUIElementRef findElementsByImage(String imagePath, int k, int index){
-        return findElementsByImage(imagePath,k,index,DEFAULT_TIMEOUT);
+
+    public MacUIElementRef findElementsByImage(String imagePath,int cluster,int index){
+        return findElementsByImage(imagePath,cluster,index,DEFAULT_TIMEOUT);
     }
 
-    public MacUIElementRef findElementsByImage(String imagePath, int k, int index, int timeOut){
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,imagePath,k,timeOut);
+    public MacUIElementRef findElementsByImage(String imagePath,int cluster, int index, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(0.4f);
+        option.setCluster(cluster);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeOut);
         Point point = pointArrayList.get(index);
         CGFloat x = new CGFloat(point.x);
         CGFloat y = new CGFloat(point.y);
         this.setXY(new CGFloat[]{x,y});
         return this;
+    }
+
+    public MacUIElementRef findElementsByImage(String imagePath,float ratioThreshValue,int cluster,int index){
+        return findElementsByImage(imagePath,ratioThreshValue,cluster,index,DEFAULT_TIMEOUT);
+    }
+
+    public MacUIElementRef findElementsByImage(String imagePath, float ratioThreshValue,int cluster, int index, int timeOut){
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setRatioThreshValue(ratioThreshValue);
+        option.setCluster(cluster);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeOut);
+        Point point = pointArrayList.get(index);
+        CGFloat x = new CGFloat(point.x);
+        CGFloat y = new CGFloat(point.y);
+        this.setXY(new CGFloat[]{x,y});
+        return this;
+    }
+
+    public boolean assertElementExist(String var,String method) {
+        return assertElementExist(var,method,DEFAULT_TIMEOUT);
+    }
+
+    public boolean assertElementExist(String var,String method,int timeout) {
+        boolean res;
+        if(Objects.equals(method, "ByText")){
+            res = AssertElementExistByWait(findElementByText,this,var,timeout);
+        }else if(Objects.equals(method, "ByIdentifier")){
+            res = AssertElementExistByWait(findElementByIdentifier,this,var,timeout);
+        }else if(Objects.equals(method, "ByXpath")){
+            res = AssertElementExistByWait(findElementByXpath,this,var,timeout);
+        }else if(Objects.equals(method,"ByPartialText")){
+            res = AssertElementExistByWait(findElementByPartialText,this,var,timeout);
+        }else if(Objects.equals(method,"ByRole")){
+            res = AssertElementExistByWait(findElementByRole,this,var,timeout);
+        }else if(Objects.equals(method,"BySubRole")){
+            res = AssertElementExistByWait(findElementBySubRole,this,var,timeout);
+        }
+        else {
+            throw new IllegalArgumentException("The method could not be found!");
+        }
+        return  res;
     }
 
     public void retain() {

@@ -19,7 +19,7 @@ public class windows_test {
     public void initializeUIElement() {
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(true);
-        launchOption.setDefaultTimeout(30000);
+        launchOption.setLaunchTimeoutTimeout(30000);
         app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
     }
 
@@ -27,6 +27,7 @@ public class windows_test {
     public void testCase() {
         app.setTimeout(1900);
         app.findElementByAutomationId("num3Button").click();
+        System.out.println(app.assertElementExist("num3Button","ByAutomationId"));
         app.findElementByAutomationId("num2Button",100000).click();
         app.findElementByAutomationId("multiplyButton").click();
         app.findElementByAutomationId("num3Button").click();

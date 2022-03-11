@@ -3,19 +3,10 @@ package aki.Common;
 public class LaunchOption {
     private int defaultTimeout = 20000;
     private int launchTimeout = 20000;
-    private boolean checkWindowsShowOption = true;
     private boolean isUWPApp = false;
     private boolean alreadyLaunch = false;
 
     public LaunchOption(){
-    }
-
-    public Boolean getCheckWindowsShowOption(){
-        return this.checkWindowsShowOption;
-    }
-
-    public void setCheckWindowsShow(Boolean checkWindowsShowOption){
-         this.checkWindowsShowOption = checkWindowsShowOption ;
     }
 
     public int getDefaultTimeout(){
@@ -38,6 +29,7 @@ public class LaunchOption {
     public boolean getIsUWPApp(){
         return this.isUWPApp;
     }
+
 
     public void setIsUWPApp(Boolean isUWPApp){
         this.isUWPApp = isUWPApp;

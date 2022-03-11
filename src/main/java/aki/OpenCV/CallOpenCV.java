@@ -27,12 +27,12 @@ public class CallOpenCV {
         return  fileName;
     }
 
-    public ArrayList<Point> getKnnMatchesMultiple(String imgScenePath, int k){
+    public ArrayList<Point> getKnnMatchesMultiple(String imgScenePath, float ratioThreshValue, int k){
         String imagePath = getCurrentScreen();
-        return getKnnMatchesMultiple(imagePath,imgScenePath,k);
+        return getKnnMatchesMultiple(imagePath,imgScenePath,ratioThreshValue,k);
     }
 
-    public ArrayList<Point> getKnnMatchesMultiple(String imagePath,String imgScenePath, int k){
+    public ArrayList<Point> getKnnMatchesMultiple(String imagePath,String imgScenePath, float ratioThreshValue, int k){
     System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
     //获取原图
     Mat imgObject = imread(imagePath);
@@ -61,21 +61,20 @@ public class CallOpenCV {
     matcher.knnMatch(descriptorsObject, descriptorsScene, knnMatches, 2);
 
     //设置过滤值
-    float ratioThresh = 0.4f;
 
-    List<DMatch> listOfGoodMatches = new ArrayList<>();
+        List<DMatch> listOfGoodMatches = new ArrayList<>();
 
     for (MatOfDMatch knnMatch : knnMatches) {
         //distance越小匹配度越高
         if (knnMatch.rows() > 1) {
             DMatch[] matches = knnMatch.toArray();
-            if (matches[0].distance < ratioThresh * matches[1].distance) {
+            if (matches[0].distance < ratioThreshValue * matches[1].distance) {
                 listOfGoodMatches.add(matches[0]);
             }
         }
     }
     if(listOfGoodMatches.size()==0){
-        throw new RuntimeException("No match can be found");
+        return new ArrayList<>();
     }
     MatOfDMatch goodMatches = new MatOfDMatch();
 
@@ -101,12 +100,12 @@ public class CallOpenCV {
     return pointArray;
     }
 
-    public Point getKnnMatches(String imgScenePath) {
+    public Point getKnnMatches(String imgScenePath,float ratioThreshValue) {
         String imagePath = getCurrentScreen();
-        return getKnnMatches(imagePath,imgScenePath);
+        return getKnnMatches(imagePath,imgScenePath, ratioThreshValue);
     }
 
-    public Point getKnnMatches(String imagePath,String imgScenePath){
+    public Point getKnnMatches(String imagePath,String imgScenePath,float ratioThreshValue){
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
         //获取原图
         Mat imgObject = imread(imagePath);
@@ -135,7 +134,6 @@ public class CallOpenCV {
         matcher.knnMatch(descriptorsObject, descriptorsScene, knnMatches, 2);
 
         //设置过滤值
-        float ratioThresh = 0.4f;
 
         List<DMatch> listOfGoodMatches = new ArrayList<>();
 
@@ -143,13 +141,14 @@ public class CallOpenCV {
             //distance越小匹配度越高
             if (knnMatch.rows() > 1) {
                 DMatch[] matches = knnMatch.toArray();
-                if (matches[0].distance < ratioThresh * matches[1].distance) {
+                if (matches[0].distance < ratioThreshValue * matches[1].distance) {
                     listOfGoodMatches.add(matches[0]);
                 }
             }
         }
         if(listOfGoodMatches.size()==0){
-            throw new RuntimeException("No match can be found");
+            float x=0,y=0;
+            return new Point(x,y);
         }
         MatOfDMatch goodMatches = new MatOfDMatch();
 

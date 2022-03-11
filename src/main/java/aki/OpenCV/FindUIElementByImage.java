@@ -7,19 +7,19 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface FindUIElementByImage {
-    static Point findElementByImage(String imagePath){
+    static Point findElementByImage(OptionOfFindByImage optionOfFindByImage){
         CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatches(imagePath);
+        return openCV.getKnnMatches(optionOfFindByImage.getImagePath(), optionOfFindByImage.getRatioThreshValue());
     }
 
-    Function<String, Point> findElementByImage = FindUIElementByImage::findElementByImage;
+    Function<OptionOfFindByImage, Point> findElementByImage = FindUIElementByImage::findElementByImage;
 
 
-    static ArrayList<Point> findElementsByImage(String imagePath, int k){
+    static ArrayList<Point> findElementsByImage(OptionOfFindByImage optionOfFindByImage){
         CallOpenCV openCV =new CallOpenCV();
-        return openCV.getKnnMatchesMultiple(imagePath, k);
+        return openCV.getKnnMatchesMultiple(optionOfFindByImage.getImagePath(), optionOfFindByImage.getRatioThreshValue(), optionOfFindByImage.getCluster());
     }
 
-    BiFunction<String, Integer, ArrayList<Point>> findElementsByImage = FindUIElementByImage::findElementsByImage;
+    Function<OptionOfFindByImage, ArrayList<Point>> findElementsByImage = FindUIElementByImage::findElementsByImage;
 
 }
