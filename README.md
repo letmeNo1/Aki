@@ -14,7 +14,7 @@ Maven dependency
 <dependency>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0.8</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -196,7 +196,7 @@ Maven 依赖
 <dependency>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
