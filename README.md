@@ -14,7 +14,7 @@ Maven dependency
 <dependency>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0.8</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -177,6 +177,12 @@ Pass startup parameters as objects
        `int index = 1 //The index of the element you want to get`
 
        `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+       
+      3. The above feature recognition algorithm, the default precision is 4f (this value is 0 value. The range value is 1~1, the value is all value 1)
+     
+     The value is passed through the ratio ThreshValue
+     
+     `app.findElementByImage(imageFolderPath, ratioThreshValue)` or `app.findElementsByImage(imageFolderPath,ratioThreshValue,cluster, index)`
 
     
 ### Operation
@@ -196,7 +202,7 @@ Maven 依赖
 <dependency>
     <groupId>io.github.letmeno1</groupId>
     <artifactId>aki</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -250,19 +256,19 @@ Accessibility Inspector：Xcode -> 打开 Developer Tools
 
 App 窗口本身就是一个 UIElementRef 对象，而每个元素也都是一个 UIElementRef 对象。你可以通过UIElementRef来调用各种查找或者是点击的方法
 
-***鼠标事件 ***
+ ***鼠标事件：***
 
 UIElementRef 对象支持单击、双击、长按、悬停
 
 例如:  `app.findElementsByText("Input phone number",0).click()` 或 `app.findElementsByText("Input phone number",0).doubleClick()`
 
-***输入事件 ***
+ ***输入事件：***
 
 UIElementRef 对象支持输入和清除
 
 例如:  `app.findElementsByText("Input phone number",0).type("188888")` 或 `app.findElementsByText("Input phone number",0).clear()`
 
-***启动参数 ***
+***启动参数：***
 
 在启动App前，可设置以下启动参数，
 `LaunchOption launchOption = new LaunchOption();`
@@ -347,16 +353,25 @@ UIElementRef 对象支持输入和清除
      1.单一对象识别，当页面上元素唯一时可使用该方法
       
       `String imageFolderPath = "图像路径"`
-      `app.findElementByImage(imageFolderPath + "001.png")`
+      
+      `app.findElementByImage(imageFolderPath)`
       
      2.多对象识别，需提供目标页面上待识别对象个数，将返回一个元素集合，通过index来索引你需要的元素
       
-      `int k = 3; //待识别的图像个数`
+      `String imageFolderPath = "图像路径"`
+      
+      `int cluster = 3; //待识别的图像个数`
 
       `int index = 1 //想要获取的元素索引`
 
-      `app.findElementsByImage(imageFolderPath + "001.png",k, index)`
+      `app.findElementsByImage(imageFolderPath,cluster, index)`
+      
+     3.以上定位都采用特征值算法进行图像识别,默认精度对0.4f(此数值为浮点型, 范围值为0.1~1，值越大识别精度越低,值越小识别精度越高)
      
+     该值通过通过ratioThreshValue来传递
+     
+     `app.findElementByImage(imageFolderPath, ratioThreshValue)` or `app.findElementsByImage(imageFolderPath,ratioThreshValue,cluster, index)`
+
 
       `
     
