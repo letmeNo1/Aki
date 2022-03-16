@@ -80,13 +80,22 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
         return automationId;
     }
 
-    public String get_FullDescriptionPropertyId() {
-        String automationId = "";
+    public String get_FullDescription() {
+        String fullDescriptionPropertyId = "";
         try {
-            automationId = GetIAccessibleExFromClient.getPropertyValue(this,UIA_FullDescriptionPropertyId).toString();
+            fullDescriptionPropertyId = GetIAccessibleExFromClient.getPropertyValue(this,UIA_FullDescriptionPropertyId).toString();
         }catch (RuntimeException ignore){
         }
-        return automationId;
+        return fullDescriptionPropertyId;
+    }
+
+    public String get_ClassName() {
+        String className = "";
+        try {
+            className = GetIAccessibleExFromClient.getPropertyValue(this,UIA_ClassNamePropertyId).toString();
+        }catch (RuntimeException ignore){
+        }
+        return className;
     }
 
     public List<WinUIElementRef> get_ChildrenElements() {
