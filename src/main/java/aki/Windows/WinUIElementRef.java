@@ -266,6 +266,23 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
         return findElementByWait(findElementByFullDescription,this,fullDescription,timeOut);
     }
 
+
+    public WinUIElementRef findElementsByClassName(String className, int index) {
+        return findElementsByClassName(className,index,DEFAULT_TIMEOUT);
+    }
+
+    public WinUIElementRef findElementsByClassName(String className, int index, int timeOut){
+        return findElementsByWait(findElementsByClassName,this,className,timeOut).get(index);
+    }
+
+    public WinUIElementRef findElementByClassName(String className) {
+        return findElementByFullDescription(className,DEFAULT_TIMEOUT);
+    }
+
+    public WinUIElementRef findElementByClassName(String className, int timeOut){
+        return findElementByWait(findElementByClassName,this,className,timeOut);
+    }
+
     public WinUIElementRef findWindowByWindowName(String windowName, int timeOut){
         return CallOleacc.getAccessibleObject(CallUser32.findWindowByNameByWait(windowName,timeOut));
     }
