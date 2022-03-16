@@ -178,8 +178,9 @@ public interface WaitFun {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();
         while(true){
+            log.logInfo("Looking for element..");
             Point res = function.apply(optionOfFindByImage);
-            if(!Double.isNaN(res.x)){
+            if(res.x>=0){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
                 log.logInfo(String.format("Found element %s in %ss",optionOfFindByImage.getImagePath(),timeElapsed));
@@ -196,6 +197,7 @@ public interface WaitFun {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();
         while(true){
+            log.logInfo("Looking for element..");
             Point res = function.apply(option);
             if(res.x>=0){
                 Instant finish = Instant.now();
@@ -215,6 +217,7 @@ public interface WaitFun {
         Instant end = clock.instant().plus(setTimeout(timeout));
         Instant start = Instant.now();
         while(true){
+            log.logInfo("Looking for element..");
             ArrayList<Point> resList = function.apply(option);
             if(!resList.isEmpty()){
                 Instant finish = Instant.now();

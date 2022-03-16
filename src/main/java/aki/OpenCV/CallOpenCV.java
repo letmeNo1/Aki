@@ -146,7 +146,7 @@ public class CallOpenCV {
                 }
             }
         }
-        if(listOfGoodMatches.size()<9){
+        if(listOfGoodMatches.size()<=1){
             float x=-1,y=-1;
             return new Point(x,y);
         }else{
