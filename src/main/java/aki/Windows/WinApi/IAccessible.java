@@ -33,6 +33,16 @@ public class IAccessible extends Dispatch implements IUnknown {
                 WinNT.HRESULT.class);
     }
 
+    public WinNT.HRESULT get_accDefaultAction(Variant.VARIANT varID, WTypes.BSTRByReference pszName) {
+        return (WinNT.HRESULT)this._invokeNativeObject(IAccessibleVtbMapped.getAccDefaultAction ,
+                new Object[]{
+                        this.getPointer(),
+                        varID,
+                        pszName
+                },
+                WinNT.HRESULT.class);
+    }
+
     public WinNT.HRESULT get_accRole(Variant.VARIANT varID, Variant.VARIANT pvarRole) {
         return (WinNT.HRESULT)this._invokeNativeObject(IAccessibleVtbMapped.get_accRole ,
                 new Object[]{

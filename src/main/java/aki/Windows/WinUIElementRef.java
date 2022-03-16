@@ -176,6 +176,20 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
         return "Null";
     }
 
+    public String get_DefaultAction(){
+        WTypes.BSTRByReference pstr = new WTypes.BSTRByReference();
+
+        Variant.VARIANT varChild = new Variant.VARIANT();
+        varChild.setValue((short)Variant.VT_I4, new WinDef.LONG(0));
+
+        WinNT.HRESULT hr = this.get_accDefaultAction(varChild, pstr);
+
+        if (COMUtils.SUCCEEDED(hr))
+            return pstr.getString();
+
+        return "Null";
+    }
+
     public Location get_Location(){
         NativeLongByReference pxLeft = new NativeLongByReference();
         NativeLongByReference pyTop = new NativeLongByReference();
