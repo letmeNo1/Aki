@@ -23,28 +23,30 @@ public class windowsImagePositioning {
 
     @Test
     public void testCase() throws InterruptedException {
+        Thread.sleep(3000);
         String imageFolderPath = System.getProperty("user.dir") + "/src/test/java/Image/";
         app.findElementByImage(imageFolderPath + "001.png").click();
-        app.findElementByImage(imageFolderPath + "happy-HITS.png");
-        app.findElementByImage(imageFolderPath + "Play.png").click();
-        app.findElementByImage(imageFolderPath + "home.png").click();
+        app.findElementByImage(imageFolderPath + "Play.png");
+        app.findElementByImage(imageFolderPath + "Home.png").click();
         app.findElementByImage(imageFolderPath + "002.png").click();
-        app.findElementByImage(imageFolderPath + "Hip-hop.png");
+        Thread.sleep(2000);
         app.findElementByImage(imageFolderPath + "Play.png").click();
-        app.findElementByImage(imageFolderPath + "home.png").click();
-        app.findElementByImage(imageFolderPath + "003.png").click();
-        app.findElementByImage(imageFolderPath + "breakHeart-pop.png");
-        app.findElementByImage(imageFolderPath + "Play.png").click();
-        app.findElementByImage(imageFolderPath + "home.png").click();
-        app.findElementByImage(imageFolderPath + "Explore.png").click();
-        app.findElementByImage(imageFolderPath + "Library.png").click();
+//        app.findElementByImage(imageFolderPath + "Home.png",0.4f).click();
+//        app.findElementByImage(imageFolderPath + "Play.png",0.4f).click();
+//        app.findElementByImage(imageFolderPath + "home.png",0.4f).click();
+//        app.findElementByImage(imageFolderPath + "003.png",0.4f).click();
+//        app.findElementByImage(imageFolderPath + "breakHeart-pop.png").click();
+//        app.findElementByImage(imageFolderPath + "Play.png").click();
+//        app.findElementByImage(imageFolderPath + "home.png").click();
+//        app.findElementByImage(imageFolderPath + "Explore.png").click();
+//        app.findElementByImage(imageFolderPath + "Library.png").click();
         String Desktop =FileSystemView.getFileSystemView().getHomeDirectory().getPath();
         Operation.takeScreenshotForDesktop(Desktop+"/Screenshot_1634617817.png");
     }
 
     @After
     public void end() throws IOException {
-        Operation.killApp();
+//        Operation.killApp();
     }
 
 

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static org.opencv.highgui.HighGui.imshow;
+import static org.opencv.highgui.HighGui.waitKey;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class CallOpenCV {
@@ -115,6 +117,7 @@ public class CallOpenCV {
             System.err.println("Cannot read images!");
             System.exit(0);
         }
+
 
         //创建Sift检测器
         SIFT sift = SIFT.create(0, 3, 0.04, 10, 1.6);

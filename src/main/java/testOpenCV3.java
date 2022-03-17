@@ -19,21 +19,21 @@ import static org.opencv.imgproc.Imgproc.circle;
 
 class testOpenCV3 {
     public static void main(String[] args) throws Exception {
-//        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-////        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
-////        System.load(url.getPath());
-//        //获取原图
-//        Mat imgObject = imread("C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png",IMREAD_GRAYSCALE);
-//        //获取用于定位的图片
-//        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\yes_button.png",IMREAD_GRAYSCALE);
-//        CallOpenCV openCV =new CallOpenCV();
-//
-//        String aa = "C:\\Users\\CNHAHUA16\\Desktop\\Screenshot_1634617817.png";
-//        String bb = "C:\\Users\\CNHAHUA16\\Desktop\\SVC-Provisioning-Tools-Automation-Test\\src\\test\\java\\Image\\pick_an_account.png";
-//        System.out.println(openCV.getKnnMatches(aa, bb,0.3f));
+        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
+//        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
+//        System.load(url.getPath());
+        //获取原图
+            Mat imgObject = imread("C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png",IMREAD_GRAYSCALE);
+        //获取用于定位的图片
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\yes_button.png",IMREAD_GRAYSCALE);
+        CallOpenCV openCV =new CallOpenCV();
+
+        String aa = "C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png";
+        String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\001.png";
+        System.out.println(openCV.getKnnMatches(aa, bb,0.4f));
 
 
-        Runtime.getRuntime().exec("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.5.0.15\\ELConnect.exe");
+//        Runtime.getRuntime().exec("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.5.0.15\\ELConnect.exe");
 
 //        if (imgObject.empty() || imgScene.empty()) {
 //            System.err.println("Cannot read images!");
@@ -111,13 +111,13 @@ class testOpenCV3 {
 //        }
 //        //求坐标平均值
 //
-//        x=x/j;
-//        y=y/j;
-//        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
-//
-//        imshow("location",imgObject);
-//        imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
-//        waitKey(0);//      System.out.println(res.rows());
+        double x=openCV.getKnnMatches(aa, bb,0.4f).x;
+        double y =openCV.getKnnMatches(aa, bb,0.4f).y;
+        circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
+
+        imshow("location",imgObject);
+        imwrite("C:\\Users\\CNHAHUA16\\Desktop\\3.jpg",imgObject);
+        waitKey(0);//      System.out.println(res.rows());
 
     }
 }

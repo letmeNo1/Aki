@@ -44,6 +44,7 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     public UIElementRef findElementByImage(String imagePath,int timeout){
         OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
         optionOfFindByImage.setImagePath(imagePath);
+        optionOfFindByImage.setRatioThreshValue(0.4f);
         Point point = findElementByWait(findElementByImage,optionOfFindByImage,timeout);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;

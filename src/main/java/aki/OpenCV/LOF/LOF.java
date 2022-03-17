@@ -143,13 +143,13 @@ public class LOF {
                 tempNodeList.add(nodeB);
             }
 
-            if(tempNodeList.size()<INT_K&&tempNodeList.size()>2){
-                INT_K = tempNodeList.size();
+            if(tempNodeList.size()<INT_K){
+                INT_K = tempNodeList.size()-1;
             }
             //2,对所有NodeB点中的欧几里得距离（distance）进行升序排序。  
             tempNodeList.sort(new DistComparator());
             for (int k = 1; k < INT_K; k++) {
-                //3,找到NodeB点的前5位的欧几里得距离点，并记录到到NodeA的kNeighbor变量中。  
+                //3,找到NodeB点的前5位的欧几里得距离点，并记录到到NodeA的kNeighbor变量中。
                 nodeA.getkNeighbor().add(tempNodeList.get(k));
                 if (k == INT_K - 1) {
                     //4,找到NodeB点的第5位距离，并记录到NodeA点的kDistance变量中。  

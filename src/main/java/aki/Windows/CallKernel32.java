@@ -18,34 +18,28 @@ public class CallKernel32 {
     public static int getProcessesIdByName(String executeName,LaunchOption launchOption){
         HANDLE snapshot;
         DWORD pid = new DWORD();
-        try {
-            snapshot = Kernel32.INSTANCE.CreateToolhelp32Snapshot(
-                    Tlhelp32.TH32CS_SNAPPROCESS,  new DWORD( 0 ) );
-            final Tlhelp32.PROCESSENTRY32 entry = new Tlhelp32.PROCESSENTRY32();
-            Kernel32.INSTANCE.Process32First( snapshot,  entry );
-            log.logInfo("looking for pid...");
-            do {
-                final String szExeFileName = String.valueOf(entry.szExeFile);
-                if(launchOption.getIsUWPApp()){
-                    if(szExeFileName.contains("ApplicationFrameHost.exe")){
-                        pid = entry.th32ProcessID;
-                        log.logInfo("Found it! pid of current app is " + pid);
-                        return pid.intValue();
-                    }
-                }else {
-                    if(szExeFileName.toLowerCase().contains(executeName.toLowerCase())){
-                        pid = entry.th32ProcessID;
-                        log.logInfo("Found it! pid of current app is " + pid);
-                        return pid.intValue();
-                    }
+        snapshot = Kernel32.INSTANCE.CreateToolhelp32Snapshot(
+                Tlhelp32.TH32CS_SNAPPROCESS,  new DWORD( 0 ) );
+        final Tlhelp32.PROCESSENTRY32 entry = new Tlhelp32.PROCESSENTRY32();
+        Kernel32.INSTANCE.Process32First( snapshot,  entry );
+        log.logInfo("looking for pid...");
+        do {
+            final String szExeFileName = String.valueOf(entry.szExeFile);
+            if(launchOption.getIsUWPApp()){
+                if(szExeFileName.contains("ApplicationFrameHost.exe")){
+                    pid = entry.th32ProcessID;
+                    log.logInfo("Found it! pid of current app is " + pid);
+                    return pid.intValue();
                 }
-            } while ( Kernel32.INSTANCE.Process32Next( snapshot, entry ) );
-            log.logErr("pid not found!");
-
-
-        }catch (Exception ignored){
-
-        }
+            }else {
+                if(szExeFileName.toLowerCase().contains(executeName.toLowerCase())){
+                    pid = entry.th32ProcessID;
+                    log.logInfo("Found it! pid of current app is " + pid);
+                    return pid.intValue();
+                }
+            }
+        } while ( Kernel32.INSTANCE.Process32Next( snapshot, entry ) );
+        log.logErr("pid not found!");
         return 0;
     }
 

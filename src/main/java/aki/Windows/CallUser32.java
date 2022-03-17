@@ -52,8 +52,9 @@ public class CallUser32 implements WaitFun {
     }
 
     public static void waitAppLaunched(String bundleIdentifierOrAppLaunchPath, LaunchOption launchOption) {
+        log.logInfo("Wait for the window to initialize successfully...");
         Clock clock = Clock.systemDefaultZone();
-        Instant end = clock.instant().plus(SetTimeout(launchOption.getDefaultTimeout()));
+        Instant end = clock.instant().plus(SetTimeout(launchOption.getLaunchTimeoutTimeout()));
         HWND currentWinHWND;
         if (launchOption.getIsUWPApp()) {
             bundleIdentifierOrAppLaunchPath = "C:\\Windows\\System32\\ApplicationFrameHost.exe";
