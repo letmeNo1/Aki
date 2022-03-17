@@ -19,8 +19,8 @@ public class windows_test {
     public void initializeUIElement() {
         LaunchOption launchOption = new LaunchOption();
         launchOption.setIsUWPApp(true);
-        launchOption.setLaunchTimeoutTimeout(30000);
-        app = Operation.initializeAppRefForWin("C:\\WINDOWS\\System32\\calc.exe",launchOption);
+        launchOption.setLaunchTimeoutTimeout(2000);
+        app = Operation.initializeAppRefForWin("C:\\Program Files\\OldClassicCalc\\calc1.exe",launchOption);
     }
 
     @Test

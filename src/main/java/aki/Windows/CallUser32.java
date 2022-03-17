@@ -35,9 +35,9 @@ public class CallUser32 implements WaitFun {
 
     public static HWND waitAppLaunched(int pid,LaunchOption launchOption) {
         log.logInfo("Wait for the window to initialize successfully...");
+        Clock clock = Clock.systemDefaultZone();
+        Instant end = clock.instant().plus(SetTimeout(launchOption.getLaunchTimeoutTimeout()));
         while (true) {
-            Clock clock = Clock.systemDefaultZone();
-            Instant end = clock.instant().plus(SetTimeout(launchOption.getLaunchTimeoutTimeout()));
             HWND hwnd = getCurrentWinHWND(pid);
             if (hwnd.getPointer() != null) {
                 log.logInfo("launch app successful!");
@@ -45,6 +45,7 @@ public class CallUser32 implements WaitFun {
                 User32.INSTANCE.SetFocus(hwnd);
                 return hwnd;
             }
+            System.out.println(end);
             if (end.isBefore(clock.instant())) {
                 throw new RuntimeException("launch app timeout");
             }
