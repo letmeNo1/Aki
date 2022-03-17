@@ -29,7 +29,7 @@ public class windowsImagePositioning {
         app.findElementByImage(imageFolderPath + "Play.png");
         app.findElementByImage(imageFolderPath + "Home.png").click();
         app.findElementByImage(imageFolderPath + "002.png").click();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         app.findElementByImage(imageFolderPath + "Play.png").click();
 //        app.findElementByImage(imageFolderPath + "Home.png",0.4f).click();
 //        app.findElementByImage(imageFolderPath + "Play.png",0.4f).click();
