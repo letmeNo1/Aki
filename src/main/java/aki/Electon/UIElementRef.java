@@ -15,14 +15,21 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     private final int DEFAULT_TIMEOUT = 20000;
     public UIElementRef() {}
 
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
     public void setXY(int[] vars) {
         this.x = vars[0];
         this.y = vars[1];
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
 
     public UIElementRef findElementByImage(String imagePath,float ratioThreshValue){
         return findElementByImage(imagePath,ratioThreshValue,DEFAULT_TIMEOUT);

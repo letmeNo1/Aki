@@ -41,6 +41,14 @@ public class MacUIElementRef extends CFTypeRef implements FindUIElement, WaitFun
         this.y = vars[1];
     }
 
+    public int getX() {
+        return this.x.intValue();
+    }
+
+    public int getY() {
+        return this.y.intValue();
+    }
+
     public void isForefront(){
         MacUIElementRef topLevelElement;
         MacUIElementRef currentLevelElement = this;
