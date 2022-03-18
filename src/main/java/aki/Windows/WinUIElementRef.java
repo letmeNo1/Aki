@@ -51,6 +51,14 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
         return vars;
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
     public int[] getHW(int[] vars) {
         vars[0]= this.h;
         vars[1] = this.w;
@@ -400,7 +408,7 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
 
     public void hover(){
         CallUser32.SetFocus(this);
-        CallUser32.MouseMove(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
+        CallUser32.mouseMove(coordinateTransformation(this)[0], coordinateTransformation(this)[1]);
     }
 
     public void doubleClick(){

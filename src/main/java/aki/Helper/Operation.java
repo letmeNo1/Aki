@@ -83,7 +83,15 @@ public class Operation {
 
     public static void mouseMoveEvent(int x,int y) {
         if(System.getProperty("os.name").contains("Windows")){
-            CallUser32.MouseMove(x,y);
+            CallUser32.mouseMove(x,y);
+        }else {
+            CallQuartzEventServices.mouseMoveEvent(x,y);
+        }
+    }
+
+    public static void wheelEvent(int distance,int x,int y) {
+        if(System.getProperty("os.name").contains("Windows")){
+            CallUser32.wheelMove(distance,x,y);
         }else {
             CallQuartzEventServices.mouseMoveEvent(x,y);
         }

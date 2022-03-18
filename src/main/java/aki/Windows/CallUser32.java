@@ -45,7 +45,6 @@ public class CallUser32 implements WaitFun {
                 User32.INSTANCE.SetFocus(hwnd);
                 return hwnd;
             }
-            System.out.println(end);
             if (end.isBefore(clock.instant())) {
                 throw new RuntimeException("launch app timeout");
             }
@@ -150,6 +149,17 @@ public class CallUser32 implements WaitFun {
         User32.INSTANCE.SendInput(new WinDef.DWORD(1), (WinUser.INPUT[]) input.toArray(1), input.size());
     }
 
+    protected static void wheelEvent(int mouseData) {
+        WinUser.INPUT input = new WinUser.INPUT();
+        input.type = new WinDef.DWORD(WinUser.INPUT.INPUT_MOUSE);
+        input.input.setType("mi");
+        input.input.mi.time = new WinDef.DWORD(0);
+        input.input.mi.dwExtraInfo = new BaseTSD.ULONG_PTR(0);
+        input.input.mi.dwFlags = new WinDef.DWORD(aki.Windows.WinApi.WinUser.MOUSEEVENTF_WHEEL);
+        input.input.mi.mouseData = new WinDef.DWORD(mouseData);
+        User32.INSTANCE.SendInput(new WinDef.DWORD(1), (WinUser.INPUT[]) input.toArray(1), input.size());
+    }
+
     public static void setForegroundWindow(WinUIElementRef winUiElementRef) {
         HWND hwnd = winUiElementRef.getHWNDFromIAccessible();
         User32.INSTANCE.SetForegroundWindow(hwnd);
@@ -194,9 +204,14 @@ public class CallUser32 implements WaitFun {
         User32.INSTANCE.SendInput(new WinDef.DWORD(1), (WinUser.INPUT[]) input.toArray(1), input.size());
     }
 
-    public static void MouseMove(int dx, int dy) {
+    public static void mouseMove(int dx, int dy) {
         Location location = conversionCoordinate(dx, dy);
         mouseEvent(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, location.x, location.y);
+    }
+
+    public static void wheelMove(int distance,int dx, int dy) {
+        mouseMove(dx,dy);
+        wheelEvent(distance);
     }
 
     public static void leftMouseClick(int dx, int dy) {
@@ -283,7 +298,6 @@ public class CallUser32 implements WaitFun {
     public static void writeObjectsToClipboard(HWND hwnd, String text) {
         openClipboard(hwnd);
         setClipboardContents(hwnd, text);
-        System.out.println(User32Ex.INSTANCE.GetClipboardData(CF_UNICODETEXT));
     }
 
     public static void combinationKeyOperation(int... keycodes) {
