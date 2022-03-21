@@ -183,12 +183,12 @@ public interface WaitFun {
             if(res.x>=0){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Found element %s in %ss",optionOfFindByImage.getImagePath(),timeElapsed));
+                log.logInfo(String.format("Found element %s in %ss",optionOfFindByImage.getImgScenePath(),timeElapsed));
                 return res;
             }
             if (end.isBefore(clock.instant())) {
                 BigDecimal time = new BigDecimal(timeout).divide(new BigDecimal(1000));
-                throw new RuntimeException(String.format("Find element timed out, can't find element by image`%s` in %ss",optionOfFindByImage.getImagePath(), time));
+                throw new RuntimeException(String.format("Find element timed out, can't find element by image`%s` in %ss",optionOfFindByImage.getImgScenePath(), time));
             }
         }
     }
@@ -202,12 +202,12 @@ public interface WaitFun {
             if(res.x>=0){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Found element %s in %ss",option.getImagePath(),timeElapsed));
+                log.logInfo(String.format("Found element %s in %ss",option.getImgScenePath(),timeElapsed));
                 return true;
             }
             if (end.isBefore(clock.instant())) {
                 BigDecimal time = new BigDecimal(timeout).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Find element timed out, can't find element by image`%s` in %ss",option.getImagePath(), time));
+                log.logInfo(String.format("Find element timed out, can't find element by image`%s` in %ss",option.getImgScenePath(), time));
                 return false;
             }
         }
@@ -222,12 +222,12 @@ public interface WaitFun {
             if(!resList.isEmpty()){
                 Instant finish = Instant.now();
                 BigDecimal timeElapsed = new BigDecimal(Duration.between(start, finish).toMillis()).divide(new BigDecimal(1000));
-                log.logInfo(String.format("Found element %s in %ss",option.getImagePath(),timeElapsed));
+                log.logInfo(String.format("Found element %s in %ss",option.getImgScenePath(),timeElapsed));
                 return resList;
             }
             if (end.isBefore(clock.instant())) {
                 BigDecimal time = new BigDecimal(timeout).divide(new BigDecimal(1000));
-                throw new RuntimeException(String.format("Find element timed out, can't find element by image`%s` in %ss",option.getImagePath(), time));
+                throw new RuntimeException(String.format("Find element timed out, can't find element by image`%s` in %ss",option.getImgScenePath(), time));
             }
         }
     }

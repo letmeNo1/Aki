@@ -30,7 +30,7 @@ class testOpenCV3 {
 
         String aa = "C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png";
         String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\001.png";
-        System.out.println(openCV.getKnnMatches(aa, bb,0.4f));
+        System.out.println(openCV.callKnnMatches(aa, bb,0.4f));
 
 
 //        Runtime.getRuntime().exec("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.5.0.15\\ELConnect.exe");
@@ -111,8 +111,8 @@ class testOpenCV3 {
 //        }
 //        //求坐标平均值
 //
-        double x=openCV.getKnnMatches(aa, bb,0.4f).x;
-        double y =openCV.getKnnMatches(aa, bb,0.4f).y;
+        double x=openCV.callKnnMatches(aa, bb,0.4f).x;
+        double y =openCV.callKnnMatches(aa, bb,0.4f).y;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
 
         imshow("location",imgObject);

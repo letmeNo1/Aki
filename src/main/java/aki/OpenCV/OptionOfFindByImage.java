@@ -1,7 +1,9 @@
 package aki.OpenCV;
 
 public class OptionOfFindByImage {
-    String imagePath;
+    String platform;
+    String imgScenePath;
+    String devicesName;
     float ratioThreshValue;
     int cluster;
 
@@ -10,15 +12,20 @@ public class OptionOfFindByImage {
     }
 
     public void setImagePath(String imagePath){
-        this.imagePath = imagePath;
+        this.imgScenePath = imagePath;
     }
 
     public void setCluster(int cluster){
         this.cluster = cluster;
     }
 
-    public String getImagePath(){
-        return this.imagePath;
+    public void setPlatform(String platform){
+        this.platform = platform;
+    }
+
+
+    public String getImgScenePath(){
+        return this.imgScenePath;
     }
 
     public float getRatioThreshValue(){
@@ -27,5 +34,9 @@ public class OptionOfFindByImage {
 
     public int getCluster(){
         return this.cluster;
+    }
+
+    public String getPlatform(){
+        return this.platform;
     }
 }

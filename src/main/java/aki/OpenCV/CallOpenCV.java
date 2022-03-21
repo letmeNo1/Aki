@@ -12,29 +12,43 @@ import org.opencv.features2d.SIFT;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
+import static aki.Android.adbCommand.excuseAdbCommand;
 import static org.opencv.highgui.HighGui.imshow;
 import static org.opencv.highgui.HighGui.waitKey;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class CallOpenCV {
-    private String getCurrentScreen() {
-        String fileName =System.getProperty("java.io.tmpdir")+"CurrentScreenCapture.png";
-        if(System.getProperty("os.name").contains("Windows")){
-            CallGdi32Util.takeScreenshotForDesktop(fileName);
-        }else {
-            CallQuartzWindowServices.takeScreenshotForDesktop(fileName);
+    private String getCurrentScreen(String platform) {
+        String fileName = System.getProperty("java.io.tmpdir") + "CurrentScreenCapture.png";
+        if (platform.contains("Android")) {
+            if(platform.contains("/")){
+                String deviceName = platform.split("/")[1];
+                excuseAdbCommand("shell screencap -p /sdcard/CurrentScreenCapture.png",deviceName);
+                excuseAdbCommand(String.format("pull /sdcard/CurrentScreenCapture.png %S",System.getProperty("java.io.tmpdir")),deviceName);
+            }else{
+                excuseAdbCommand("shell screencap -p /sdcard/CurrentScreenCapture.png");
+                excuseAdbCommand(String.format("pull /sdcard/CurrentScreenCapture.png %S",System.getProperty("java.io.tmpdir")));
+            }
+        } else {
+            if (System.getProperty("os.name").contains("Windows")) {
+                CallGdi32Util.takeScreenshotForDesktop(fileName);
+            } else {
+                CallQuartzWindowServices.takeScreenshotForDesktop(fileName);
+            }
         }
-        return  fileName;
+
+        return fileName;
     }
 
-    public ArrayList<Point> getKnnMatchesMultiple(String imgScenePath, float ratioThreshValue, int k){
-        String imagePath = getCurrentScreen();
-        return getKnnMatchesMultiple(imagePath,imgScenePath,ratioThreshValue,k);
+    public ArrayList<Point> getKnnMatchesMultiple(String platform,String imgScenePath, float ratioThreshValue, int k){
+        String imagePath = getCurrentScreen(platform);
+        return callKnnMatchesMultiple(imagePath,imgScenePath,ratioThreshValue,k);
     }
 
-    public ArrayList<Point> getKnnMatchesMultiple(String imagePath,String imgScenePath, float ratioThreshValue, int k){
+    public ArrayList<Point> callKnnMatchesMultiple(String imagePath,String imgScenePath, float ratioThreshValue, int k){
     System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
     //获取原图
     Mat imgObject = imread(imagePath);
@@ -102,18 +116,26 @@ public class CallOpenCV {
     return pointArray;
     }
 
-    public Point getKnnMatches(String imgScenePath,float ratioThreshValue) {
-        String imagePath = getCurrentScreen();
-        return getKnnMatches(imagePath,imgScenePath, ratioThreshValue);
+    public Point getKnnMatches(String platform,String imgScenePath,float ratioThreshValue) {
+        String imagePath = getCurrentScreen(platform);
+        return callKnnMatches(imagePath,imgScenePath, ratioThreshValue);
     }
 
-    public Point getKnnMatches(String imagePath,String imgScenePath,float ratioThreshValue){
+    public Point callKnnMatches(String imagePath,String imgScenePath,float ratioThreshValue){
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
         //获取原图
         Mat imgObject = imread(imagePath);
         //获取用于定位的图片
         Mat imgScene = imread(imgScenePath);
-        if (imgObject.empty() || imgScene.empty()) {
+        int readCount = 0;
+        while (imgObject.empty()){
+            readCount++;
+            imgObject = imread(imagePath);
+            if(readCount>99){
+                break;
+            }
+        }
+        if (imgScene.empty()) {
             System.err.println("Cannot read images!");
             System.exit(0);
         }
