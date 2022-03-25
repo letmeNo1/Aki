@@ -49,10 +49,11 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     }
 
     public UIElementRef findElementByImage(String imagePath,int timeout){
-        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
-        optionOfFindByImage.setImagePath(imagePath);
-        optionOfFindByImage.setRatioThreshValue(0.4f);
-        Point point = findElementByWait(findElementByImage,optionOfFindByImage,timeout);
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setPlatform("PC");
+        option.setRatioThreshValue(0.4f);
+        Point point = findElementByWait(findElementByImage,option,timeout);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
     }
@@ -62,11 +63,12 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     }
 
     public UIElementRef findElementsByImage(String imagePath, int cluster, int index,int timeout){
-        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
-        optionOfFindByImage.setImagePath(imagePath);
-        optionOfFindByImage.setCluster(cluster);
-        optionOfFindByImage.setRatioThreshValue(0.4f);
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,optionOfFindByImage,timeout);
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setCluster(cluster);
+        option.setPlatform("PC");
+        option.setRatioThreshValue(0.4f);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeout);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
@@ -77,11 +79,12 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     }
 
     public UIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index,int timeout){
-        OptionOfFindByImage optionOfFindByImage = new OptionOfFindByImage();
-        optionOfFindByImage.setImagePath(imagePath);
-        optionOfFindByImage.setCluster(cluster);
-        optionOfFindByImage.setRatioThreshValue(ratioThreshValue);
-        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,optionOfFindByImage,timeout);
+        OptionOfFindByImage option = new OptionOfFindByImage();
+        option.setImagePath(imagePath);
+        option.setCluster(cluster);
+        option.setPlatform("PC");
+        option.setRatioThreshValue(ratioThreshValue);
+        ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeout);
         Point point = pointArrayList.get(index);
         this.setXY(new int[]{(int) point.x,(int) point.y});
         return this;
@@ -102,6 +105,7 @@ public class UIElementRef implements WaitFun, FindUIElementByImage {
     public boolean assertElementExistByImage(String imagePath, float ratioThreshValue,int timeout) {
         OptionOfFindByImage option = new OptionOfFindByImage();
         option.setImagePath(imagePath);
+        option.setPlatform("PC");
         option.setRatioThreshValue(ratioThreshValue);
         boolean res;
         res = AssertElementExistByWait(findElementByImage,option,timeout);

@@ -20,8 +20,6 @@ import static org.opencv.imgproc.Imgproc.circle;
 class testOpenCV3 {
     public static void main(String[] args) throws Exception {
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-//        URL url = ClassLoader.getSystemResource("opencv/opencv_java454.dll");
-//        System.load(url.getPath());
         //获取原图
             Mat imgObject = imread("C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
@@ -29,8 +27,9 @@ class testOpenCV3 {
         CallOpenCV openCV =new CallOpenCV();
 
         String aa = "C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png";
-        String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\001.png";
-        System.out.println(openCV.callKnnMatches(aa, bb,0.4f));
+        Mat mat = imread(aa);
+        String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\newMessage.png";
+        System.out.println(openCV.callKnnMatches(mat, bb,0.4f));
 
 
 //        Runtime.getRuntime().exec("C:\\Program Files (x86)\\ABB\\ABB Provisioning Tool\\1.5.0.15\\ELConnect.exe");
@@ -111,8 +110,8 @@ class testOpenCV3 {
 //        }
 //        //求坐标平均值
 //
-        double x=openCV.callKnnMatches(aa, bb,0.4f).x;
-        double y =openCV.callKnnMatches(aa, bb,0.4f).y;
+        double x=openCV.callKnnMatches(mat, bb,0.4f).x;
+        double y =openCV.callKnnMatches(mat, bb,0.4f).y;
         circle(imgObject, new Point(x,y),10, new Scalar(0,0,255),3,FILLED);
 
         imshow("location",imgObject);

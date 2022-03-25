@@ -30,6 +30,8 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
     public WinUIElementRef(Pointer p) {
         super(p);
     }
+
+
     private int x = this.get_Location().x;
     private int y = this.get_Location().y;
     private int h = this.get_Location().h;
@@ -320,6 +322,7 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
     public WinUIElementRef findElementByImage(String imagePath, int timeOut){
         OptionOfFindByImage option = new OptionOfFindByImage();
         option.setImagePath(imagePath);
+        option.setPlatform("PC");
         option.setRatioThreshValue(0.4f);
         Point point = findElementByWait(findElementByImage,option,timeOut);
         this.setXY(new int[]{(int) point.x,(int) point.y});
@@ -330,6 +333,7 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
     public WinUIElementRef findElementByImage(String imagePath, float ratioThreshValue, int timeOut){
         OptionOfFindByImage option = new OptionOfFindByImage();
         option.setImagePath(imagePath);
+        option.setPlatform("PC");
         option.setRatioThreshValue(ratioThreshValue);
         Point point = findElementByWait(findElementByImage,option,timeOut);
         this.setXY(new int[]{(int) point.x,(int) point.y});
@@ -344,6 +348,7 @@ public class WinUIElementRef extends IAccessible implements FindUIElement, WaitF
     public WinUIElementRef findElementsByImage(String imagePath, float ratioThreshValue, int cluster, int index, int timeOut){
         OptionOfFindByImage option = new OptionOfFindByImage();
         option.setImagePath(imagePath);
+        option.setPlatform("PC");
         option.setRatioThreshValue(ratioThreshValue);
         option.setCluster(cluster);
         ArrayList<Point> pointArrayList = findPointListByWait(findElementsByImage,option,timeOut);

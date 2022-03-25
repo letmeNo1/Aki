@@ -341,4 +341,72 @@ public class CallUser32 implements WaitFun {
         return currentWinHWND[0];
     }
 
+    public static HWND getCurrentWinHWND(String windowName){
+        final HWND[] currentWinHWND = {new HWND()};
+        User32.INSTANCE.EnumWindows(new WinUser.WNDENUMPROC() {
+            int count = 0;
+            public boolean callback(HWND hWnd, Pointer arg1) {
+                char[] windowText = new char[512];
+                User32.INSTANCE.GetWindowText(hWnd, windowText, 512);
+                String wText = Native.toString(windowText);
+                RECT rectangle = new RECT();
+                User32.INSTANCE.GetWindowRect(hWnd, rectangle);
+                IntByReference pid = new IntByReference();
+                User32.INSTANCE.GetWindowThreadProcessId(hWnd, pid);
+                // get rid of this if block if you want all windows regardless
+                // of whether
+                // or not they have text
+                // second condition is for visible and non minimised windows
+                if (wText.isEmpty() || !(User32.INSTANCE.IsWindowVisible(hWnd)
+                        && rectangle.left > -32000)) {
+                    return true;
+                }
+                if(wText.equals(windowName)){
+                    log.logInfo("Window initialization succeeded!");
+                    count+=1;
+                    User32.INSTANCE.SetForegroundWindow(hWnd);
+                    currentWinHWND[0] = hWnd;
+                }
+                return true;
+            }
+        }, null);
+        return currentWinHWND[0];
+    }
+
+    public static HWND getCurrentWinHWNDFuzzyMatching(String windowName){
+        final HWND[] currentWinHWND = {new HWND()};
+        User32.INSTANCE.EnumWindows(new WinUser.WNDENUMPROC() {
+            int count = 0;
+            public boolean callback(HWND hWnd, Pointer arg1) {
+                char[] windowText = new char[512];
+                User32.INSTANCE.GetWindowText(hWnd, windowText, 512);
+                String wText = Native.toString(windowText);
+                RECT rectangle = new RECT();
+                User32.INSTANCE.GetWindowRect(hWnd, rectangle);
+                IntByReference pid = new IntByReference();
+                User32.INSTANCE.GetWindowThreadProcessId(hWnd, pid);
+                // get rid of this if block if you want all windows regardless
+                // of whether
+                // or not they have text
+                // second condition is for visible and non minimised windows
+                if (wText.isEmpty() || !(User32.INSTANCE.IsWindowVisible(hWnd)
+                        && rectangle.left > -32000)) {
+                    return true;
+                }
+                if(wText.contains(windowName)){
+                    log.logInfo("Window initialization succeeded!");
+                    count+=1;
+                    User32.INSTANCE.SetForegroundWindow(hWnd);
+                    currentWinHWND[0] = hWnd;
+                }
+                return true;
+            }
+        }, null);
+        return currentWinHWND[0];
+    }
+
+    public static void main(String[] args) throws Exception {
+        getCurrentWinHWNDFuzzyMatching("https://139.219.68.160/history/ - Google Chrome");
+        System.out.println("xxx");
+    }
 }

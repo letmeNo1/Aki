@@ -1,7 +1,5 @@
 package aki.Android;
 
-import java.io.IOException;
-
 public class adbCommand {
     public static void excuseAdbCommand(String command){
         try {
@@ -34,4 +32,6 @@ public class adbCommand {
     public static void drag(int x1,int y1,int x2, int y2,int duration)  {
         excuseAdbCommand(String.format("shell input touchscreen swipe %s %s %s %s %s", x1,y1,x2,y2,duration));
     }
+
+
 }
