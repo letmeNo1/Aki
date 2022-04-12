@@ -171,7 +171,7 @@ public class CallUser32 implements WaitFun {
     }
 
     public static HWND findWindowByName(String windowName) {
-        return User32.INSTANCE.FindWindow(null, windowName);
+        return getCurrentWinHWND(windowName);
     }
 
     static Function<String, HWND> findWindowByName = CallUser32::findWindowByName;

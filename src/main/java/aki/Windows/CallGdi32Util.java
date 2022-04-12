@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.MessageFormat;
 
+import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 
 public class CallGdi32Util {
@@ -74,9 +75,13 @@ public class CallGdi32Util {
     }
 
     public static Mat getMatFromScreenshotForDesktop() {
-        WinDef.HWND hWnd = User32.INSTANCE.GetDesktopWindow();
-        BufferedImage buffered = GDI32Util.getScreenshot(hWnd);
-        return BufImg2Mat(buffered);
+//        WinDef.HWND hWnd = User32.INSTANCE.GetDesktopWindow();
+//        BufferedImage buffered = GDI32Util.getScreenshot(hWnd);
+        String tempPath =System.getProperty("java.io.tmpdir") + "CurrentDesktop";
+        takeScreenshotForDesktop(tempPath);
+//        return BufImg2Mat(buffered);
+        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
+        return imread(tempPath);
     }
 
 }

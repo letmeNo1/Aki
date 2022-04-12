@@ -21,14 +21,14 @@ class testOpenCV3 {
     public static void main(String[] args) throws Exception {
         System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
         //获取原图
-            Mat imgObject = imread("C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png",IMREAD_GRAYSCALE);
+            Mat imgObject = imread("C:\\Users\\CNHAHUA16\\Desktop\\3.png",IMREAD_GRAYSCALE);
         //获取用于定位的图片
-        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\yes_button.png",IMREAD_GRAYSCALE);
+        Mat imgScene = imread("C:\\Users\\CNHAHUA16\\Desktop\\test.png",IMREAD_GRAYSCALE);
         CallOpenCV openCV =new CallOpenCV();
 
-        String aa = "C:\\Users\\CNHAHUA16\\AppData\\Local\\Temp\\CurrentScreenCapture.png";
+        String aa = "C:\\Users\\CNHAHUA16\\Desktop\\3.png";
         Mat mat = imread(aa);
-        String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\java\\Image\\newMessage.png";
+        String bb = "C:\\Users\\CNHAHUA16\\Documents\\Github\\Aki\\src\\test\\Image\\bay.png";
         System.out.println(openCV.callKnnMatches(mat, bb,0.4f));
 
 

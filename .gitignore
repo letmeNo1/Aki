@@ -6,3 +6,4 @@
 target/
 *.lst
 src/test/Image/
+*.1

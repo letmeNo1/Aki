@@ -26,7 +26,6 @@ public class CallOpenCV {
 
     private Mat getCurrentScreen(String platform) {
         String fileName = System.getProperty("java.io.tmpdir") + "CurrentScreenCapture.png";
-        System.out.println(fileName);
         Mat mat;
         if (platform.contains("Android")) {
             if(platform.contains("/")){
